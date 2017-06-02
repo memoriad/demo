@@ -10,6 +10,9 @@ nav ul a,
 nav .brand-logo {
   color: #444;
 }
+  .sso-logo {
+    max-height: 4rem;
+  }
 
 p {
   line-height: 2rem;
