@@ -1,0 +1,86 @@
+@import "./variables";
+
+$border-style: 1px solid #cbcbcb;
+
+:global {
+  nav ul a,
+  nav .brand-logo {
+    color: #444;
+  }
+    .sso-logo {
+      max-height: 4rem;
+    }
+
+  p {
+    line-height: 2rem;
+  }
+
+  .button-collapse {
+    color: #26a69a;
+  }
+
+  .parallax-container {
+    min-height: 380px;
+    line-height: 0;
+    height: auto;
+    color: rgba(255,255,255,.9);
+  }
+    .parallax-container .section {
+      width: 100%;
+    }
+
+  .top-nav {
+    height: 122px;
+    box-shadow: none;
+  }
+    .page-title {
+      line-height: 122px;
+      font-size: 36px;
+    }
+
+  .agreement-text {
+    height: 24.5rem;
+    resize: none;
+    margin-bottom: 1rem
+  }
+
+  @media only screen and (max-width : 992px) {
+    .parallax-container .section {
+      position: absolute;
+      top: 40%;
+    }
+    #index-banner .section {
+      top: 10%;
+    }
+  }
+
+  @media only screen and (max-width : 600px) {
+    #index-banner .section {
+      top: 0;
+    }
+  }
+
+  .icon-block {
+    padding: 0 15px;
+  }
+  .icon-block .material-icons {
+    font-size: inherit;
+  }
+
+  footer.page-footer {
+    margin: 0;
+  }
+
+  .form {
+    fieldset {
+      margin: 0;
+      padding: 0.35rem 0 0.75rem;
+      border: 0;
+    }
+
+    .error {
+      color: $red1-color;
+    }
+  }
+
+}

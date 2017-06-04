@@ -11,8 +11,6 @@
       selectYears: 15 // Creates a dropdown of 15 years to control year
     });
 
-    $('#location').trigger('autoresize');
-
     $('.modal').modal();
 
   }); // end of document ready
