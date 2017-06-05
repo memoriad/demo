@@ -6,6 +6,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
   entry: {
+    vendor: ['materialize-css'],
     app: ['./src/themes/elements.scss', './src/app/index.js']
   },
   output: {

@@ -1,6 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+const findIdentify = () => {
+  Materialize.showStaggeredList('#register_form');
+  $('#notify_panel').removeClass('hide');
+  $('#nav_section').removeClass('hide');
+  $('#register_form').removeClass('hide');
+
+  $("#identity_section .collapsible-header").removeClass("active");
+}
+
 const Home = () => {
 
   return (
@@ -42,7 +51,7 @@ const Home = () => {
                       </div>
 
                       <div className="input-field col s12 m2 right-align">
-                        <a id="find_identity" className="waves-effect waves-light btn" href="#!">Find</a>
+                        <a id="find_identity" className="waves-effect waves-light btn" href="#!" onClick={findIdentify()}>Find</a>
                       </div>
                     </div>
                   </form>
