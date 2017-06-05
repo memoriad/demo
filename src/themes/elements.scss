@@ -8,8 +8,19 @@ $border-style: 1px solid #cbcbcb;
     color: #444;
   }
     .sso-logo {
-      max-height: 4rem;
+      max-height: 3rem;
     }
+
+  ul#register_form {
+    li {
+      opacity: 0;
+    }
+  }
+
+  i.material-icons {
+    font-size: 1.3rem !important;
+    line-height: inherit !important;
+  }
 
   p {
     line-height: 2rem;
@@ -30,16 +41,16 @@ $border-style: 1px solid #cbcbcb;
     }
 
   .top-nav {
-    height: 122px;
+    height: 90px;
     box-shadow: none;
   }
     .page-title {
-      line-height: 122px;
+      line-height: 90px;
       font-size: 36px;
     }
 
   .agreement-text {
-    height: 24.5rem;
+    height: 16rem;
     resize: none;
     margin-bottom: 1rem
   }
