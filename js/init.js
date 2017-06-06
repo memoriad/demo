@@ -71,7 +71,12 @@
 
       setTimeout(function() {
         $('#active_general').click();
+        $('#general_section').css("transform", "");
+        $('#location_section').css("transform", "");
+        $('#payment_section').css("transform", "");
+        $('#other_section').css("transform", "");
       }, 1000);
+
     });
 
     $('#cancel_identity').click(function() {

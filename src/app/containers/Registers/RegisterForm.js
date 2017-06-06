@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
+import { loadMasters } from '../../actions/masters';
 import { RegisterForm } from '../../components';
 
 class RegisterFormContainer extends React.Component {
@@ -9,13 +10,17 @@ class RegisterFormContainer extends React.Component {
     masters: PropTypes.object.isRequired
   }
 
-  componentDidMount() {
+  shouldComponentUpdate(nextProps) {
+    return this.props.masters !== nextProps.masters;
+  }
 
+  componentDidMount() {
+    this.props.onLoadMasters()
   }
 
   render() {
     const { masters } = this.props
-    
+
     return (
       <RegisterForm masters={masters} />
     )
@@ -34,7 +39,9 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-
+  onLoadMasters() {
+    dispatch(loadMasters())
+  }
 })
 
 RegisterFormContainer = connect(
