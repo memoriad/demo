@@ -21,6 +21,7 @@
 
       $("#location_section .collapsible-header").removeClass("active");
       $("#payment_section .collapsible-header").removeClass("active");
+      $("#other_section .collapsible-header").removeClass("active");
       $(".collapsible").collapsible({accordion: true});
       $(".collapsible").collapsible({accordion: false});
     });
@@ -31,6 +32,7 @@
 
       $("#general_section .collapsible-header").removeClass("active");
       $("#payment_section .collapsible-header").removeClass("active");
+      $("#other_section .collapsible-header").removeClass("active");
       $(".collapsible").collapsible({accordion: true});
       $(".collapsible").collapsible({accordion: false});
     });
@@ -41,6 +43,18 @@
 
       $("#general_section .collapsible-header").removeClass("active");
       $("#location_section .collapsible-header").removeClass("active");
+      $("#other_section .collapsible-header").removeClass("active");
+      $(".collapsible").collapsible({accordion: true});
+      $(".collapsible").collapsible({accordion: false});
+    });
+
+    $('#active_other').click(function() {
+      $("#other_section .collapsible-header").addClass("active");
+      $(".collapsible").collapsible({accordion: false});
+
+      $("#general_section .collapsible-header").removeClass("active");
+      $("#location_section .collapsible-header").removeClass("active");
+      $("#payment_section .collapsible-header").removeClass("active");
       $(".collapsible").collapsible({accordion: true});
       $(".collapsible").collapsible({accordion: false});
     });
@@ -60,7 +74,7 @@
       }, 1000);
     });
 
-    $('#cancel_identify').click(function() {
+    $('#cancel_identity').click(function() {
       $("#identity_section .collapsible-header").addClass("active");
       $(".collapsible").collapsible({accordion: false});
 

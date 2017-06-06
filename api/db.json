@@ -10,5 +10,91 @@
       "title": "test page#2",
       "content": "TEST PAGE CONTENT"
     }
+  ],
+  "masters": {
+    "title": [
+      {
+        "id": 1,
+        "value": "Mr"
+      },
+      {
+        "id": 2,
+        "value": "Mrs"
+      },
+      {
+        "id": 3,
+        "value": "Miss"
+      }
+    ],
+    "province": [
+      {
+        "id": 1,
+        "value": "Mr"
+      }
+    ],
+    "district": [
+      {
+        "id": 1,
+        "value": "Mr"
+      }
+    ],
+    "subDistrict": [
+      {
+        "id": 1,
+        "value": "Mr"
+      }
+    ],
+    "contributionType": [
+      {
+        "id": 1,
+        "value": "Mr"
+      }
+    ],
+    "outletList": [
+      {
+        "id": 1,
+        "value": "Mr"
+      }
+    ],
+    "jobs": [
+      {
+        "id": 1,
+        "value": "Mr"
+      }
+    ],
+    "salaries": [
+      {
+        "id": 1,
+        "value": "Mr"
+      }
+    ],
+    "bodyConditionType": [
+      {
+        "id": 1,
+        "value": "Mr"
+      }
+    ]
+  },
+  "registers": [
+    {
+      "title": 1,
+    	"name": "Sonya",
+    	"surname": "Mahathep",
+    	"addressNo": "111/5 moo2",
+    	"addressProvince": 10,
+    	"addressDistrict": 1010,
+    	"addressSubdistrict": 101055,
+    	"addressZipcode": "10110",
+    	"tel": "029994567",
+    	"mobile": "0966889789",
+    	"email": "sonya@thep.co.th",
+    	"contributionType": 1,
+    	"outlet": 1,
+    	"occupation": "0100",
+    	"salary": 1,
+    	"salaryOther": "50000",
+    	"bodyCondition": 3,
+    	"registerStatus": "TBD"
+    }
   ]
 }
