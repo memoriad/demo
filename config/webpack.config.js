@@ -9,6 +9,7 @@ module.exports = {
     'react-hot-loader/patch',
     'webpack-dev-server/client?http://localhost:8080',
     'webpack/hot/only-dev-server',
+    './src/libs/materialize.js',
     './src/themes/elements.scss',
     './src/app/index.js'
   ],
@@ -52,6 +53,11 @@ module.exports = {
           },
           'postcss-loader'
         ]
+      }, {
+        test: /\.(png|woff|woff2|eot|ttf|svg)$/,
+        use: [
+          'url-loader?limit=100000'
+        ]
       }
     ]
   },
@@ -60,8 +66,9 @@ module.exports = {
       $: "jquery",
       jQuery: "jquery",
       "window.jQuery": "jquery",
-      Tether: "tether",
-      "window.Tether": "tether"
+      "Hammer": "hammerjs/hammer",
+      createDayLabel: "jquery",
+      createWeekdayLabel: "jquery"
     }),
     new HtmlWebpackPlugin({
       title: 'demo',

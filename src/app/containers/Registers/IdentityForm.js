@@ -6,7 +6,7 @@ import { IdentityForm } from '../../components';
 class IdentityFormContainer extends React.Component {
   render() {
     return (
-      <IdentityForm />
+      <IdentityForm {...this.props} />
     )
   }
 
@@ -16,10 +16,10 @@ const validate = values => {
   const errors = {}
 
   if (!values.card_no) {
-    errors.card_no = ''
+    errors.card_no = ' required'
   }
   if (!values.email) {
-    errors.email = ''
+    errors.email = ' required'
   }
 
   return errors
@@ -29,7 +29,5 @@ export default reduxForm(
   {
     form: 'identity',
     validate
-  },
-  (state) => ({}),
-  (dispatch) => ({})
+  }
 )(IdentityFormContainer);

@@ -3,6 +3,8 @@
 $border-style: 1px solid #cbcbcb;
 
 :global {
+  @import "./vendors/materialize";
+
   nav ul a,
   nav .brand-logo {
     color: #444;
@@ -15,11 +17,6 @@ $border-style: 1px solid #cbcbcb;
     li {
       opacity: 0;
     }
-  }
-
-  i.material-icons {
-    font-size: 1.3rem !important;
-    line-height: inherit !important;
   }
 
   p {

@@ -6,7 +6,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
   entry: {
-    vendor: ['materialize-css'],
+    vendor: ['./src/libs/materialize.js'],
     app: ['./src/themes/elements.scss', './src/app/index.js']
   },
   output: {
@@ -68,8 +68,9 @@ module.exports = {
       $: "jquery",
       jQuery: "jquery",
       "window.jQuery": "jquery",
-      Tether: "tether",
-      "window.Tether": "tether"
+      "Hammer": "hammerjs/hammer",
+      createDayLabel: "jquery",
+      createWeekdayLabel: "jquery"
     }),
     new webpack.optimize.CommonsChunkPlugin({
       name: "vendor",
