@@ -3,15 +3,12 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import { loadMasters } from '../../actions/masters';
-import { loadRegister } from '../../actions/registers';
 import { getRegisterById } from '../../reducers/registers';
 import { RegisterForm } from '../../components';
 
 class RegisterFormContainer extends React.Component {
   static propTypes = {
-    masters: PropTypes.object.isRequired,
-    register: PropTypes.object.isRequired,
-    onLoadRegister: PropTypes.func.isRequired
+    masters: PropTypes.object.isRequired
   }
 
   render() {
@@ -76,26 +73,18 @@ const validate = values => {
 
 const mapStateToProps = (state) => ({
   masters: state.masters,
-  register: getRegisterById(state),
-  initialValues: state.register
+  initialValues: getRegisterById(state)
 })
 
-const mapDispatchToProps = (dispatch) => ({
-  onLoadRegister(id) {
-    dispatch(loadRegister(id))
-  }
-})
-
-RegisterFormContainer = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(RegisterFormContainer);
-
-export default reduxForm(
+RegisterFormContainer = reduxForm(
   {
     form: 'register',
     validate,
     enableReinitialize: true,
     onSubmit: (values) => { console.log('values', JSON.stringify(values)) }
   }
+)(RegisterFormContainer);
+
+export default connect(
+  mapStateToProps
 )(RegisterFormContainer);

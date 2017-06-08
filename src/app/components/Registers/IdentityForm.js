@@ -6,12 +6,12 @@ const renderTextField = ({ input, label, type, meta: { touched, error, warning }
   <div className="input-field">
     <input id={input.name} type={type} {...input} />
     <label htmlFor={input.name}>{label}</label>
-    {touched && error && <div className="error"><i className="material-icons">error</i>{error}</div>}
+    {touched && error && <div className="valign-wrapper error"><i className="material-icons">error</i>{error}</div>}
   </div>
 )
 
 const IdentityForm = (props) => {
-  const { handleSubmit, pristine, reset, submitting, invalid } = props
+  const { onLoadRegister, handleSubmit, pristine, reset, submitting, invalid } = props
 
   return (
     <form action="#">
@@ -39,7 +39,14 @@ const IdentityForm = (props) => {
                 </div>
 
                 <div className="input-field col s12 m2 right-align">
-                  <a id="find_identity" className="waves-effect waves-light btn" href="#!" disabled={pristine || invalid}>Find</a>
+                  <a id="find_identity" className="waves-effect waves-light btn" href="#!" onClick={() => {
+                      onLoadRegister($('#card_no').val())
+
+                      setTimeout(function() {
+                        Materialize.updateTextFields()
+                      }, 1000)
+                    }
+                  } disabled={pristine || invalid}>Find</a>
                 </div>
               </div>
             </div>

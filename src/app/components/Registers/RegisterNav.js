@@ -5,9 +5,9 @@ const RegisterNav = (props) => {
   const { reset } = props
 
   return (
-    <nav id="nav_section" className="hide hide-on-med-and-down">
+    <nav id="nav_section" className="hide">
       <div className="nav-wrapper">
-        <ul>
+        <ul className="hide-on-med-and-down">
           <li><a id="active_general" href="#nav_section">General</a></li>
           <li><a id="active_location" href="#nav_section">Location</a></li>
           <li><a id="active_payment" href="#nav_section">Payment</a></li>

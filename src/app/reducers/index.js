@@ -5,8 +5,8 @@ import masters from './masters';
 import registers from './registers';
 
 export default combineReducers({
-  form: formReducer,
   pages,
   masters,
-  registers
+  registers,
+  form: formReducer
 })

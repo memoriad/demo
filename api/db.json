@@ -15,63 +15,93 @@
     "title": [
       {
         "id": 1,
-        "value": "Mr"
+        "value": "นาย"
       },
       {
         "id": 2,
-        "value": "Mrs"
+        "value": "นาง"
       },
       {
         "id": 3,
-        "value": "Miss"
+        "value": "นางสาว"
       }
     ],
     "province": [
       {
         "id": 1,
-        "value": "Mr"
+        "value": "นนทบุรี"
       }
     ],
     "district": [
       {
         "id": 1,
-        "value": "Mr"
+        "value": "เมืองนนทบุรี"
       }
     ],
     "subDistrict": [
       {
         "id": 1,
-        "value": "Mr"
+        "value": "ตลาดขวัญ"
       }
     ],
     "contributionType": [
       {
         "id": 1,
-        "value": "Mr"
-      }
-    ],
-    "outletList": [
+        "value": "ทางเลือก 1"
+      },
       {
-        "id": 1,
-        "value": "Mr"
+        "id": 2,
+        "value": "ทางเลือก 2"
+      },
+      {
+        "id": 3,
+        "value": "ทางเลือก 3"
       }
     ],
     "jobs": [
       {
         "id": 1,
-        "value": "Mr"
+        "value": "ค้าขาย"
+      },
+      {
+        "id": 2,
+        "value": "พนักงาน"
+      },
+      {
+        "id": 3,
+        "value": "ราชการ"
       }
     ],
     "salaries": [
       {
         "id": 1,
-        "value": "Mr"
+        "value": "[0 - 5,000]"
+      },
+      {
+        "id": 2,
+        "value": "[5,001 - 20,000]"
+      },
+      {
+        "id": 3,
+        "value": "[20,001 - 50,000]"
+      },
+      {
+        "id": 4,
+        "value": "[มากกว่า 50,000]"
       }
     ],
     "bodyConditionType": [
       {
         "id": 1,
-        "value": "Mr"
+        "value": "ปกติ"
+      },
+      {
+        "id": 2,
+        "value": "พิการ"
+      },
+      {
+        "id": 3,
+        "value": "ซุปเปอร์แมน"
       }
     ]
   },
@@ -81,6 +111,7 @@
       "title": 1,
     	"name": "Sonya",
     	"surname": "Mahathep",
+      "birthDate": "12/06/2017",
     	"addressNo": "111/5 moo2",
     	"addressProvince": 10,
     	"addressDistrict": 1010,
@@ -90,18 +121,18 @@
     	"mobile": "0966889789",
     	"email": "sonya@thep.co.th",
     	"contributionType": 1,
-    	"outlet": 1,
-    	"occupation": "0100",
+    	"occupation": 1,
     	"salary": 1,
-    	"salaryOther": "50000",
+    	"salaryOther": 5000,
     	"bodyCondition": 3,
     	"registerStatus": "TBD"
     },
     {
       "id": 2,
-      "title": 1,
-    	"name": "Sonya",
-    	"surname": "Mahathep",
+      "title": 2,
+    	"name": "Anakin",
+    	"surname": "Skywalker",
+      "birthDate": "12/06/2017",
     	"addressNo": "111/5 moo2",
     	"addressProvince": 10,
     	"addressDistrict": 1010,
@@ -110,12 +141,11 @@
     	"tel": "029994567",
     	"mobile": "0966889789",
     	"email": "sonya@thep.co.th",
-    	"contributionType": 1,
-    	"outlet": 1,
-    	"occupation": "0100",
-    	"salary": 1,
-    	"salaryOther": "50000",
-    	"bodyCondition": 3,
+    	"contributionType": 2,
+    	"occupation": 2,
+    	"salary": 2,
+    	"salaryOther": 15000,
+    	"bodyCondition": 2,
     	"registerStatus": "TBD"
     }
   ]

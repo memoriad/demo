@@ -4,11 +4,11 @@ import { Field } from 'redux-form';
 import RegisterNav from './RegisterNav';
 import AgreementModal from './AgreementModal';
 
-const renderTextField = ({ input, placeholder, label, type, meta: { touched, error, warning } }) => (
+const renderTextField = ({ input, label, type, meta: { touched, error, warning } }) => (
   <div className="input-field">
-    <input id={input.name} type={type} {...input} placeholder={placeholder} />
+    <input id={input.name} type={type} {...input} />
     <label htmlFor={input.name}>{label}</label>
-    {touched && error && <div className="error"><i className="material-icons">error</i>{error}</div>}
+    {touched && error && <div className="valign-wrapper error"><i className="material-icons">error</i>{error}</div>}
   </div>
 )
 
@@ -16,24 +16,24 @@ const renderTextareaField = ({ input, label, type, meta: { touched, error, warni
   <div className="input-field">
     <textarea id={input.name} {...input} className="materialize-textarea" />
     <label htmlFor={input.name}>{label}</label>
-    {touched && error && <div className="error"><i className="material-icons">error</i>{error}</div>}
+    {touched && error && <div className="valign-wrapper error"><i className="material-icons">error</i>{error}</div>}
   </div>
 )
 
-const renderSelectField = ({ input, label, type, options, meta: { touched, error, warning } }) => (
+const renderSelectField = ({ input, label, type, options, selected, meta: { touched, error, warning } }) => (
   <div className="input-field">
-    <select {...input}>
+    <select name={input.name} defaultValue={selected}>
       <option value="" disabled>[ -โปรดระบุ- ]</option>
       {
         options === void 0 ?
           null :
           options.map((option) => (
-            <option key={option.id} value={option.value}>{option.value}</option>
+            <option key={option.id} value={option.id}>{option.value}</option>
           ))
       }
     </select>
     <label>{label}</label>
-    {touched && error && <div className="error"><i className="material-icons">error</i>{error}</div>}
+    {touched && error && <div className="valign-wrapper error"><i className="material-icons">error</i>{error}</div>}
   </div>
 )
 
@@ -41,20 +41,17 @@ const renderDatepickerField = ({ input, label, type, meta: { touched, error, war
   <div className="input-field">
     <input id={input.name} type={type} {...input} className="datepicker" />
     <label htmlFor={input.name}>{label}</label>
-    {touched && error && <div className="error"><i className="material-icons">error</i>{error}</div>}
+    {touched && error && <div className="valign-wrapper error"><i className="material-icons">error</i>{error}</div>}
   </div>
 )
 
 const RegisterForm = (props) => {
-  const { masters, register, onLoadRegister, handleSubmit, pristine, reset, submitting } = props
+  const { masters, initialValues, handleSubmit, pristine, reset, submitting } = props
 
-  console.log('register', JSON.stringify(register));
   return (
     <form onSubmit={handleSubmit}>
       <div className="container">
-        <a className="waves-effect waves-light btn" onClick={() => onLoadRegister(1)}>
-          Saa
-        </a>
+
         <RegisterNav {...props} />
 
         <ul id="register_form" className="collapsible popout hide" data-collapsible="expandable">
@@ -63,25 +60,25 @@ const RegisterForm = (props) => {
             <div className="collapsible-body hoverable">
               <div className="row">
                 <div className="col s12">
-                  <Field name="title" component={renderSelectField} options={masters === void 0 ? {} : masters.title} label="คำนำหน้า : " />
+                  <Field name="title" component={renderSelectField} options={masters === void 0 ? {} : masters.title} selected={initialValues.title} label="คำนำหน้า : " />
                 </div>
               </div>
 
               <div className="row">
                 <div className="col s12">
-                  <Field name="first_name" component={renderTextField} type="text" label="ชื่อ : " />
+                  <Field name="name" component={renderTextField} type="text" label="ชื่อ : " />
                 </div>
               </div>
 
               <div className="row">
                 <div className="col s12">
-                  <Field name="last_name" component={renderTextField} type="text" label="สกุล : " />
+                  <Field name="surname" component={renderTextField} type="text" label="สกุล : " />
                 </div>
               </div>
 
               <div className="row">
                 <div className="col s12">
-                  <Field name="birth_date" component={renderDatepickerField} type="date" label="เกิดเมื่อ : " />
+                  <Field name="birthDate" component={renderDatepickerField} type="date" label="เกิดเมื่อ : " />
                 </div>
               </div>
             </div>
@@ -92,52 +89,43 @@ const RegisterForm = (props) => {
             <div className="collapsible-body hoverable">
               <div className="row">
                 <div className="col s12">
-                  <Field name="location" component={renderTextareaField} label="ที่อยู่ปัจจุบัน : " />
-                </div>
-              </div>
-
-              <div className="row">
-                <div className="col s4">
-                  <Field name="province" component={renderTextField} type="text" label="จังหวัด : " />
-                </div>
-                <div className="col s8">
-                  <Field name="province_text" component={renderSelectField} options={masters === void 0 ? {} : masters.province} />
-                </div>
-              </div>
-
-              <div className="row">
-                <div className="col s4">
-                  <Field name="district" component={renderTextField} type="text" label="อำเภอ/เขต : " />
-                </div>
-                <div className="col s8">
-                  <Field name="district_text" component={renderSelectField} options={masters === void 0 ? {} : masters.district} />
-                </div>
-              </div>
-
-              <div className="row">
-                <div className="col s4">
-                  <Field name="sub_district" component={renderTextField} type="text" label="ตำบล/แขวง : " />
-                </div>
-                <div className="col s8">
-                  <Field name="sub_district_text" component={renderSelectField} options={masters === void 0 ? {} : masters.subDistrict} />
+                  <Field name="addressNo" component={renderTextareaField} label="ที่อยู่ปัจจุบัน : " />
                 </div>
               </div>
 
               <div className="row">
                 <div className="col s12">
-                  <Field name="post_no" component={renderTextField} type="text" label="รหัสไปรษณีย์ : " />
+                  <Field name="addressProvince" component={renderSelectField} options={masters === void 0 ? {} : masters.province} selected={initialValues.addressProvince} label="จังหวัด : " />
                 </div>
               </div>
 
               <div className="row">
                 <div className="col s12">
-                  <Field name="phone_no" component={renderTextField} type="text" label="โทรศัพท์บ้าน : " />
+                  <Field name="addressDistrict" component={renderSelectField} options={masters === void 0 ? {} : masters.district} selected={initialValues.addressDistrict} label="อำเภอ/เขต : " />
                 </div>
               </div>
 
               <div className="row">
                 <div className="col s12">
-                  <Field name="mobile_no" component={renderTextField} type="text" label="โทรศัพท์มือถือ : " />
+                  <Field name="addressSubdistrict" component={renderSelectField} options={masters === void 0 ? {} : masters.subDistrict} selected={initialValues.addressSubdistrict} label="ตำบล/แขวง : " />
+                </div>
+              </div>
+
+              <div className="row">
+                <div className="col s12">
+                  <Field name="addressZipcode" component={renderTextField} type="text" label="รหัสไปรษณีย์ : " />
+                </div>
+              </div>
+
+              <div className="row">
+                <div className="col s12">
+                  <Field name="tel" component={renderTextField} type="text" label="โทรศัพท์บ้าน : " />
+                </div>
+              </div>
+
+              <div className="row">
+                <div className="col s12">
+                  <Field name="mobile" component={renderTextField} type="text" label="โทรศัพท์มือถือ : " />
                 </div>
               </div>
             </div>
@@ -148,7 +136,7 @@ const RegisterForm = (props) => {
             <div className="collapsible-body hoverable">
               <div className="row">
                 <div className="col s12">
-                  <Field name="payment_option" component={renderSelectField} options={masters === void 0 ? {} : masters.contributionType} label="เลือกจ่ายเงินสมทบ : " />
+                  <Field name="contributionType" component={renderSelectField} options={masters === void 0 ? {} : masters.contributionType} selected={initialValues.contributionType} label="เลือกจ่ายเงินสมทบ : " />
                 </div>
               </div>
             </div>
@@ -158,26 +146,23 @@ const RegisterForm = (props) => {
             <div className="collapsible-header tooltipped hoverable" data-position="top" data-delay="300" data-tooltip="Expand/Collapse"><i className="material-icons">label</i>ข้อมูลอื่นๆ</div>
             <div className="collapsible-body hoverable">
               <div className="row">
-                <div className="col s4">
-                  <Field name="job_group" component={renderTextField} type="text" label="กลุ่มอาชีพ : " />
-                </div>
-                <div className="col s8">
-                  <Field name="job_group_text" component={renderSelectField} options={masters === void 0 ? {} : masters.jobs} />
+                <div className="col s12">
+                  <Field name="occupation" component={renderSelectField} options={masters === void 0 ? {} : masters.jobs} selected={initialValues.occupation} label="กลุ่มอาชีพ : " />
                 </div>
               </div>
 
               <div className="row">
-                <div className="col s6">
-                  <Field name="salary" component={renderSelectField} options={masters === void 0 ? {} : masters.salaries} label="รายได้ต่อเดือน : " />
+                <div className="col s12 m6">
+                  <Field name="salary" component={renderSelectField} options={masters === void 0 ? {} : masters.salaries} selected={initialValues.salary} label="รายได้ต่อเดือน : " />
                 </div>
-                <div className="col s6">
-                  <Field name="salary_amount" placeholder="จำนวนเงิน (บาท)" component={renderTextField} type="text" />
+                <div className="col s12 m6">
+                  <Field name="salaryOther" component={renderTextField} type="text" label="จำนวนเงิน (บาท) : "/>
                 </div>
               </div>
 
               <div className="row">
                 <div className="col s12">
-                  <Field name="healthy" component={renderTextField} type="text" label="สภาพร่างกาย : " />
+                  <Field name="bodyCondition" component={renderSelectField} options={masters === void 0 ? {} : masters.bodyConditionType} selected={initialValues.bodyCondition} label="สภาพร่างกาย : " />
                 </div>
               </div>
             </div>

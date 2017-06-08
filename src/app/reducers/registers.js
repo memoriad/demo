@@ -10,6 +10,9 @@ export default (state = initialState, action) => {
     case actionType.LOAD_REGISTER_SUCCESS:
       return [action.payload]
       break;
+    case actionType.LOAD_REGISTER_FAILURE:
+      return initialState
+      break;
     default:
       return state
   }
