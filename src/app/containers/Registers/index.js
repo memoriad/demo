@@ -74,15 +74,12 @@ class RegisterContainer extends React.Component {
     });
 
     $('#find_identity').click(function() {
-      $('select').material_select();
-
       $('.datepicker').pickadate({
         selectMonths: true, // Creates a dropdown to control month
         selectYears: 15, // Creates a dropdown of 15 years to control year
         format: 'dd/mm/yyyy'
       });
 
-      Materialize.showStaggeredList('#register_form');
       $('#notify_panel').removeClass('hide');
       $('#nav_section').removeClass('hide');
       $('#register_form').removeClass('hide');
@@ -90,15 +87,6 @@ class RegisterContainer extends React.Component {
       $("#identity_section .collapsible-header").removeClass("active");
       $(".collapsible").collapsible({accordion: true});
       $(".collapsible").collapsible({accordion: false});
-
-      setTimeout(function() {
-        $('#active_general').click();
-        $('#general_section').css("transform", "");
-        $('#contact_section').css("transform", "");
-        $('#payment_section').css("transform", "");
-        $('#other_section').css("transform", "");
-      }, 1000);
-
     });
 
     $('#cancel_identity').click(function() {

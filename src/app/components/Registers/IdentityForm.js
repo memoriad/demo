@@ -42,9 +42,27 @@ const IdentityForm = (props) => {
                   <a id="find_identity" className="waves-effect waves-light btn" href="#!" onClick={() => {
                       onLoadRegister($('#card_no').val())
 
+                      $('#register_form li').css('opacity', 0);
+                      $('#active_general').click();
+
                       setTimeout(function() {
                         Materialize.updateTextFields()
-                      }, 1000)
+                        $('select').material_select()
+                        Materialize.showStaggeredList('#register_form')
+                      }, 500)
+
+                      setTimeout(function() {
+                        $('#general_section').css("transform", "");
+                      }, 2000);
+                      setTimeout(function() {
+                        $('#contact_section').css("transform", "");
+                      }, 2500);
+                      setTimeout(function() {
+                        $('#payment_section').css("transform", "");
+                      }, 3000);
+                      setTimeout(function() {
+                        $('#other_section').css("transform", "");
+                      }, 3500);
                     }
                   } disabled={pristine || invalid}>Find</a>
                 </div>

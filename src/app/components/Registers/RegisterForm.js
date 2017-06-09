@@ -20,9 +20,9 @@ const renderTextareaField = ({ input, label, type, meta: { touched, error, warni
   </div>
 )
 
-const renderSelectField = ({ input, label, type, options, selected, meta: { touched, error, warning } }) => (
+const renderSelectField = ({ input, label, type, options, meta: { touched, error, warning } }) => (
   <div className="input-field">
-    <select name={input.name} defaultValue={selected}>
+    <select {...input}>
       <option value="" disabled>[ -โปรดระบุ- ]</option>
       {
         options === void 0 ?
@@ -46,7 +46,7 @@ const renderDatepickerField = ({ input, label, type, meta: { touched, error, war
 )
 
 const RegisterForm = (props) => {
-  const { masters, initialValues, handleSubmit, pristine, reset, submitting } = props
+  const { masters, handleSubmit, pristine, reset, submitting } = props
 
   return (
     <form onSubmit={handleSubmit}>
@@ -60,7 +60,7 @@ const RegisterForm = (props) => {
             <div className="collapsible-body hoverable">
               <div className="row">
                 <div className="col s12">
-                  <Field name="title" component={renderSelectField} options={masters === void 0 ? {} : masters.title} selected={initialValues.title} label="คำนำหน้า : " />
+                  <Field name="title" component={renderSelectField} options={masters === void 0 ? {} : masters.title} label="คำนำหน้า : " />
                 </div>
               </div>
 
@@ -95,19 +95,19 @@ const RegisterForm = (props) => {
 
               <div className="row">
                 <div className="col s12">
-                  <Field name="addressProvince" component={renderSelectField} options={masters === void 0 ? {} : masters.province} selected={initialValues.addressProvince} label="จังหวัด : " />
+                  <Field name="addressProvince" component={renderSelectField} options={masters === void 0 ? {} : masters.province} label="จังหวัด : " />
                 </div>
               </div>
 
               <div className="row">
                 <div className="col s12">
-                  <Field name="addressDistrict" component={renderSelectField} options={masters === void 0 ? {} : masters.district} selected={initialValues.addressDistrict} label="อำเภอ/เขต : " />
+                  <Field name="addressDistrict" component={renderSelectField} options={masters === void 0 ? {} : masters.district} label="อำเภอ/เขต : " />
                 </div>
               </div>
 
               <div className="row">
                 <div className="col s12">
-                  <Field name="addressSubdistrict" component={renderSelectField} options={masters === void 0 ? {} : masters.subDistrict} selected={initialValues.addressSubdistrict} label="ตำบล/แขวง : " />
+                  <Field name="addressSubdistrict" component={renderSelectField} options={masters === void 0 ? {} : masters.subDistrict} label="ตำบล/แขวง : " />
                 </div>
               </div>
 
@@ -136,7 +136,7 @@ const RegisterForm = (props) => {
             <div className="collapsible-body hoverable">
               <div className="row">
                 <div className="col s12">
-                  <Field name="contributionType" component={renderSelectField} options={masters === void 0 ? {} : masters.contributionType} selected={initialValues.contributionType} label="เลือกจ่ายเงินสมทบ : " />
+                  <Field name="contributionType" component={renderSelectField} options={masters === void 0 ? {} : masters.contributionType} label="เลือกจ่ายเงินสมทบ : " />
                 </div>
               </div>
             </div>
@@ -147,13 +147,13 @@ const RegisterForm = (props) => {
             <div className="collapsible-body hoverable">
               <div className="row">
                 <div className="col s12">
-                  <Field name="occupation" component={renderSelectField} options={masters === void 0 ? {} : masters.jobs} selected={initialValues.occupation} label="กลุ่มอาชีพ : " />
+                  <Field name="occupation" component={renderSelectField} options={masters === void 0 ? {} : masters.jobs} label="กลุ่มอาชีพ : " />
                 </div>
               </div>
 
               <div className="row">
                 <div className="col s12 m6">
-                  <Field name="salary" component={renderSelectField} options={masters === void 0 ? {} : masters.salaries} selected={initialValues.salary} label="รายได้ต่อเดือน : " />
+                  <Field name="salary" component={renderSelectField} options={masters === void 0 ? {} : masters.salaries} label="รายได้ต่อเดือน : " />
                 </div>
                 <div className="col s12 m6">
                   <Field name="salaryOther" component={renderTextField} type="text" label="จำนวนเงิน (บาท) : "/>
@@ -162,7 +162,7 @@ const RegisterForm = (props) => {
 
               <div className="row">
                 <div className="col s12">
-                  <Field name="bodyCondition" component={renderSelectField} options={masters === void 0 ? {} : masters.bodyConditionType} selected={initialValues.bodyCondition} label="สภาพร่างกาย : " />
+                  <Field name="bodyCondition" component={renderSelectField} options={masters === void 0 ? {} : masters.bodyConditionType} label="สภาพร่างกาย : " />
                 </div>
               </div>
             </div>

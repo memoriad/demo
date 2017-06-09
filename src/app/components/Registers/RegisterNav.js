@@ -8,10 +8,18 @@ const RegisterNav = (props) => {
     <nav id="nav_section" className="hide">
       <div className="nav-wrapper">
         <ul className="hide-on-med-and-down">
-          <li><a id="active_general" href="#nav_section">General</a></li>
-          <li><a id="active_location" href="#nav_section">Location</a></li>
-          <li><a id="active_payment" href="#nav_section">Payment</a></li>
-          <li><a id="active_other" href="#nav_section">Other</a></li>
+          <li><a id="active_general" href="#nav_section">
+            <i className="material-icons left">info</i><span className="white-text">ข้อมูลทั่วไป</span>
+          </a></li>
+          <li><a id="active_location" href="#nav_section">
+            <i className="material-icons left">contacts</i><span className="white-text">ข้อมูลการติดต่อ</span>
+          </a></li>
+          <li><a id="active_payment" href="#nav_section">
+            <i className="material-icons left">payment</i><span className="white-text">รูปแบบการจ่ายเงินสมทบ</span>
+          </a></li>
+          <li><a id="active_other" href="#nav_section">
+            <i className="material-icons left">label</i><span className="white-text">ข้อมูลอื่นๆ</span>
+          </a></li>
         </ul>
         <ul className="right">
           <li>
