@@ -43,7 +43,7 @@ const IdentityForm = (props) => {
                       onLoadRegister($('#card_no').val())
 
                       $('#register_form li').css('opacity', 0);
-                      $('#active_general').click();
+                      $('.active_general').click();
 
                       setTimeout(function() {
                         Materialize.updateTextFields()

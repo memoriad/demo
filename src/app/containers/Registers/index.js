@@ -29,7 +29,7 @@ class RegisterContainer extends React.Component {
 
     $('.modal').modal();
 
-    $('#active_general').click(function() {
+    $('.active_general').click(function() {
       $("#general_section .collapsible-header").addClass("active");
       $(".collapsible").collapsible({accordion: false});
 
@@ -40,7 +40,7 @@ class RegisterContainer extends React.Component {
       $(".collapsible").collapsible({accordion: false});
     });
 
-    $('#active_location').click(function() {
+    $('.active_location').click(function() {
       $("#contact_section .collapsible-header").addClass("active");
       $(".collapsible").collapsible({accordion: false});
 
@@ -51,7 +51,7 @@ class RegisterContainer extends React.Component {
       $(".collapsible").collapsible({accordion: false});
     });
 
-    $('#active_payment').click(function() {
+    $('.active_payment').click(function() {
       $("#payment_section .collapsible-header").addClass("active");
       $(".collapsible").collapsible({accordion: false});
 
@@ -62,7 +62,7 @@ class RegisterContainer extends React.Component {
       $(".collapsible").collapsible({accordion: false});
     });
 
-    $('#active_other').click(function() {
+    $('.active_other').click(function() {
       $("#other_section .collapsible-header").addClass("active");
       $(".collapsible").collapsible({accordion: false});
 

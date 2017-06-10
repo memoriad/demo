@@ -46,7 +46,7 @@ const renderDatepickerField = ({ input, label, type, meta: { touched, error, war
 )
 
 const RegisterForm = (props) => {
-  const { masters, handleSubmit, pristine, reset, submitting } = props
+  const { masters, handleSubmit, pristine, reset, submitting, countError } = props
 
   return (
     <form onSubmit={handleSubmit}>
@@ -55,8 +55,14 @@ const RegisterForm = (props) => {
         <RegisterNav {...props} />
 
         <ul id="register_form" className="collapsible popout hide" data-collapsible="expandable">
-          <li id="general_section" className="scrollspy">
-            <div className="collapsible-header tooltipped hoverable" data-position="top" data-delay="300" data-tooltip="Expand/Collapse"><i className="material-icons">info</i>ข้อมูลทั่วไป</div>
+          <li id="general_section">
+            <div className="collapsible-header tooltipped hoverable" data-position="top" data-delay="300" data-tooltip="Expand/Collapse">
+              {
+                countError.general > 0 ? <span className="new badge red" data-badge-caption="error">{countError.general}</span> :
+                  <span className="new badge blue" data-badge-caption="success"></span>
+              }
+              <i className="material-icons">info</i>ข้อมูลทั่วไป
+            </div>
             <div className="collapsible-body hoverable">
               <div className="row">
                 <div className="col s12">
@@ -84,8 +90,14 @@ const RegisterForm = (props) => {
             </div>
           </li>
 
-          <li id="contact_section" className="scrollspy">
-            <div className="collapsible-header tooltipped hoverable" data-position="top" data-delay="300" data-tooltip="Expand/Collapse"><i className="material-icons">contacts</i>ข้อมูลการติดต่อ</div>
+          <li id="contact_section">
+            <div className="collapsible-header tooltipped hoverable" data-position="top" data-delay="300" data-tooltip="Expand/Collapse">
+              {
+                countError.contact > 0 ? <span className="new badge red" data-badge-caption="error">{countError.contact}</span> :
+                  <span className="new badge blue" data-badge-caption="success"></span>
+              }
+              <i className="material-icons">contacts</i>ข้อมูลการติดต่อ
+            </div>
             <div className="collapsible-body hoverable">
               <div className="row">
                 <div className="col s12">
@@ -131,8 +143,14 @@ const RegisterForm = (props) => {
             </div>
           </li>
 
-          <li id="payment_section" className="scrollspy">
-            <div className="collapsible-header tooltipped hoverable" data-position="top" data-delay="300" data-tooltip="Expand/Collapse"><i className="material-icons">payment</i>รูปแบบการจ่ายเงินสมทบ</div>
+          <li id="payment_section">
+            <div className="collapsible-header tooltipped hoverable" data-position="top" data-delay="300" data-tooltip="Expand/Collapse">
+              {
+                countError.payment > 0 ? <span className="new badge red" data-badge-caption="error">{countError.payment}</span> :
+                  <span className="new badge blue" data-badge-caption="success"></span>
+              }
+              <i className="material-icons">payment</i>รูปแบบการจ่ายเงินสมทบ
+            </div>
             <div className="collapsible-body hoverable">
               <div className="row">
                 <div className="col s12">
@@ -142,8 +160,14 @@ const RegisterForm = (props) => {
             </div>
           </li>
 
-          <li id="other_section" className="scrollspy">
-            <div className="collapsible-header tooltipped hoverable" data-position="top" data-delay="300" data-tooltip="Expand/Collapse"><i className="material-icons">label</i>ข้อมูลอื่นๆ</div>
+          <li id="other_section">
+            <div className="collapsible-header tooltipped hoverable" data-position="top" data-delay="300" data-tooltip="Expand/Collapse">
+              {
+                countError.other > 0 ? <span className="new badge red" data-badge-caption="error">{countError.other}</span> :
+                  <span className="new badge blue" data-badge-caption="success"></span>
+              }
+              <i className="material-icons">label</i>ข้อมูลอื่นๆ
+            </div>
             <div className="collapsible-body hoverable">
               <div className="row">
                 <div className="col s12">

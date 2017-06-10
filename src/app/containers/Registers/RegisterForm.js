@@ -19,53 +19,78 @@ class RegisterFormContainer extends React.Component {
 
 }
 
+let countError = {}
+
 const validate = values => {
   const errors = {}
+  countError.general = 0
+  countError.contact = 0
+  countError.payment = 0
+  countError.other = 0
 
   if (!values.title) {
+    countError.general += 1
     errors.title = ' required'
   }
-  if (!values.first_name) {
-    errors.first_name = ' required'
+  if (!values.name) {
+    countError.general += 1
+    errors.name = ' required'
   }
-  if (!values.last_name) {
-    errors.last_name = ' required'
+  if (!values.surname) {
+    countError.general += 1
+    errors.surname = ' required'
   }
-  if (!values.birth_date) {
-    errors.birth_date = ' required'
+  if (!values.birthDate) {
+    countError.general += 1
+    errors.birthDate = ' required'
   }
-  if (!values.location) {
-    errors.location = ' required'
+  if (!values.addressNo) {
+    countError.contact += 1
+    errors.addressNo = ' required'
   }
-  if (!values.province) {
-    errors.province = ' required'
+  if (!values.addressProvince) {
+    countError.contact += 1
+    errors.addressProvince = ' required'
   }
-  if (!values.district) {
-    errors.district = ' required'
+  if (!values.addressDistrict) {
+    countError.contact += 1
+    errors.addressDistrict = ' required'
   }
-  if (!values.sub_district) {
-    errors.sub_district = ' required'
+  if (!values.addressSubdistrict) {
+    countError.contact += 1
+    errors.addressSubdistrict = ' required'
   }
-  if (!values.post_no) {
-    errors.post_no = ' required'
+  if (!values.addressZipcode) {
+    countError.contact += 1
+    errors.addressZipcode = ' required'
   }
-  if (!values.phone_no) {
-    errors.phone_no = ' required'
+  if (!values.tel) {
+    countError.contact += 1
+    errors.tel = ' required'
   }
-  if (!values.mobile_no) {
-    errors.mobile_no = ' required'
+  if (!values.mobile) {
+    countError.contact += 1
+    errors.mobile = ' required'
   }
-  if (!values.payment_option) {
-    errors.payment_option = ' required'
+  if (!values.contributionType) {
+    countError.payment += 1
+    errors.contributionType = ' required'
   }
-  if (!values.job_group) {
-    errors.job_group = ' required'
+  if (!values.occupation) {
+    countError.other += 1
+    errors.occupation = ' required'
   }
   if (!values.salary) {
+    countError.other += 1
     errors.salary = ' required'
   }
-  if (!values.healthy) {
-    errors.healthy = ' required'
+  if (!values.salaryOther) {
+    countError.other += 1
+    errors.salaryOther = ' required'
+  }
+  if (!values.bodyCondition) {
+    countError.other += 1
+    errors.bodyCondition = ' required'
   }
 
   return errors
@@ -73,7 +98,8 @@ const validate = values => {
 
 const mapStateToProps = (state) => ({
   masters: state.masters,
-  initialValues: getRegisterById(state)
+  initialValues: getRegisterById(state),
+  countError
 })
 
 RegisterFormContainer = reduxForm(
