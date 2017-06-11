@@ -4,17 +4,28 @@ import { Field } from 'redux-form';
 import RegisterNav from './RegisterNav';
 import AgreementModal from './AgreementModal';
 
-const renderTextField = ({ input, label, type, meta: { touched, error, warning } }) => (
-  <div className="input-field">
-    <input id={input.name} type={type} {...input} />
-    <label htmlFor={input.name}>{label}</label>
-    {touched && error && <div className="valign-wrapper error"><i className="material-icons">error</i>{error}</div>}
-  </div>
-)
+const renderTextField = ({ input, label, type, meta: { dirty, error, warning } }) => {
+
+  return (
+    <div className="input-field">
+      <input id={input.name} type={type} {...input} onChange={event => {
+          callForceUpdate()
+          input.onChange(event)
+        }
+      } />
+      <label htmlFor={input.name}>{label}</label>
+      {dirty && error && <div className="valign-wrapper error"><i className="material-icons">error</i>{error}</div>}
+    </div>
+  )
+}
 
 const renderTextareaField = ({ input, label, type, meta: { touched, error, warning } }) => (
   <div className="input-field">
-    <textarea id={input.name} {...input} className="materialize-textarea" />
+    <textarea id={input.name} {...input} className="materialize-textarea" onChange={event => {
+        callForceUpdate()
+        input.onChange(event)
+      }
+    } />
     <label htmlFor={input.name}>{label}</label>
     {touched && error && <div className="valign-wrapper error"><i className="material-icons">error</i>{error}</div>}
   </div>
@@ -45,8 +56,13 @@ const renderDatepickerField = ({ input, label, type, meta: { touched, error, war
   </div>
 )
 
+let callForceUpdate = () => {}
+
 const RegisterForm = (props) => {
-  const { masters, handleSubmit, pristine, reset, submitting, countError } = props
+  const { showAgreement, cancelIdentity, activeGeneral, activeLocation, activePayment, activeOther, forceUpdate, masters,
+    initialValues, handleSubmit, pristine, reset, submitting, invalid, countError } = props
+
+  callForceUpdate = forceUpdate
 
   return (
     <form onSubmit={handleSubmit}>
@@ -55,6 +71,18 @@ const RegisterForm = (props) => {
         <RegisterNav {...props} />
 
         <ul id="register_form" className="collapsible popout hide" data-collapsible="expandable">
+          <li id="information_section">
+            <div className="card-panel teal valign-wrapper">
+              <span className="white-text">
+                {
+                  Object.keys(initialValues).length === 0 ?
+                  'ผู้ลงทะเบียนใหม่ กรุณากรอกข้อมูลด้านล่างให้ครบถ้วน' :
+                  'ยื่นแบบคำขอขึ้นทะเบียนผู้ประกันตนมาตรา 40 เมื่อวันที่ 01 มิถุนายน 2560'
+                }
+              </span>
+            </div>
+          </li>
+
           <li id="general_section">
             <div className="collapsible-header tooltipped hoverable" data-position="top" data-delay="300" data-tooltip="Expand/Collapse">
               {

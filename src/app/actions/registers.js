@@ -31,16 +31,16 @@ export const submitRegister = (values) => (
         method: 'POST',
         body: JSON.stringify(values),
         types: [
-          actionType.SUBMIT_REGISTERS_REQUEST,
+          actionType.SUBMIT_REGISTER_REQUEST,
           {
-            types: actionType.SUBMIT_REGISTERS_SUCCESS,
+            types: actionType.SUBMIT_REGISTER_SUCCESS,
             payload: (_action, _state, res) => {
               return res.json().then((register) => {
                 return register
               })
             }
           },
-          actionType.SUBMIT_REGISTERS_FAILURE
+          actionType.SUBMIT_REGISTER_FAILURE
         ]
       }
     })

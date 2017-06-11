@@ -2,8 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const AgreementModal = (props) => {
-  const { submitting } = props
-  let isAgree = false
+  const { invalid, submitting } = props
 
   return (
     <div id="agreement_modal" className="modal modal-fixed-footer">
@@ -16,15 +15,17 @@ const AgreementModal = (props) => {
         </textarea>
 
         <input type="checkbox" className="filled-in" id="agreement_check" onChange={() => {
-            isAgree = !isAgree
-            $('#agreement_btn').prop("disabled", !isAgree)
+            $('#agreement_btn').prop("disabled", !$('#agreement_check').prop('checked'))
           }
         } />
         <label htmlFor="agreement_check">Filled in</label>
       </div>
       <div className="modal-footer">
         <a className="modal-action modal-close waves-effect waves-green btn-flat">Disagree</a>
-        <button id="agreement_btn" className="modal-action waves-effect waves-green btn-flat" type="submit" name="action" disabled={!isAgree || submitting}>Agree</button>
+        <button id="agreement_btn" className="modal-action modal-close waves-effect waves-green btn-flat" type="submit" name="action" onClick={() => {
+            Materialize.toast(invalid ? 'Failed' : 'Success', 3000)
+          }
+        } disabled={submitting}>Agree</button>
       </div>
     </div>
   )

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import { loadMasters } from '../../actions/masters';
+import { submitRegister } from '../../actions/registers';
 import { getRegisterById } from '../../reducers/registers';
 import { RegisterForm } from '../../components';
 
@@ -11,12 +12,90 @@ class RegisterFormContainer extends React.Component {
     masters: PropTypes.object.isRequired
   }
 
+  componentDidMount() {
+    setTimeout(function() {
+      $('.collapsible').collapsible('open', 0);
+    }, 500);
+
+    $('.button-collapse').sideNav();
+
+    $('.modal').modal();
+  }
+
   render() {
     return (
-      <RegisterForm {...this.props} />
+      <RegisterForm forceUpdate={() => this.forceUpdate()} {...this.props} />
     )
   }
 
+}
+
+const showAgreement = () => {
+  $('#agreement_btn').prop('disabled', true)
+  $('#agreement_check').prop('checked', false)
+  $('#agreement_modal').modal('open')
+}
+
+const cancelIdentity = () => {
+  $('#card_no').prop('disabled', false);
+  $('#email').prop('disabled', false);
+  $('#find_identity').removeClass('disabled');
+
+  $("#identity_section .collapsible-header").addClass("active");
+  $(".collapsible").collapsible({accordion: false});
+
+  $("#general_section .collapsible-header").removeClass("active");
+  $("#contact_section .collapsible-header").removeClass("active");
+  $("#payment_section .collapsible-header").removeClass("active");
+  $(".collapsible").collapsible({accordion: true});
+  $(".collapsible").collapsible({accordion: false});
+
+  $('#nav_section').addClass('hide');
+  $('#register_form').addClass('hide');
+}
+
+const activeGeneral = () => {
+  $("#general_section .collapsible-header").addClass("active");
+  $(".collapsible").collapsible({accordion: false});
+
+  $("#contact_section .collapsible-header").removeClass("active");
+  $("#payment_section .collapsible-header").removeClass("active");
+  $("#other_section .collapsible-header").removeClass("active");
+  $(".collapsible").collapsible({accordion: true});
+  $(".collapsible").collapsible({accordion: false});
+}
+
+const activeLocation = () => {
+  $("#contact_section .collapsible-header").addClass("active");
+  $(".collapsible").collapsible({accordion: false});
+
+  $("#general_section .collapsible-header").removeClass("active");
+  $("#payment_section .collapsible-header").removeClass("active");
+  $("#other_section .collapsible-header").removeClass("active");
+  $(".collapsible").collapsible({accordion: true});
+  $(".collapsible").collapsible({accordion: false});
+}
+
+const activePayment = () => {
+  $("#payment_section .collapsible-header").addClass("active");
+  $(".collapsible").collapsible({accordion: false});
+
+  $("#general_section .collapsible-header").removeClass("active");
+  $("#contact_section .collapsible-header").removeClass("active");
+  $("#other_section .collapsible-header").removeClass("active");
+  $(".collapsible").collapsible({accordion: true});
+  $(".collapsible").collapsible({accordion: false});
+}
+
+const activeOther = () => {
+  $("#other_section .collapsible-header").addClass("active");
+  $(".collapsible").collapsible({accordion: false});
+
+  $("#general_section .collapsible-header").removeClass("active");
+  $("#contact_section .collapsible-header").removeClass("active");
+  $("#payment_section .collapsible-header").removeClass("active");
+  $(".collapsible").collapsible({accordion: true});
+  $(".collapsible").collapsible({accordion: false});
 }
 
 let countError = {}
@@ -99,18 +178,30 @@ const validate = values => {
 const mapStateToProps = (state) => ({
   masters: state.masters,
   initialValues: getRegisterById(state),
-  countError
+  countError,
+  showAgreement,
+  cancelIdentity,
+  activeGeneral,
+  activeLocation,
+  activePayment,
+  activeOther
+})
+
+const mapDispatchToProps = (dispatch) => ({
+  onSubmit: (values) => {
+    console.log('values', JSON.stringify(values))
+  }
 })
 
 RegisterFormContainer = reduxForm(
   {
     form: 'register',
     validate,
-    enableReinitialize: true,
-    onSubmit: (values) => { console.log('values', JSON.stringify(values)) }
+    enableReinitialize: true
   }
 )(RegisterFormContainer);
 
 export default connect(
-  mapStateToProps
+  mapStateToProps,
+  mapDispatchToProps
 )(RegisterFormContainer);
