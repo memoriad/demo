@@ -8,7 +8,7 @@ class Header extends React.Component {
       <nav className="white" role="navigation">
         <div className="nav-wrapper container">
           <a id="logo-container" href="#" className="brand-logo">
-            <img className="sso-logo" src="/src/images/logo-sso.jpg" alt="logo" />
+            <img className="sso-logo" src={require('../../../images/logo-sso.jpg')} alt="logo" />
           </a>
           <ul className="right hide-on-med-and-down">
             <li><a href="#"></a></li>
