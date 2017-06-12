@@ -59,7 +59,7 @@ const renderDatepickerField = ({ input, label, type, meta: { touched, error, war
 let callForceUpdate = () => {}
 
 const RegisterForm = (props) => {
-  const { showAgreement, cancelIdentity, activeGeneral, activeLocation, activePayment, activeOther, forceUpdate, masters,
+  const { showAgreement, cancelIdentity, activeLocation, activePayment, activeOther, forceUpdate, masters,
     initialValues, handleSubmit, pristine, reset, submitting, invalid, countError } = props
 
   callForceUpdate = forceUpdate
@@ -72,50 +72,9 @@ const RegisterForm = (props) => {
 
         <ul id="register_form" className="collapsible popout hide" data-collapsible="expandable">
           <li id="information_section">
-            <div className="card-panel teal valign-wrapper">
-              <span className="white-text">
-                {
-                  Object.keys(initialValues).length === 0 ?
-                  'ผู้ลงทะเบียนใหม่ กรุณากรอกข้อมูลด้านล่างให้ครบถ้วน' :
-                  'ยื่นแบบคำขอขึ้นทะเบียนผู้ประกันตนมาตรา 40 เมื่อวันที่ 01 มิถุนายน 2560'
-                }
-              </span>
-            </div>
-          </li>
-
-          <li id="general_section">
-            <div className="collapsible-header tooltipped hoverable" data-position="top" data-delay="300" data-tooltip="Expand/Collapse">
-              {
-                countError.general > 0 ? <span className="new badge red" data-badge-caption="error">{countError.general}</span> :
-                  <span className="new badge blue" data-badge-caption="success"></span>
-              }
-              <i className="material-icons">info</i>ข้อมูลทั่วไป
-            </div>
-            <div className="collapsible-body hoverable">
-              <div className="row">
-                <div className="col s12">
-                  <Field name="title" component={renderSelectField} options={masters === void 0 ? {} : masters.title} label="คำนำหน้า : " />
-                </div>
-              </div>
-
-              <div className="row">
-                <div className="col s12">
-                  <Field name="name" component={renderTextField} type="text" label="ชื่อ : " />
-                </div>
-              </div>
-
-              <div className="row">
-                <div className="col s12">
-                  <Field name="surname" component={renderTextField} type="text" label="สกุล : " />
-                </div>
-              </div>
-
-              <div className="row">
-                <div className="col s12">
-                  <Field name="birthDate" component={renderDatepickerField} type="date" label="เกิดเมื่อ : " />
-                </div>
-              </div>
-            </div>
+            <blockquote>
+              <span className="blue-text text-darken-2">กรุณากรอกข้อมูลด้านล่างให้ครบถ้วน</span>
+            </blockquote>
           </li>
 
           <li id="contact_section">
@@ -134,37 +93,31 @@ const RegisterForm = (props) => {
               </div>
 
               <div className="row">
-                <div className="col s12">
+                <div className="col s12 m6">
                   <Field name="addressProvince" component={renderSelectField} options={masters === void 0 ? {} : masters.province} label="จังหวัด : " />
                 </div>
-              </div>
 
-              <div className="row">
-                <div className="col s12">
+                <div className="col s12 m6">
                   <Field name="addressDistrict" component={renderSelectField} options={masters === void 0 ? {} : masters.district} label="อำเภอ/เขต : " />
                 </div>
               </div>
 
               <div className="row">
-                <div className="col s12">
+                <div className="col s12 m6">
                   <Field name="addressSubdistrict" component={renderSelectField} options={masters === void 0 ? {} : masters.subDistrict} label="ตำบล/แขวง : " />
                 </div>
-              </div>
 
-              <div className="row">
-                <div className="col s12">
+                <div className="col s12 m6">
                   <Field name="addressZipcode" component={renderTextField} type="text" label="รหัสไปรษณีย์ : " />
                 </div>
               </div>
 
               <div className="row">
-                <div className="col s12">
+                <div className="col s12 m6">
                   <Field name="tel" component={renderTextField} type="text" label="โทรศัพท์บ้าน : " />
                 </div>
-              </div>
 
-              <div className="row">
-                <div className="col s12">
+                <div className="col s12 m6">
                   <Field name="mobile" component={renderTextField} type="text" label="โทรศัพท์มือถือ : " />
                 </div>
               </div>
@@ -198,16 +151,15 @@ const RegisterForm = (props) => {
             </div>
             <div className="collapsible-body hoverable">
               <div className="row">
-                <div className="col s12">
+                <div className="col s12 m4">
                   <Field name="occupation" component={renderSelectField} options={masters === void 0 ? {} : masters.jobs} label="กลุ่มอาชีพ : " />
                 </div>
-              </div>
 
-              <div className="row">
-                <div className="col s12 m6">
+                <div className="col s12 m4">
                   <Field name="salary" component={renderSelectField} options={masters === void 0 ? {} : masters.salaries} label="รายได้ต่อเดือน : " />
                 </div>
-                <div className="col s12 m6">
+
+                <div className="col s12 m4">
                   <Field name="salaryOther" component={renderTextField} type="text" label="จำนวนเงิน (บาท) : "/>
                 </div>
               </div>

@@ -4,18 +4,11 @@ class Footer extends React.Component {
 
   render() {
     return (
-      <footer className="page-footer teal">
-        <div className="container">
-          <div className="row">
-            <div className="col l6 s12">
-              <h5 className="white-text">Company Bio</h5>
-              <p className="grey-text text-lighten-4">We are a team of college students working on this project like it's our full time job. Any amount would help support and continue development on this project and is greatly appreciated.</p>
-            </div>
-          </div>
-        </div>
+      <footer className="page-footer blue darken-3">
         <div className="footer-copyright">
-          <div className="container">
-          Made by <a className="brown-text text-lighten-3" href="http://materializecss.com">Materialize</a>
+          <div className="container center-align">
+            Copyright© 2014 Social Security Office. All right reserved. สำนักงานประกันสังคม กระทรวงแรงงาน 88/28 หมู่ 4 ถ.ติวานนท์ ต.ตลาดขวัญ อ.เมือง จ.นนทบุรี 11000
+            หากมีข้อสงสัย กรุณาติดต่อที่ e-mail: helpdesk@sso.go.th
           </div>
         </div>
       </footer>

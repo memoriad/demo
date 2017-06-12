@@ -9,9 +9,11 @@ const Register = (props) => {
 
   return (
     <div className="content">
-      <nav className="top-nav">
+      <nav className="top-nav valign-wrapper indigo darken-3">
         <div className="container">
-          <div className="nav-wrapper"><a className="page-title truncate">หน้าลงทะเบียนผู้ประกันตน</a></div>
+          <div className="nav-wrapper">
+            <span className="flow-text truncate">หน้าลงทะเบียนผู้ประกันตน</span>
+          </div>
         </div>
       </nav>
 

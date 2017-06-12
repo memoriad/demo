@@ -38,13 +38,17 @@ const showAgreement = () => {
 
 const cancelIdentity = () => {
   $('#card_no').prop('disabled', false);
+  $('#laser').prop('disabled', false);
+  $('#title').prop('disabled', false);
+  $('#name').prop('disabled', false);
+  $('#surname').prop('disabled', false);
+  $('#birthDate').prop('disabled', false);
   $('#email').prop('disabled', false);
   $('#find_identity').removeClass('disabled');
 
   $("#identity_section .collapsible-header").addClass("active");
   $(".collapsible").collapsible({accordion: false});
 
-  $("#general_section .collapsible-header").removeClass("active");
   $("#contact_section .collapsible-header").removeClass("active");
   $("#payment_section .collapsible-header").removeClass("active");
   $(".collapsible").collapsible({accordion: true});
@@ -54,22 +58,10 @@ const cancelIdentity = () => {
   $('#register_form').addClass('hide');
 }
 
-const activeGeneral = () => {
-  $("#general_section .collapsible-header").addClass("active");
-  $(".collapsible").collapsible({accordion: false});
-
-  $("#contact_section .collapsible-header").removeClass("active");
-  $("#payment_section .collapsible-header").removeClass("active");
-  $("#other_section .collapsible-header").removeClass("active");
-  $(".collapsible").collapsible({accordion: true});
-  $(".collapsible").collapsible({accordion: false});
-}
-
 const activeLocation = () => {
   $("#contact_section .collapsible-header").addClass("active");
   $(".collapsible").collapsible({accordion: false});
 
-  $("#general_section .collapsible-header").removeClass("active");
   $("#payment_section .collapsible-header").removeClass("active");
   $("#other_section .collapsible-header").removeClass("active");
   $(".collapsible").collapsible({accordion: true});
@@ -80,7 +72,6 @@ const activePayment = () => {
   $("#payment_section .collapsible-header").addClass("active");
   $(".collapsible").collapsible({accordion: false});
 
-  $("#general_section .collapsible-header").removeClass("active");
   $("#contact_section .collapsible-header").removeClass("active");
   $("#other_section .collapsible-header").removeClass("active");
   $(".collapsible").collapsible({accordion: true});
@@ -91,7 +82,6 @@ const activeOther = () => {
   $("#other_section .collapsible-header").addClass("active");
   $(".collapsible").collapsible({accordion: false});
 
-  $("#general_section .collapsible-header").removeClass("active");
   $("#contact_section .collapsible-header").removeClass("active");
   $("#payment_section .collapsible-header").removeClass("active");
   $(".collapsible").collapsible({accordion: true});
@@ -102,74 +92,57 @@ let countError = {}
 
 const validate = values => {
   const errors = {}
-  countError.general = 0
   countError.contact = 0
   countError.payment = 0
   countError.other = 0
 
-  if (!values.title) {
-    countError.general += 1
-    errors.title = ' required'
-  }
-  if (!values.name) {
-    countError.general += 1
-    errors.name = ' required'
-  }
-  if (!values.surname) {
-    countError.general += 1
-    errors.surname = ' required'
-  }
-  if (!values.birthDate) {
-    countError.general += 1
-    errors.birthDate = ' required'
-  }
   if (!values.addressNo) {
     countError.contact += 1
-    errors.addressNo = ' required'
+    errors.addressNo = 'required'
   }
   if (!values.addressProvince) {
     countError.contact += 1
-    errors.addressProvince = ' required'
+    errors.addressProvince = 'required'
   }
   if (!values.addressDistrict) {
     countError.contact += 1
-    errors.addressDistrict = ' required'
+    errors.addressDistrict = 'required'
   }
   if (!values.addressSubdistrict) {
     countError.contact += 1
-    errors.addressSubdistrict = ' required'
+    errors.addressSubdistrict = 'required'
   }
   if (!values.addressZipcode) {
     countError.contact += 1
-    errors.addressZipcode = ' required'
+    errors.addressZipcode = 'required'
   }
   if (!values.tel) {
     countError.contact += 1
-    errors.tel = ' required'
+    errors.tel = 'required'
   }
   if (!values.mobile) {
     countError.contact += 1
-    errors.mobile = ' required'
+    errors.mobile = 'required'
   }
   if (!values.contributionType) {
     countError.payment += 1
-    errors.contributionType = ' required'
+    errors.contributionType = 'required'
   }
   if (!values.occupation) {
     countError.other += 1
-    errors.occupation = ' required'
+    errors.occupation = 'required'
   }
   if (!values.salary) {
     countError.other += 1
-    errors.salary = ' required'
+    errors.salary = 'required'
   }
   if (!values.salaryOther) {
     countError.other += 1
-    errors.salaryOther = ' required'
+    errors.salaryOther = 'required'
   }
   if (!values.bodyCondition) {
     countError.other += 1
-    errors.bodyCondition = ' required'
+    errors.bodyCondition = 'required'
   }
 
   return errors
@@ -181,7 +154,6 @@ const mapStateToProps = (state) => ({
   countError,
   showAgreement,
   cancelIdentity,
-  activeGeneral,
   activeLocation,
   activePayment,
   activeOther

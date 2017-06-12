@@ -11,11 +11,11 @@ class Header extends React.Component {
             <img className="sso-logo" src="/src/images/logo-sso.jpg" alt="logo" />
           </a>
           <ul className="right hide-on-med-and-down">
-            <li><a href="#">Navbar Link</a></li>
+            <li><a href="#"></a></li>
           </ul>
 
           <ul id="nav-mobile" className="side-nav">
-            <li><a href="#">Navbar Link</a></li>
+            <li><a href="#"></a></li>
           </ul>
           <a href="#" data-activates="nav-mobile" className="button-collapse"><i className="material-icons">menu</i></a>
         </div>

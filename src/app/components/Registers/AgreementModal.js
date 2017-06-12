@@ -7,7 +7,7 @@ const AgreementModal = (props) => {
   return (
     <div id="agreement_modal" className="modal modal-fixed-footer">
       <div className="modal-content">
-        <h4>Modal Header</h4>
+        <h4>เงื่อนไขและข้อตกลง</h4>
         <textarea id="agreement_text" className="agreement-text"
           value="I am a very simple card. I am good at containing small bits of information.
           I am convenient because I require little markup to use effectively.
@@ -18,7 +18,7 @@ const AgreementModal = (props) => {
             $('#agreement_btn').prop("disabled", !$('#agreement_check').prop('checked'))
           }
         } />
-        <label htmlFor="agreement_check">Filled in</label>
+      <label htmlFor="agreement_check">ข้าพเจ้าได้อ่าน และยอมรับเงื่อนไขและข้อตกลง</label>
       </div>
       <div className="modal-footer">
         <a className="modal-action modal-close waves-effect waves-green btn-flat">Disagree</a>

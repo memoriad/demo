@@ -10,6 +10,18 @@ class IdentityFormContainer extends React.Component {
     onLoadRegister: PropTypes.func.isRequired
   }
 
+  componentDidMount() {
+    $('.datepicker').pickadate({
+      selectMonths: true, // Creates a dropdown to control month
+      selectYears: 15, // Creates a dropdown of 15 years to control year
+      format: 'dd/mm/yyyy'
+    });
+
+    setTimeout(function() {
+      $('select').material_select()
+    }, 500)
+  }
+
   render() {
     return (
       <IdentityForm {...this.props} />
@@ -19,13 +31,12 @@ class IdentityFormContainer extends React.Component {
 }
 
 const findIdentity = () => {
-  $('.datepicker').pickadate({
-    selectMonths: true, // Creates a dropdown to control month
-    selectYears: 15, // Creates a dropdown of 15 years to control year
-    format: 'dd/mm/yyyy'
-  });
-
   $('#card_no').prop('disabled', true);
+  $('#laser').prop('disabled', true);
+  $('#title').prop('disabled', true);
+  $('#name').prop('disabled', true);
+  $('#surname').prop('disabled', true);
+  $('#birthDate').prop('disabled', true);
   $('#email').prop('disabled', true);
   $('#find_identity').addClass('disabled');
 
@@ -38,10 +49,9 @@ const findIdentity = () => {
 
   $('#register_form li').css('opacity', 0);
 
-  $("#general_section .collapsible-header").addClass("active");
+  $("#contact_section .collapsible-header").addClass("active");
   $(".collapsible").collapsible({accordion: false});
 
-  $("#contact_section .collapsible-header").removeClass("active");
   $("#payment_section .collapsible-header").removeClass("active");
   $("#other_section .collapsible-header").removeClass("active");
   $(".collapsible").collapsible({accordion: true});
@@ -54,33 +64,46 @@ const findIdentity = () => {
   }, 500)
 
   setTimeout(function() {
-    $('#general_section').css("transform", "");
+    $('#contact_section').css("transform", "");
   }, 2000);
   setTimeout(function() {
-    $('#contact_section').css("transform", "");
+    $('#payment_section').css("transform", "");
   }, 2500);
   setTimeout(function() {
-    $('#payment_section').css("transform", "");
-  }, 3000);
-  setTimeout(function() {
     $('#other_section').css("transform", "");
-  }, 3500);
+  }, 3000);
 }
 
 const validate = values => {
   const errors = {}
 
+  if (!values.title) {
+    errors.title = 'required'
+  }
+  if (!values.name) {
+    errors.name = 'required'
+  }
+  if (!values.surname) {
+    errors.surname = 'required'
+  }
+  if (!values.birthDate) {
+    errors.birthDate = 'required'
+  }
   if (!values.card_no) {
-    errors.card_no = ' required'
+    errors.card_no = 'required'
+  }
+  if (!values.laser) {
+    errors.laser = 'required'
   }
   if (!values.email) {
-    errors.email = ' required'
+    errors.email = 'required'
   }
 
   return errors
 }
 
 const mapStateToProps = (state) => ({
+  masters: state.masters,
   findIdentity
 })
 
