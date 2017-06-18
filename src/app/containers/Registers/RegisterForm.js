@@ -14,7 +14,8 @@ class RegisterFormContainer extends React.Component {
 
   componentDidMount() {
     setTimeout(function() {
-      $('.collapsible').collapsible('open', 0);
+      $("#identity_section .collapsible-header").addClass("active");
+      $(".collapsible").collapsible({accordion: false});
     }, 500);
 
     $('.button-collapse').sideNav();
@@ -51,41 +52,13 @@ const cancelIdentity = () => {
 
   $("#contact_section .collapsible-header").removeClass("active");
   $("#payment_section .collapsible-header").removeClass("active");
+  $("#other_section .collapsible-header").removeClass("active");
   $(".collapsible").collapsible({accordion: true});
   $(".collapsible").collapsible({accordion: false});
 
   $('#nav_section').addClass('hide');
   $('#register_form').addClass('hide');
-}
-
-const activeLocation = () => {
-  $("#contact_section .collapsible-header").addClass("active");
-  $(".collapsible").collapsible({accordion: false});
-
-  $("#payment_section .collapsible-header").removeClass("active");
-  $("#other_section .collapsible-header").removeClass("active");
-  $(".collapsible").collapsible({accordion: true});
-  $(".collapsible").collapsible({accordion: false});
-}
-
-const activePayment = () => {
-  $("#payment_section .collapsible-header").addClass("active");
-  $(".collapsible").collapsible({accordion: false});
-
-  $("#contact_section .collapsible-header").removeClass("active");
-  $("#other_section .collapsible-header").removeClass("active");
-  $(".collapsible").collapsible({accordion: true});
-  $(".collapsible").collapsible({accordion: false});
-}
-
-const activeOther = () => {
-  $("#other_section .collapsible-header").addClass("active");
-  $(".collapsible").collapsible({accordion: false});
-
-  $("#contact_section .collapsible-header").removeClass("active");
-  $("#payment_section .collapsible-header").removeClass("active");
-  $(".collapsible").collapsible({accordion: true});
-  $(".collapsible").collapsible({accordion: false});
+  $('#button_section').addClass('hide');
 }
 
 let countError = {}
@@ -153,10 +126,7 @@ const mapStateToProps = (state) => ({
   initialValues: getRegisterById(state),
   countError,
   showAgreement,
-  cancelIdentity,
-  activeLocation,
-  activePayment,
-  activeOther
+  cancelIdentity
 })
 
 const mapDispatchToProps = (dispatch) => ({

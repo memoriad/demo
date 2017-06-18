@@ -5,7 +5,7 @@
   "scripts": {
     "start": "npm-run-all --parallel start-dev-api start-dev-ui",
     "start-dev-api": "json-server --watch api/db.json --routes api/routes.json --port 5000",
-    "start-dev-ui": "webpack-dev-server --config config/webpack.config.js",
+    "start-dev-ui": "webpack-dev-server --port 8000 --config config/webpack.config.js",
     "start:server": "node server",
     "build": "webpack --config config/webpack.config.prod.js --progress"
   },

@@ -5,7 +5,7 @@ import * as actionType from '../constants/actionTypes';
 
 export const loadRegisters = () => ({
   [CALL_API]: {
-    endpoint: REGISTERS_ENDPOINT,
+    endpoint: `${REGISTERS_ENDPOINT}`,
     method: 'GET',
     types: [actionType.LOAD_REGISTERS_REQUEST, actionType.LOAD_REGISTERS_SUCCESS, actionType.LOAD_REGISTERS_FAILURE]
   }

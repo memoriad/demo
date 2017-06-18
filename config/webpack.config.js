@@ -7,7 +7,6 @@ module.exports = {
   devtool: 'cheap-module-source-map',
   entry: [
     'react-hot-loader/patch',
-    'webpack-dev-server/client?http://localhost:8080',
     'webpack/hot/only-dev-server',
     './src/libs/materialize.js',
     './src/themes/elements.scss',

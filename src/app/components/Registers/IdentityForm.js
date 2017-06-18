@@ -46,6 +46,12 @@ const IdentityForm = (props) => {
           <div className="divider"></div>
         </div>
 
+        <div id="information_section">
+          <blockquote>
+            <span className="blue-text text-darken-2">กรุณากรอกข้อมูลด้านล่างให้ครบถ้วน</span>
+          </blockquote>
+        </div>
+
         <ul id="identity_section" className="collapsible" data-collapsible="expandable">
           <li>
             <div className="collapsible-header tooltipped hoverable" data-position="top" data-delay="300" data-tooltip="Expand/Collapse"><i className="material-icons">account_circle</i>ข้อมูลระบุตัวตน</div>
@@ -84,15 +90,13 @@ const IdentityForm = (props) => {
                 </div>
               </div>
 
-              <div className="row">
-                <div className="input-field col s12 right-align">
-                  <a id="find_identity" className="waves-effect waves-light btn indigo darken-4" href="#!" onClick={() => {
-                      onLoadRegister($('#card_no').val())
-                      findIdentity()
-                    }
-                  }>Find</a>
-                  <a id="" className="waves-effect waves-light btn indigo darken-4" href="#!" disabled={pristine || invalid}>Find</a>
-                </div>
+              <div className="row right-align">
+                <a id="find_identity" className="waves-effect waves-light btn indigo darken-4" href="#!" onClick={() => {
+                    onLoadRegister($('#card_no').val())
+                    findIdentity()
+                  }
+                }>Find</a>
+                <a id="" className="waves-effect waves-light btn indigo darken-4" href="#!" disabled={pristine || invalid}>Find</a>
               </div>
             </div>
           </li>

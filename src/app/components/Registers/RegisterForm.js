@@ -1,7 +1,6 @@
 import React from 'react';
 import { PropTypes } from 'prop-types';
 import { Field } from 'redux-form';
-import RegisterNav from './RegisterNav';
 import AgreementModal from './AgreementModal';
 
 const renderTextField = ({ input, label, type, meta: { dirty, error, warning } }) => {
@@ -59,8 +58,8 @@ const renderDatepickerField = ({ input, label, type, meta: { touched, error, war
 let callForceUpdate = () => {}
 
 const RegisterForm = (props) => {
-  const { showAgreement, cancelIdentity, activeLocation, activePayment, activeOther, forceUpdate, masters,
-    initialValues, handleSubmit, pristine, reset, submitting, invalid, countError } = props
+  const { showAgreement, cancelIdentity, forceUpdate, masters, initialValues,
+    handleSubmit, pristine, reset, submitting, invalid, countError } = props
 
   callForceUpdate = forceUpdate
 
@@ -68,15 +67,7 @@ const RegisterForm = (props) => {
     <form onSubmit={handleSubmit}>
       <div className="container">
 
-        <RegisterNav {...props} />
-
         <ul id="register_form" className="collapsible popout hide" data-collapsible="expandable">
-          <li id="information_section">
-            <blockquote>
-              <span className="blue-text text-darken-2">กรุณากรอกข้อมูลด้านล่างให้ครบถ้วน</span>
-            </blockquote>
-          </li>
-
           <li id="contact_section">
             <div className="collapsible-header tooltipped hoverable" data-position="top" data-delay="300" data-tooltip="Expand/Collapse">
               {
@@ -172,6 +163,21 @@ const RegisterForm = (props) => {
             </div>
           </li>
         </ul>
+
+        <div id="button_section" className="row hide">
+          <div className="col s6 right-align">
+            <a className="waves-effect waves-light btn indigo darken-4" onClick={() => showAgreement()}>
+              Submit<i className="material-icons right">send</i>
+            </a>
+          </div>
+          <div className="col s6 left-align">
+            <a id="cancel_identity" className="waves-effect waves-light btn blue-grey lighten-2" onClick={() => {
+                reset
+                cancelIdentity()
+              }
+            }>Cancel</a>
+          </div>
+        </div>
       </div>
 
       <AgreementModal {...props} />

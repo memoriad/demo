@@ -42,36 +42,21 @@ const findIdentity = () => {
 
   $('#nav_section').removeClass('hide');
   $('#register_form').removeClass('hide');
+  $('#button_section').removeClass('hide');
 
   $("#identity_section .collapsible-header").removeClass("active");
   $(".collapsible").collapsible({accordion: true});
   $(".collapsible").collapsible({accordion: false});
 
-  $('#register_form li').css('opacity', 0);
-
   $("#contact_section .collapsible-header").addClass("active");
-  $(".collapsible").collapsible({accordion: false});
-
-  $("#payment_section .collapsible-header").removeClass("active");
-  $("#other_section .collapsible-header").removeClass("active");
-  $(".collapsible").collapsible({accordion: true});
+  $("#payment_section .collapsible-header").addClass("active");
+  $("#other_section .collapsible-header").addClass("active");
   $(".collapsible").collapsible({accordion: false});
 
   setTimeout(function() {
     Materialize.updateTextFields()
     $('select').material_select()
-    Materialize.showStaggeredList('#register_form')
   }, 500)
-
-  setTimeout(function() {
-    $('#contact_section').css("transform", "");
-  }, 2000);
-  setTimeout(function() {
-    $('#payment_section').css("transform", "");
-  }, 2500);
-  setTimeout(function() {
-    $('#other_section').css("transform", "");
-  }, 3000);
 }
 
 const validate = values => {
