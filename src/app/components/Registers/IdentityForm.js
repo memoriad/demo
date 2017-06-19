@@ -1,6 +1,11 @@
 import React from 'react';
 import { PropTypes } from 'prop-types';
 import { Field } from 'redux-form';
+import {
+  TextField,
+  SelectField,
+  DatePicker
+} from 'redux-form-material-ui';
 
 const renderTextField = ({ input, label, type, placeholder, meta: { touched, error, warning } }) => (
   <div className="input-field">
@@ -35,6 +40,8 @@ const renderDatepickerField = ({ input, label, type, meta: { touched, error, war
   </div>
 )
 
+const required = value => (value === null ? 'Required' : undefined)
+
 const IdentityForm = (props) => {
   const { masters, findIdentity, onLoadRegister, handleSubmit, pristine, reset, submitting, invalid } = props
 
@@ -58,7 +65,7 @@ const IdentityForm = (props) => {
             <div className="collapsible-body hoverable">
               <div className="row">
                 <div className="col s12 m6">
-                  <Field name="card_no" component={renderTextField} type="text" label="เลขประจำตัวประชาชน : " />
+                  <Field name="card_no" component={TextField} hintText="เลขประจำตัวประชาชน" floatingLabelText="เลขประจำตัวประชาชน" validate={required} />
                 </div>
 
                 <div className="col s12 m6">

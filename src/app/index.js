@@ -1,13 +1,16 @@
 import React from 'react'
 import { render } from 'react-dom'
 import { AppContainer } from 'react-hot-loader'
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import Root from './containers/Root'
 
 const rootEl = document.getElementById('app')
 
 render(
   <AppContainer>
-    <Root />
+    <MuiThemeProvider>
+      <Root />
+    </MuiThemeProvider>
   </AppContainer>,
   rootEl
 )
@@ -18,7 +21,9 @@ if (module.hot) {
 
     render(
       <AppContainer>
-        <NextRootApp />
+        <MuiThemeProvider>
+          <NextRootApp />
+        </MuiThemeProvider>
       </AppContainer>,
       rootEl
     );

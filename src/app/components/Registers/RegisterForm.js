@@ -1,9 +1,14 @@
 import React from 'react';
 import { PropTypes } from 'prop-types';
 import { Field } from 'redux-form';
+import {
+  TextField,
+  SelectField,
+  DatePicker
+} from 'redux-form-material-ui';
 import AgreementModal from './AgreementModal';
 
-const renderTextField = ({ input, label, type, meta: { dirty, error, warning } }) => {
+const renderTextField = ({ input, label, type, meta: { touched, error, warning } }) => {
 
   return (
     <div className="input-field">
@@ -13,7 +18,7 @@ const renderTextField = ({ input, label, type, meta: { dirty, error, warning } }
         }
       } />
       <label htmlFor={input.name}>{label}</label>
-      {dirty && error && <div className="valign-wrapper error"><i className="material-icons">error</i>{error}</div>}
+      {touched && error && <div className="valign-wrapper error"><i className="material-icons">error</i>{error}</div>}
     </div>
   )
 }
@@ -54,6 +59,8 @@ const renderDatepickerField = ({ input, label, type, meta: { touched, error, war
     {touched && error && <div className="valign-wrapper error"><i className="material-icons">error</i>{error}</div>}
   </div>
 )
+
+const required = value => (value === null ? 'Required' : undefined)
 
 let callForceUpdate = () => {}
 
