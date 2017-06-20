@@ -1,23 +1,15 @@
 import React from 'react';
 import { PropTypes } from 'prop-types';
 import { Field } from 'redux-form';
-import { AutoComplete as MUIAutoComplete } from 'material-ui';
+import MenuItem from 'material-ui/MenuItem';
 import {
-  AutoComplete,
   TextField,
-  SelectField,
-  DatePicker
+  SelectField
 } from 'redux-form-material-ui';
 import AgreementModal from './AgreementModal';
 
-const styles = {
-  customWidth: {
-    width: '100%'
-  }
-}
-
 const RegisterForm = (props) => {
-  const { showAgreement, cancelIdentity, masters, initialValues,
+  const { showAgreement, cancelIdentity, masters, initialValues, isAgree, handleChange,
     handleSubmit, pristine, reset, submitting, invalid, countError } = props
 
   const provinces = masters.province
@@ -51,7 +43,7 @@ const RegisterForm = (props) => {
                     floatingLabelText="ที่อยู่ปัจจุบัน"
                     multiLine={true}
                     rows={2}
-                    style={styles.customWidth} />
+                    fullWidth={true} />
                 </div>
               </div>
 
@@ -60,30 +52,34 @@ const RegisterForm = (props) => {
                   <Field
                     id="addressProvince"
                     name="addressProvince"
-                    component={AutoComplete}
+                    component={SelectField}
                     floatingLabelText="จังหวัด"
-                    openOnFocus
-                    filter={MUIAutoComplete.fuzzyFilter}
-                    dataSourceConfig={{text: 'value', value: 'id'}}
-                    dataSource={
-                      provinces === void 0 ? [{id: '', name: ''}] : provinces
+                    floatingLabelFixed={true}
+                    hintText="[ -โปรดระบุ- ]"
+                    fullWidth={true}>
+                    {
+                      provinces === void 0 ? null : provinces.map((province) =>
+                        <MenuItem key={province.id} value={province.id} primaryText={province.value} />
+                      )
                     }
-                    style={styles.customWidth} />
+                  </Field>
                 </div>
 
                 <div className="col s12 m6">
                   <Field
                     id="addressDistrict"
                     name="addressDistrict"
-                    component={AutoComplete}
+                    component={SelectField}
                     floatingLabelText="อำเภอ/เขต"
-                    openOnFocus
-                    filter={MUIAutoComplete.fuzzyFilter}
-                    dataSourceConfig={{text: 'value', value: 'id'}}
-                    dataSource={
-                      districts === void 0 ? [{id: '', name: ''}] : districts
+                    floatingLabelFixed={true}
+                    hintText="[ -โปรดระบุ- ]"
+                    fullWidth={true}>
+                    {
+                      districts === void 0 ? null : districts.map((district) =>
+                        <MenuItem key={district.id} value={district.id} primaryText={district.value} />
+                      )
                     }
-                    style={styles.customWidth} />
+                  </Field>
                 </div>
               </div>
 
@@ -92,29 +88,46 @@ const RegisterForm = (props) => {
                   <Field
                     id="addressSubdistrict"
                     name="addressSubdistrict"
-                    component={AutoComplete}
+                    component={SelectField}
                     floatingLabelText="ตำบล/แขวง"
-                    openOnFocus
-                    filter={MUIAutoComplete.fuzzyFilter}
-                    dataSourceConfig={{text: 'value', value: 'id'}}
-                    dataSource={
-                      subDistricts === void 0 ? [{id: '', name: ''}] : subDistricts
+                    floatingLabelFixed={true}
+                    hintText="[ -โปรดระบุ- ]"
+                    fullWidth={true}>
+                    {
+                      subDistricts === void 0 ? null : subDistricts.map((subDistrict) =>
+                        <MenuItem key={subDistrict.id} value={subDistrict.id} primaryText={subDistrict.value} />
+                      )
                     }
-                    style={styles.customWidth} />
+                  </Field>
                 </div>
 
                 <div className="col s12 m6">
-                  <Field id="addressZipcode" name="addressZipcode" component={TextField} floatingLabelText="รหัสไปรษณีย์" style={styles.customWidth} />
+                  <Field
+                    id="addressZipcode"
+                    name="addressZipcode"
+                    component={TextField}
+                    floatingLabelText="รหัสไปรษณีย์"
+                    fullWidth={true} />
                 </div>
               </div>
 
               <div className="row">
                 <div className="col s12 m6">
-                  <Field id="tel" name="tel" component={TextField} floatingLabelText="โทรศัพท์บ้าน" style={styles.customWidth} />
+                  <Field
+                    id="tel"
+                    name="tel"
+                    component={TextField}
+                    floatingLabelText="โทรศัพท์บ้าน"
+                    fullWidth={true} />
                 </div>
 
                 <div className="col s12 m6">
-                  <Field id="mobile" name="mobile" component={TextField} floatingLabelText="โทรศัพท์มือถือ" style={styles.customWidth} />
+                  <Field
+                    id="mobile"
+                    name="mobile"
+                    component={TextField}
+                    floatingLabelText="โทรศัพท์มือถือ"
+                    fullWidth={true} />
                 </div>
               </div>
             </div>
@@ -134,15 +147,17 @@ const RegisterForm = (props) => {
                   <Field
                     id="contributionType"
                     name="contributionType"
-                    component={AutoComplete}
+                    component={SelectField}
                     floatingLabelText="เลือกจ่ายเงินสมทบ"
-                    openOnFocus
-                    filter={MUIAutoComplete.fuzzyFilter}
-                    dataSourceConfig={{text: 'value', value: 'id'}}
-                    dataSource={
-                      contributionTypes === void 0 ? [{id: '', name: ''}] : contributionTypes
+                    floatingLabelFixed={true}
+                    hintText="[ -โปรดระบุ- ]"
+                    fullWidth={true}>
+                    {
+                      contributionTypes === void 0 ? null : contributionTypes.map((contributionType) =>
+                        <MenuItem key={contributionType.id} value={contributionType.id} primaryText={contributionType.value} />
+                      )
                     }
-                    style={styles.customWidth} />
+                  </Field>
                 </div>
               </div>
             </div>
@@ -162,34 +177,43 @@ const RegisterForm = (props) => {
                   <Field
                     id="occupation"
                     name="occupation"
-                    component={AutoComplete}
+                    component={SelectField}
                     floatingLabelText="กลุ่มอาชีพ"
-                    openOnFocus
-                    filter={MUIAutoComplete.fuzzyFilter}
-                    dataSourceConfig={{text: 'value', value: 'id'}}
-                    dataSource={
-                      occupations === void 0 ? [{id: '', name: ''}] : occupations
+                    floatingLabelFixed={true}
+                    hintText="[ -โปรดระบุ- ]"
+                    fullWidth={true}>
+                    {
+                      occupations === void 0 ? null : occupations.map((occupation) =>
+                        <MenuItem key={occupation.id} value={occupation.id} primaryText={occupation.value} />
+                      )
                     }
-                    style={styles.customWidth} />
+                  </Field>
                 </div>
 
                 <div className="col s12 m4">
                   <Field
                     id="salary"
                     name="salary"
-                    component={AutoComplete}
+                    component={SelectField}
                     floatingLabelText="รายได้ต่อเดือน"
-                    openOnFocus
-                    filter={MUIAutoComplete.fuzzyFilter}
-                    dataSourceConfig={{text: 'value', value: 'id'}}
-                    dataSource={
-                      incomes === void 0 ? [{id: '', name: ''}] : incomes
+                    floatingLabelFixed={true}
+                    hintText="[ -โปรดระบุ- ]"
+                    fullWidth={true}>
+                    {
+                      incomes === void 0 ? null : incomes.map((income) =>
+                        <MenuItem key={income.id} value={income.id} primaryText={income.value} />
+                      )
                     }
-                    style={styles.customWidth} />
+                  </Field>
                 </div>
 
                 <div className="col s12 m4">
-                  <Field id="salaryOther" name="salaryOther" component={TextField} floatingLabelText="จำนวนเงิน (บาท)" style={styles.customWidth} />
+                  <Field
+                    id="salaryOther"
+                    name="salaryOther"
+                    component={TextField}
+                    floatingLabelText="จำนวนเงิน (บาท)"
+                    fullWidth={true} />
                 </div>
               </div>
 
@@ -198,34 +222,32 @@ const RegisterForm = (props) => {
                   <Field
                     id="bodyCondition"
                     name="bodyCondition"
-                    component={AutoComplete}
+                    component={SelectField}
                     floatingLabelText="สภาพร่างกาย"
-                    openOnFocus
-                    filter={MUIAutoComplete.fuzzyFilter}
-                    dataSourceConfig={{text: 'value', value: 'id'}}
-                    dataSource={
-                      physicalConditions === void 0 ? [{id: '', name: ''}] : physicalConditions
+                    floatingLabelFixed={true}
+                    hintText="[ -โปรดระบุ- ]"
+                    fullWidth={true}>
+                    {
+                      physicalConditions === void 0 ? null : physicalConditions.map((physicalCondition) =>
+                        <MenuItem key={physicalCondition.id} value={physicalCondition.id} primaryText={physicalCondition.value} />
+                      )
                     }
-                    style={styles.customWidth} />
+                  </Field>
                 </div>
               </div>
             </div>
           </li>
         </ul>
 
-        <div id="button_section" className="row hide">
-          <div className="col s6 right-align">
-            <a className="waves-effect waves-light btn indigo darken-4" onClick={() => showAgreement()}>
-              Submit<i className="material-icons right">send</i>
-            </a>
-          </div>
-          <div className="col s6 left-align">
-            <a id="cancel_identity" className="waves-effect waves-light btn blue-grey lighten-2" onClick={() => {
-                reset
-                cancelIdentity()
-              }
-            }>Cancel</a>
-          </div>
+        <div id="button_section" className="row center-align hide">
+          <a className="waves-effect waves-light btn indigo darken-4" style={{margin: 2}} onClick={() => showAgreement()}>
+            Submit<i className="material-icons right">send</i>
+          </a>
+          <a id="cancel_identity" className="waves-effect waves-light btn blue-grey lighten-2" style={{margin: 2}} onClick={() => {
+              reset
+              cancelIdentity()
+            }
+          }>Cancel</a>
         </div>
       </div>
 

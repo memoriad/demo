@@ -12,6 +12,14 @@ class RegisterFormContainer extends React.Component {
     masters: PropTypes.object.isRequired
   }
 
+  state = {
+    isAgree: false,
+  }
+
+  handleChange = (isCheck) => {
+    this.setState({isAgree: isCheck})
+  }
+
   componentDidMount() {
     setTimeout(function() {
       $("#identity_section .collapsible-header").addClass("active");
@@ -25,7 +33,7 @@ class RegisterFormContainer extends React.Component {
 
   render() {
     return (
-      <RegisterForm {...this.props} />
+      <RegisterForm isAgree={this.state.isAgree} handleChange={this.handleChange} {...this.props} />
     )
   }
 
@@ -33,7 +41,6 @@ class RegisterFormContainer extends React.Component {
 
 const showAgreement = () => {
   $('#agreement_btn').prop('disabled', true)
-  $('#agreement_check').prop('checked', false)
   $('#agreement_modal').modal('open')
 }
 

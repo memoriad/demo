@@ -26,10 +26,17 @@ class IdentityFormContainer extends React.Component {
 
 const findIdentity = () => {
   fetch(`${REGISTERS_ENDPOINT}/sso/check3339`)
-    .then(function(res) {
-        return res.json();
-    }).then(function(json) {
-        console.log(json);
+    .then(res => {
+  		console.log(res.ok);
+  		console.log(res.status);
+  		console.log(res.statusText);
+  		console.log(res.headers.raw());
+  		console.log(res.headers.get('content-type'));
+      return res.json()
+  	})
+    .then(json => console.log(json))
+    .catch(err => {
+      console.error(err)
     });
 
   $('#card_no').prop('disabled', true);

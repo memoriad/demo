@@ -1,22 +1,15 @@
 import React from 'react';
 import { PropTypes } from 'prop-types';
 import { Field } from 'redux-form';
-import { AutoComplete as MUIAutoComplete } from 'material-ui';
+import MenuItem from 'material-ui/MenuItem';
 import {
-  AutoComplete,
   TextField,
   SelectField,
   DatePicker
 } from 'redux-form-material-ui';
 
-const styles = {
-  customWidth: {
-    width: '100%'
-  }
-}
-
 const IdentityForm = (props) => {
-  const { masters, is3339, findIdentity, onCheck3339, onLoadRegister, handleSubmit, pristine, reset, submitting, invalid } = props
+  const { masters, findIdentity, onLoadRegister, handleSubmit, pristine, reset, submitting, invalid } = props
   const titles = masters.title
 
   return (
@@ -39,11 +32,22 @@ const IdentityForm = (props) => {
             <div className="collapsible-body hoverable">
               <div className="row">
                 <div className="col s12 m6">
-                  <Field id="card_no" name="card_no" component={TextField} floatingLabelText="เลขประจำตัวประชาชน" style={styles.customWidth} />
+                  <Field
+                    id="card_no"
+                    name="card_no"
+                    component={TextField}
+                    floatingLabelText="เลขประจำตัวประชาชน"
+                    fullWidth={true} />
                 </div>
 
                 <div className="col s12 m6">
-                  <Field id="laser" name="laser" component={TextField} hintText="JT0-0000000-00" floatingLabelText="เลขหลังบัตรประชาชน" style={styles.customWidth} />
+                  <Field
+                    id="laser"
+                    name="laser"
+                    component={TextField}
+                    floatingLabelText="เลขหลังบัตรประชาชน"
+                    hintText="JT0-0000000-00"
+                    fullWidth={true} />
                 </div>
               </div>
 
@@ -52,23 +56,35 @@ const IdentityForm = (props) => {
                   <Field
                     id="title"
                     name="title"
-                    component={AutoComplete}
+                    component={SelectField}
                     floatingLabelText="คำนำหน้า"
-                    openOnFocus
-                    filter={MUIAutoComplete.fuzzyFilter}
-                    dataSourceConfig={{text: 'value', value: 'id'}}
-                    dataSource={
-                      titles === void 0 ? [{id: '', name: ''}] : titles
+                    floatingLabelFixed={true}
+                    hintText="[ -โปรดระบุ- ]"
+                    fullWidth={true}>
+                    {
+                      titles === void 0 ? null : titles.map((title) =>
+                        <MenuItem key={title.id} value={title.id} primaryText={title.value} />
+                      )
                     }
-                    style={styles.customWidth} />
+                  </Field>
                 </div>
 
                 <div className="col s12 m5">
-                  <Field id="name" name="name" component={TextField} floatingLabelText="ชื่อ" style={styles.customWidth} />
+                  <Field
+                    id="name"
+                    name="name"
+                    component={TextField}
+                    floatingLabelText="ชื่อ"
+                    fullWidth={true} />
                 </div>
 
                 <div className="col s12 m5">
-                  <Field id="surname" name="surname" component={TextField} floatingLabelText="สกุล" style={styles.customWidth} />
+                  <Field
+                    id="surname"
+                    name="surname"
+                    component={TextField}
+                    floatingLabelText="สกุล"
+                    fullWidth={true} />
                 </div>
               </div>
 
@@ -79,18 +95,24 @@ const IdentityForm = (props) => {
                     name="birthDate"
                     component={DatePicker}
                     format={null}
+                    autoOk={true}
                     floatingLabelText="เกิดเมื่อ"
-                    style={styles.customWidth} />
+                    fullWidth={true} />
                 </div>
 
                 <div className="col s12 m6">
-                  <Field name="email" component={TextField} floatingLabelText="Email" style={styles.customWidth} />
+                  <Field
+                    name="email"
+                    component={TextField}
+                    floatingLabelText="Email"
+                    fullWidth={true} />
                 </div>
               </div>
 
               <div className="row right-align">
                 <a id="find_identity" className="waves-effect waves-light btn indigo darken-4" href="#!" onClick={() => {
                     findIdentity()
+                    onLoadRegister($('#card_no').val())
                   }
                 }>Find</a>
                 <a id="" className="waves-effect waves-light btn indigo darken-4" href="#!" disabled={pristine || invalid}>Find</a>

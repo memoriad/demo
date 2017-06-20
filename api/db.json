@@ -46,7 +46,7 @@
         "value": "ทางเลือก 3"
       }
     ],
-    "jobs": [
+    "occupation": [
       {
         "id": 1,
         "value": "ค้าขาย"
@@ -60,7 +60,7 @@
         "value": "ราชการ"
       }
     ],
-    "salaries": [
+    "income": [
       {
         "id": 1,
         "value": "[0 - 5,000]"
@@ -78,7 +78,7 @@
         "value": "[มากกว่า 50,000]"
       }
     ],
-    "bodyConditionType": [
+    "physicalCondition": [
       {
         "id": 1,
         "value": "ปกติ"
@@ -95,7 +95,7 @@
   },
   "registers": [
     {
-      "id": 1159900167152,
+      "id": 1,
       "title": 1,
     	"name": "Sonya",
     	"surname": "Mahathep",

@@ -56,24 +56,18 @@ $border-style: 1px solid #cbcbcb;
     line-height: 0;
     height: auto;
     color: rgba(255,255,255,.9);
-  }
     .parallax-container .section {
       width: 100%;
     }
+  }
 
   .top-nav {
     height: 80px;
     box-shadow: none;
-  }
     .page-title {
       line-height: 80px;
       font-size: 36px;
     }
-
-  .agreement-text {
-    height: 70%;
-    resize: none;
-    margin-bottom: 1rem
   }
 
   @media only screen and (max-width : 992px) {
