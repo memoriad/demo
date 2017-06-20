@@ -1,49 +1,23 @@
 import React from 'react';
 import { PropTypes } from 'prop-types';
 import { Field } from 'redux-form';
+import { AutoComplete as MUIAutoComplete } from 'material-ui';
 import {
+  AutoComplete,
   TextField,
   SelectField,
   DatePicker
 } from 'redux-form-material-ui';
 
-const renderTextField = ({ input, label, type, placeholder, meta: { touched, error, warning } }) => (
-  <div className="input-field">
-    <input id={input.name} type={type} {...input} placeholder={placeholder} />
-    <label htmlFor={input.name}>{label}</label>
-    {touched && error && <div className="valign-wrapper error"><i className="material-icons">error</i>{error}</div>}
-  </div>
-)
-
-const renderSelectField = ({ input, label, type, options, meta: { touched, error, warning } }) => (
-  <div className="input-field">
-    <select id={input.name} {...input}>
-      <option value="" disabled>[ -โปรดระบุ- ]</option>
-      {
-        options === void 0 ?
-          null :
-          options.map((option) => (
-            <option key={option.id} value={option.id}>{option.value}</option>
-          ))
-      }
-    </select>
-    <label>{label}</label>
-    {touched && error && <div className="valign-wrapper error"><i className="material-icons">error</i>{error}</div>}
-  </div>
-)
-
-const renderDatepickerField = ({ input, label, type, meta: { touched, error, warning } }) => (
-  <div className="input-field">
-    <input id={input.name} type={type} {...input} className="datepicker" />
-    <label htmlFor={input.name}>{label}</label>
-    {touched && error && <div className="valign-wrapper error"><i className="material-icons">error</i>{error}</div>}
-  </div>
-)
-
-const required = value => (value === null ? 'Required' : undefined)
+const styles = {
+  customWidth: {
+    width: '100%'
+  }
+}
 
 const IdentityForm = (props) => {
-  const { masters, findIdentity, onLoadRegister, handleSubmit, pristine, reset, submitting, invalid } = props
+  const { masters, is3339, findIdentity, onCheck3339, onLoadRegister, handleSubmit, pristine, reset, submitting, invalid } = props
+  const titles = masters.title
 
   return (
     <form action="#">
@@ -65,41 +39,57 @@ const IdentityForm = (props) => {
             <div className="collapsible-body hoverable">
               <div className="row">
                 <div className="col s12 m6">
-                  <Field name="card_no" component={TextField} hintText="เลขประจำตัวประชาชน" floatingLabelText="เลขประจำตัวประชาชน" validate={required} />
+                  <Field id="card_no" name="card_no" component={TextField} floatingLabelText="เลขประจำตัวประชาชน" style={styles.customWidth} />
                 </div>
 
                 <div className="col s12 m6">
-                  <Field name="laser" component={renderTextField} type="text" label="เลขหลังบัตรประชาชน : " placeholder="JT0-0000000-00" />
+                  <Field id="laser" name="laser" component={TextField} hintText="JT0-0000000-00" floatingLabelText="เลขหลังบัตรประชาชน" style={styles.customWidth} />
                 </div>
               </div>
 
               <div className="row">
                 <div className="col s12 m2">
-                  <Field name="title" component={renderSelectField} options={masters === void 0 ? {} : masters.title} label="คำนำหน้า : " />
+                  <Field
+                    id="title"
+                    name="title"
+                    component={AutoComplete}
+                    floatingLabelText="คำนำหน้า"
+                    openOnFocus
+                    filter={MUIAutoComplete.fuzzyFilter}
+                    dataSourceConfig={{text: 'value', value: 'id'}}
+                    dataSource={
+                      titles === void 0 ? [{id: '', name: ''}] : titles
+                    }
+                    style={styles.customWidth} />
                 </div>
 
                 <div className="col s12 m5">
-                  <Field name="name" component={renderTextField} type="text" label="ชื่อ : " />
+                  <Field id="name" name="name" component={TextField} floatingLabelText="ชื่อ" style={styles.customWidth} />
                 </div>
 
                 <div className="col s12 m5">
-                  <Field name="surname" component={renderTextField} type="text" label="สกุล : " />
+                  <Field id="surname" name="surname" component={TextField} floatingLabelText="สกุล" style={styles.customWidth} />
                 </div>
               </div>
 
               <div className="row">
                 <div className="col s12 m6">
-                  <Field name="birthDate" component={renderDatepickerField} type="date" label="เกิดเมื่อ : " />
+                  <Field
+                    id="birthDate"
+                    name="birthDate"
+                    component={DatePicker}
+                    format={null}
+                    floatingLabelText="เกิดเมื่อ"
+                    style={styles.customWidth} />
                 </div>
 
                 <div className="col s12 m6">
-                  <Field name="email" component={renderTextField} type="email" label="E-mail : " />
+                  <Field name="email" component={TextField} floatingLabelText="Email" style={styles.customWidth} />
                 </div>
               </div>
 
               <div className="row right-align">
                 <a id="find_identity" className="waves-effect waves-light btn indigo darken-4" href="#!" onClick={() => {
-                    onLoadRegister($('#card_no').val())
                     findIdentity()
                   }
                 }>Find</a>

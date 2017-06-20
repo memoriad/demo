@@ -1,74 +1,32 @@
 import React from 'react';
 import { PropTypes } from 'prop-types';
 import { Field } from 'redux-form';
+import { AutoComplete as MUIAutoComplete } from 'material-ui';
 import {
+  AutoComplete,
   TextField,
   SelectField,
   DatePicker
 } from 'redux-form-material-ui';
 import AgreementModal from './AgreementModal';
 
-const renderTextField = ({ input, label, type, meta: { touched, error, warning } }) => {
-
-  return (
-    <div className="input-field">
-      <input id={input.name} type={type} {...input} onChange={event => {
-          callForceUpdate()
-          input.onChange(event)
-        }
-      } />
-      <label htmlFor={input.name}>{label}</label>
-      {touched && error && <div className="valign-wrapper error"><i className="material-icons">error</i>{error}</div>}
-    </div>
-  )
+const styles = {
+  customWidth: {
+    width: '100%'
+  }
 }
 
-const renderTextareaField = ({ input, label, type, meta: { touched, error, warning } }) => (
-  <div className="input-field">
-    <textarea id={input.name} {...input} className="materialize-textarea" onChange={event => {
-        callForceUpdate()
-        input.onChange(event)
-      }
-    } />
-    <label htmlFor={input.name}>{label}</label>
-    {touched && error && <div className="valign-wrapper error"><i className="material-icons">error</i>{error}</div>}
-  </div>
-)
-
-const renderSelectField = ({ input, label, type, options, meta: { touched, error, warning } }) => (
-  <div className="input-field">
-    <select {...input}>
-      <option value="" disabled>[ -โปรดระบุ- ]</option>
-      {
-        options === void 0 ?
-          null :
-          options.map((option) => (
-            <option key={option.id} value={option.id}>{option.value}</option>
-          ))
-      }
-    </select>
-    <label>{label}</label>
-    {touched && error && <div className="valign-wrapper error"><i className="material-icons">error</i>{error}</div>}
-  </div>
-)
-
-const renderDatepickerField = ({ input, label, type, meta: { touched, error, warning } }) => (
-  <div className="input-field">
-    <input id={input.name} type={type} {...input} className="datepicker" />
-    <label htmlFor={input.name}>{label}</label>
-    {touched && error && <div className="valign-wrapper error"><i className="material-icons">error</i>{error}</div>}
-  </div>
-)
-
-const required = value => (value === null ? 'Required' : undefined)
-
-let callForceUpdate = () => {}
-
 const RegisterForm = (props) => {
-  const { showAgreement, cancelIdentity, forceUpdate, masters, initialValues,
+  const { showAgreement, cancelIdentity, masters, initialValues,
     handleSubmit, pristine, reset, submitting, invalid, countError } = props
 
-  callForceUpdate = forceUpdate
+  const provinces = masters.province
+  const districts = masters.district
+  const subDistricts = masters.subDistrict
+  const contributionTypes = masters.contributionType
+  const occupations = masters.occupation
+  const incomes = masters.income
+  const physicalConditions = masters.physicalCondition
 
   return (
     <form onSubmit={handleSubmit}>
@@ -86,37 +44,77 @@ const RegisterForm = (props) => {
             <div className="collapsible-body hoverable">
               <div className="row">
                 <div className="col s12">
-                  <Field name="addressNo" component={renderTextareaField} label="ที่อยู่ปัจจุบัน : " />
+                  <Field
+                    id="addressNo"
+                    name="addressNo"
+                    component={TextField}
+                    floatingLabelText="ที่อยู่ปัจจุบัน"
+                    multiLine={true}
+                    rows={2}
+                    style={styles.customWidth} />
                 </div>
               </div>
 
               <div className="row">
                 <div className="col s12 m6">
-                  <Field name="addressProvince" component={renderSelectField} options={masters === void 0 ? {} : masters.province} label="จังหวัด : " />
+                  <Field
+                    id="addressProvince"
+                    name="addressProvince"
+                    component={AutoComplete}
+                    floatingLabelText="จังหวัด"
+                    openOnFocus
+                    filter={MUIAutoComplete.fuzzyFilter}
+                    dataSourceConfig={{text: 'value', value: 'id'}}
+                    dataSource={
+                      provinces === void 0 ? [{id: '', name: ''}] : provinces
+                    }
+                    style={styles.customWidth} />
                 </div>
 
                 <div className="col s12 m6">
-                  <Field name="addressDistrict" component={renderSelectField} options={masters === void 0 ? {} : masters.district} label="อำเภอ/เขต : " />
+                  <Field
+                    id="addressDistrict"
+                    name="addressDistrict"
+                    component={AutoComplete}
+                    floatingLabelText="อำเภอ/เขต"
+                    openOnFocus
+                    filter={MUIAutoComplete.fuzzyFilter}
+                    dataSourceConfig={{text: 'value', value: 'id'}}
+                    dataSource={
+                      districts === void 0 ? [{id: '', name: ''}] : districts
+                    }
+                    style={styles.customWidth} />
                 </div>
               </div>
 
               <div className="row">
                 <div className="col s12 m6">
-                  <Field name="addressSubdistrict" component={renderSelectField} options={masters === void 0 ? {} : masters.subDistrict} label="ตำบล/แขวง : " />
+                  <Field
+                    id="addressSubdistrict"
+                    name="addressSubdistrict"
+                    component={AutoComplete}
+                    floatingLabelText="ตำบล/แขวง"
+                    openOnFocus
+                    filter={MUIAutoComplete.fuzzyFilter}
+                    dataSourceConfig={{text: 'value', value: 'id'}}
+                    dataSource={
+                      subDistricts === void 0 ? [{id: '', name: ''}] : subDistricts
+                    }
+                    style={styles.customWidth} />
                 </div>
 
                 <div className="col s12 m6">
-                  <Field name="addressZipcode" component={renderTextField} type="text" label="รหัสไปรษณีย์ : " />
+                  <Field id="addressZipcode" name="addressZipcode" component={TextField} floatingLabelText="รหัสไปรษณีย์" style={styles.customWidth} />
                 </div>
               </div>
 
               <div className="row">
                 <div className="col s12 m6">
-                  <Field name="tel" component={renderTextField} type="text" label="โทรศัพท์บ้าน : " />
+                  <Field id="tel" name="tel" component={TextField} floatingLabelText="โทรศัพท์บ้าน" style={styles.customWidth} />
                 </div>
 
                 <div className="col s12 m6">
-                  <Field name="mobile" component={renderTextField} type="text" label="โทรศัพท์มือถือ : " />
+                  <Field id="mobile" name="mobile" component={TextField} floatingLabelText="โทรศัพท์มือถือ" style={styles.customWidth} />
                 </div>
               </div>
             </div>
@@ -133,7 +131,18 @@ const RegisterForm = (props) => {
             <div className="collapsible-body hoverable">
               <div className="row">
                 <div className="col s12">
-                  <Field name="contributionType" component={renderSelectField} options={masters === void 0 ? {} : masters.contributionType} label="เลือกจ่ายเงินสมทบ : " />
+                  <Field
+                    id="contributionType"
+                    name="contributionType"
+                    component={AutoComplete}
+                    floatingLabelText="เลือกจ่ายเงินสมทบ"
+                    openOnFocus
+                    filter={MUIAutoComplete.fuzzyFilter}
+                    dataSourceConfig={{text: 'value', value: 'id'}}
+                    dataSource={
+                      contributionTypes === void 0 ? [{id: '', name: ''}] : contributionTypes
+                    }
+                    style={styles.customWidth} />
                 </div>
               </div>
             </div>
@@ -150,21 +159,54 @@ const RegisterForm = (props) => {
             <div className="collapsible-body hoverable">
               <div className="row">
                 <div className="col s12 m4">
-                  <Field name="occupation" component={renderSelectField} options={masters === void 0 ? {} : masters.jobs} label="กลุ่มอาชีพ : " />
+                  <Field
+                    id="occupation"
+                    name="occupation"
+                    component={AutoComplete}
+                    floatingLabelText="กลุ่มอาชีพ"
+                    openOnFocus
+                    filter={MUIAutoComplete.fuzzyFilter}
+                    dataSourceConfig={{text: 'value', value: 'id'}}
+                    dataSource={
+                      occupations === void 0 ? [{id: '', name: ''}] : occupations
+                    }
+                    style={styles.customWidth} />
                 </div>
 
                 <div className="col s12 m4">
-                  <Field name="salary" component={renderSelectField} options={masters === void 0 ? {} : masters.salaries} label="รายได้ต่อเดือน : " />
+                  <Field
+                    id="salary"
+                    name="salary"
+                    component={AutoComplete}
+                    floatingLabelText="รายได้ต่อเดือน"
+                    openOnFocus
+                    filter={MUIAutoComplete.fuzzyFilter}
+                    dataSourceConfig={{text: 'value', value: 'id'}}
+                    dataSource={
+                      incomes === void 0 ? [{id: '', name: ''}] : incomes
+                    }
+                    style={styles.customWidth} />
                 </div>
 
                 <div className="col s12 m4">
-                  <Field name="salaryOther" component={renderTextField} type="text" label="จำนวนเงิน (บาท) : "/>
+                  <Field id="salaryOther" name="salaryOther" component={TextField} floatingLabelText="จำนวนเงิน (บาท)" style={styles.customWidth} />
                 </div>
               </div>
 
               <div className="row">
                 <div className="col s12">
-                  <Field name="bodyCondition" component={renderSelectField} options={masters === void 0 ? {} : masters.bodyConditionType} label="สภาพร่างกาย : " />
+                  <Field
+                    id="bodyCondition"
+                    name="bodyCondition"
+                    component={AutoComplete}
+                    floatingLabelText="สภาพร่างกาย"
+                    openOnFocus
+                    filter={MUIAutoComplete.fuzzyFilter}
+                    dataSourceConfig={{text: 'value', value: 'id'}}
+                    dataSource={
+                      physicalConditions === void 0 ? [{id: '', name: ''}] : physicalConditions
+                    }
+                    style={styles.customWidth} />
                 </div>
               </div>
             </div>

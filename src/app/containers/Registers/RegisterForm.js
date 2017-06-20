@@ -25,7 +25,7 @@ class RegisterFormContainer extends React.Component {
 
   render() {
     return (
-      <RegisterForm forceUpdate={() => this.forceUpdate()} {...this.props} />
+      <RegisterForm {...this.props} />
     )
   }
 

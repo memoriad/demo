@@ -1,8 +1,10 @@
 import React from 'react';
 import { PropTypes } from 'prop-types';
+import fetch from 'node-fetch';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import { loadRegister } from '../../actions/registers';
+import { REGISTERS_ENDPOINT } from '../../constants/endpoints';
 import { IdentityForm } from '../../components';
 
 class IdentityFormContainer extends React.Component {
@@ -11,15 +13,7 @@ class IdentityFormContainer extends React.Component {
   }
 
   componentDidMount() {
-    $('.datepicker').pickadate({
-      selectMonths: true, // Creates a dropdown to control month
-      selectYears: 15, // Creates a dropdown of 15 years to control year
-      format: 'dd/mm/yyyy'
-    });
 
-    setTimeout(function() {
-      $('select').material_select()
-    }, 500)
   }
 
   render() {
@@ -31,6 +25,13 @@ class IdentityFormContainer extends React.Component {
 }
 
 const findIdentity = () => {
+  fetch(`${REGISTERS_ENDPOINT}/sso/check3339`)
+    .then(function(res) {
+        return res.json();
+    }).then(function(json) {
+        console.log(json);
+    });
+
   $('#card_no').prop('disabled', true);
   $('#laser').prop('disabled', true);
   $('#title').prop('disabled', true);
@@ -52,11 +53,6 @@ const findIdentity = () => {
   $("#payment_section .collapsible-header").addClass("active");
   $("#other_section .collapsible-header").addClass("active");
   $(".collapsible").collapsible({accordion: false});
-
-  setTimeout(function() {
-    Materialize.updateTextFields()
-    $('select').material_select()
-  }, 500)
 }
 
 const validate = values => {
@@ -82,6 +78,8 @@ const validate = values => {
   }
   if (!values.email) {
     errors.email = 'required'
+  }else if (values.email && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+    errors.email = 'Invalid email'
   }
 
   return errors

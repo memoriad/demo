@@ -4,7 +4,7 @@ import * as actionType from '../constants/actionTypes';
 
 export const loadMasters = () => ({
   [CALL_API]: {
-    endpoint: MASTERS_ENDPOINT,
+    endpoint: `${MASTERS_ENDPOINT}/masters`,
     method: 'GET',
     types: [actionType.LOAD_MASTERS_REQUEST, actionType.LOAD_MASTERS_SUCCESS, actionType.LOAD_MASTERS_FAILURE]
   }
