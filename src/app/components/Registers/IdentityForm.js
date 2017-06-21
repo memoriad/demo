@@ -3,15 +3,12 @@ import { PropTypes } from 'prop-types';
 import { Field } from 'redux-form';
 import MenuItem from 'material-ui/MenuItem';
 import {
-  TextField,
-  SelectField,
-  DatePicker
+  TextField
 } from 'redux-form-material-ui';
 import AlertModal from './AlertModal';
 
 const IdentityForm = (props) => {
-  const { alertModel, masters, findIdentity, handleSubmit, pristine, reset, submitting, invalid } = props
-  const titles = masters.title
+  const { isVerified, alertModel, masters, findIdentity, handleSubmit, pristine, reset, submitting, invalid } = props
 
   return (
     <form action="#">
@@ -38,7 +35,8 @@ const IdentityForm = (props) => {
                     name="card_no"
                     component={TextField}
                     floatingLabelText="เลขประจำตัวประชาชน"
-                    fullWidth={true} />
+                    fullWidth={true}
+                    disabled={isVerified} />
                 </div>
 
                 <div className="col s12 m6">
@@ -48,67 +46,20 @@ const IdentityForm = (props) => {
                     component={TextField}
                     floatingLabelText="เลขหลังบัตรประชาชน"
                     hintText="JT0-0000000-00"
-                    fullWidth={true} />
+                    fullWidth={true}
+                    disabled={isVerified} />
                 </div>
               </div>
 
               <div className="row">
-                <div className="col s12 m2">
-                  <Field
-                    id="title"
-                    name="title"
-                    className="title"
-                    component={SelectField}
-                    floatingLabelText="คำนำหน้า"
-                    floatingLabelFixed={true}
-                    hintText="[ -โปรดระบุ- ]"
-                    fullWidth={true}>
-                    {
-                      titles === void 0 ? null : titles.map((title) =>
-                        <MenuItem key={title.id} value={title.id} primaryText={title.value} />
-                      )
-                    }
-                  </Field>
-                </div>
-
-                <div className="col s12 m5">
-                  <Field
-                    id="name"
-                    name="name"
-                    component={TextField}
-                    floatingLabelText="ชื่อ"
-                    fullWidth={true} />
-                </div>
-
-                <div className="col s12 m5">
-                  <Field
-                    id="surname"
-                    name="surname"
-                    component={TextField}
-                    floatingLabelText="สกุล"
-                    fullWidth={true} />
-                </div>
-              </div>
-
-              <div className="row">
-                <div className="col s12 m6">
-                  <Field
-                    id="birthDate"
-                    name="birthDate"
-                    component={DatePicker}
-                    format={null}
-                    autoOk={true}
-                    floatingLabelText="เกิดเมื่อ"
-                    fullWidth={true} />
-                </div>
-
-                <div className="col s12 m6">
+                <div className="col s12">
                   <Field
                     id="email"
                     name="email"
                     component={TextField}
                     floatingLabelText="Email"
-                    fullWidth={true} />
+                    fullWidth={true}
+                    disabled={isVerified} />
                 </div>
               </div>
 

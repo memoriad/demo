@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux';
 import { reducer as formReducer } from 'redux-form';
 import masters from './masters';
-import registers from './registers';
+import register from './register';
 
 export default combineReducers({
   masters,
-  registers,
+  register,
   form: formReducer
 })

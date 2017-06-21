@@ -38,15 +38,9 @@ const AgreementModal = (props) => {
       <div className="modal-content">
         <h4>เงื่อนไขและข้อตกลง</h4>
         <div className="divider"></div>
-        <TextField
-          id="agreement_text"
-          name="agreement_text"
-          multiLine={true}
-          rowsMax={15}
-          value={text}
-          fullWidth={true} disabled />
+        <textarea id="agreement_text" className="agreement-text" value={text} disabled />
 
-        <Checkbox id="agreement_check" name="agreement_check" checked={isAgree} onCheck={(event, checked) => {
+        <Checkbox id="agreement_check" checked={isAgree} onCheck={(event, checked) => {
             handleChange(checked)
             $('#agreement_btn').prop("disabled", !$('#agreement_check').prop('checked'))
           }
@@ -58,6 +52,7 @@ const AgreementModal = (props) => {
           }
         }>Disagree</a>
         <button id="agreement_btn" className="modal-action modal-close waves-effect waves-green btn-flat" type="submit" name="action" onClick={() => {
+            handleChange(false)
             Materialize.toast(invalid ? 'Failed' : 'Success', 3000)
           }
         } disabled={submitting}>Agree</button>

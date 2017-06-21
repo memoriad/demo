@@ -4,14 +4,16 @@ import { Field } from 'redux-form';
 import MenuItem from 'material-ui/MenuItem';
 import {
   TextField,
-  SelectField
+  SelectField,
+  DatePicker
 } from 'redux-form-material-ui';
 import AgreementModal from './AgreementModal';
 
 const RegisterForm = (props) => {
   const { showAgreement, cancelIdentity, masters, initialValues, isAgree, handleChange,
-    handleSubmit, pristine, reset, submitting, invalid, countError } = props
+    handleSubmit, pristine, reset, submitting, invalid } = props
 
+  const titles = masters.title
   const provinces = masters.province
   const districts = masters.district
   const subDistricts = masters.subDistrict
@@ -25,12 +27,65 @@ const RegisterForm = (props) => {
       <div className="container">
 
         <ul id="register_form" className="collapsible popout hide" data-collapsible="expandable">
+          <li id="general_section">
+            <div className="collapsible-header tooltipped hoverable" data-position="top" data-delay="300" data-tooltip="Expand/Collapse">
+              <i className="material-icons">info</i>ข้อมูลทั่วไป
+            </div>
+            <div className="collapsible-body hoverable">
+              <div className="row">
+                <div className="col s12 m2">
+                  <Field
+                    id="title"
+                    name="title"
+                    component={SelectField}
+                    floatingLabelText="คำนำหน้า"
+                    floatingLabelFixed={true}
+                    hintText="[ -โปรดระบุ- ]"
+                    fullWidth={true}>
+                    {
+                      titles === void 0 ? null : titles.map((title) =>
+                        <MenuItem key={title.id} value={title.id} primaryText={title.value} />
+                      )
+                    }
+                  </Field>
+                </div>
+
+                <div className="col s12 m5">
+                  <Field
+                    id="name"
+                    name="name"
+                    component={TextField}
+                    floatingLabelText="ชื่อ"
+                    fullWidth={true} />
+                </div>
+
+                <div className="col s12 m5">
+                  <Field
+                    id="surname"
+                    name="surname"
+                    component={TextField}
+                    floatingLabelText="สกุล"
+                    fullWidth={true} />
+                </div>
+              </div>
+
+              <div className="row">
+                <div className="col s12">
+                  <Field
+                    id="birthDate"
+                    name="birthDate"
+                    component={DatePicker}
+                    format={null}
+                    autoOk={true}
+                    floatingLabelText="เกิดเมื่อ"
+                    fullWidth={true} />
+                </div>
+              </div>
+            </div>
+          </li>
+
           <li id="contact_section">
             <div className="collapsible-header tooltipped hoverable" data-position="top" data-delay="300" data-tooltip="Expand/Collapse">
-              {
-                countError.contact > 0 ? <span className="new badge red" data-badge-caption="error">{countError.contact}</span> :
-                  <span className="new badge blue" data-badge-caption="success"></span>
-              }
               <i className="material-icons">contacts</i>ข้อมูลการติดต่อ
             </div>
             <div className="collapsible-body hoverable">
@@ -135,10 +190,6 @@ const RegisterForm = (props) => {
 
           <li id="payment_section">
             <div className="collapsible-header tooltipped hoverable" data-position="top" data-delay="300" data-tooltip="Expand/Collapse">
-              {
-                countError.payment > 0 ? <span className="new badge red" data-badge-caption="error">{countError.payment}</span> :
-                  <span className="new badge blue" data-badge-caption="success"></span>
-              }
               <i className="material-icons">payment</i>รูปแบบการจ่ายเงินสมทบ
             </div>
             <div className="collapsible-body hoverable">
@@ -165,10 +216,6 @@ const RegisterForm = (props) => {
 
           <li id="other_section">
             <div className="collapsible-header tooltipped hoverable" data-position="top" data-delay="300" data-tooltip="Expand/Collapse">
-              {
-                countError.other > 0 ? <span className="new badge red" data-badge-caption="error">{countError.other}</span> :
-                  <span className="new badge blue" data-badge-caption="success"></span>
-              }
               <i className="material-icons">label</i>ข้อมูลอื่นๆ
             </div>
             <div className="collapsible-body hoverable">
@@ -244,7 +291,7 @@ const RegisterForm = (props) => {
             Submit<i className="material-icons right">send</i>
           </a>
           <a id="cancel_identity" className="waves-effect waves-light btn blue-grey lighten-2" style={{margin: 2}} onClick={() => {
-              reset
+              reset()
               cancelIdentity()
             }
           }>Cancel</a>

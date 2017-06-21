@@ -3,7 +3,7 @@ import { PropTypes } from 'prop-types';
 import fetch from 'node-fetch';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
-import { loadRegister } from '../../actions/registers';
+import { loadRegister } from '../../actions/register';
 import { REGISTERS_ENDPOINT } from '../../constants/endpoints';
 import * as alertModel from '../../constants/variables';
 import { IdentityForm } from '../../components';
@@ -14,6 +14,7 @@ class IdentityFormContainer extends React.Component {
   }
 
   state = {
+    isVerified: false,
     alertModel: {
       headerText: '',
       contentText: ''
@@ -30,7 +31,12 @@ class IdentityFormContainer extends React.Component {
   }
 
   findIdentity = () => {
-    this.check3339()
+    this.props.onLoadRegister($('#card_no').val())
+    this.setState({
+      isVerified: true
+    })
+    handlerIdentity()
+    // window.location = '/'
   }
 
   check3339 = () => {
@@ -49,7 +55,7 @@ class IdentityFormContainer extends React.Component {
         console.log('check3339 result: ', json)
 
         if(json === true) {
-          handlerIdentity()
+          this.verifyPerson()
         }else if(json === false){
           this.handleAlert(alertModel.CHECK3339_ALERT.HEADER_TEXT, alertModel.CHECK3339_ALERT.CONTENT_TEXT)
           $('#alert_modal').modal('open')
@@ -90,12 +96,18 @@ class IdentityFormContainer extends React.Component {
   }
 
   componentDidMount() {
-
+    $('#cancel_identity').click(() => {
+      this.props.reset()
+      this.setState({
+        isVerified: false
+      })
+    })
   }
 
   render() {
     return (
       <IdentityForm
+        isVerified={this.state.isVerified}
         alertModel={this.state.alertModel}
         findIdentity={this.findIdentity}
         {...this.props} />
@@ -105,13 +117,6 @@ class IdentityFormContainer extends React.Component {
 }
 
 const handlerIdentity = () => {
-  $('#card_no').prop('disabled', true);
-  $('#laser').prop('disabled', true);
-  $('#title').prop('disabled', true);
-  $('#name').prop('disabled', true);
-  $('#surname').prop('disabled', true);
-  $('#birthDate').prop('disabled', true);
-  $('#email').prop('disabled', true);
   $('#find_identity').addClass('disabled');
 
   $('#nav_section').removeClass('hide');
@@ -122,6 +127,7 @@ const handlerIdentity = () => {
   $(".collapsible").collapsible({accordion: true});
   $(".collapsible").collapsible({accordion: false});
 
+  $("#general_section .collapsible-header").addClass("active");
   $("#contact_section .collapsible-header").addClass("active");
   $("#payment_section .collapsible-header").addClass("active");
   $("#other_section .collapsible-header").addClass("active");
@@ -131,18 +137,6 @@ const handlerIdentity = () => {
 const validate = values => {
   const errors = {}
 
-  if (!values.title) {
-    errors.title = 'required'
-  }
-  if (!values.name) {
-    errors.name = 'required'
-  }
-  if (!values.surname) {
-    errors.surname = 'required'
-  }
-  if (!values.birthDate) {
-    errors.birthDate = 'required'
-  }
   if (!values.card_no) {
     errors.card_no = 'required'
   }
