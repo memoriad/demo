@@ -1,0 +1,4 @@
+export const CHECK3339_ALERT = {
+  HEADER_TEXT: 'HEADER',
+  CONTENT_TEXT: 'CONTENT'
+}

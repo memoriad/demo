@@ -23,7 +23,7 @@ export const submitRegister = (values) => (
   (dispatch) =>
     dispatch({
       [CALL_API]: {
-        endpoint: REGISTERS_ENDPOINT,
+        endpoint: `${REGISTERS_ENDPOINT}/new/registrant`,
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json'

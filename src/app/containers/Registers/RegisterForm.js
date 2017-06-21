@@ -1,10 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import fetch from 'node-fetch';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import { loadMasters } from '../../actions/masters';
 import { submitRegister } from '../../actions/registers';
 import { getRegisterById } from '../../reducers/registers';
+import { REGISTERS_ENDPOINT } from '../../constants/endpoints';
 import { RegisterForm } from '../../components';
 
 class RegisterFormContainer extends React.Component {
@@ -13,7 +15,7 @@ class RegisterFormContainer extends React.Component {
   }
 
   state = {
-    isAgree: false,
+    isAgree: false
   }
 
   handleChange = (isCheck) => {
@@ -66,6 +68,33 @@ const cancelIdentity = () => {
   $('#nav_section').addClass('hide');
   $('#register_form').addClass('hide');
   $('#button_section').addClass('hide');
+}
+
+const submitRegistrant = (values) => {
+  let params = {
+    citizenId: $('#card_no').val(),
+    title: $('input[name=title]').val(),
+    firstName: $('#name').val(),
+    lastName: $('#surname').val(),
+    birthDate: $('#birthDate').val(),
+    laserCode: $('#laser').val(),
+    email: $('#email').val(),
+    ...values
+  }
+
+  fetch(`${REGISTERS_ENDPOINT}/new/registrant`, {
+      method: 'POST',
+      body: JSON.stringify(params),
+      headers: { 'Content-Type': 'application/json' }
+    })
+    .then(res => {
+      console.log('response ok: ', res.ok);
+      console.log('response status: ', res.status);
+      console.log('response status text: ', res.statusText);
+    })
+    .catch(err => {
+      console.error(err)
+    });
 }
 
 let countError = {}
@@ -139,6 +168,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   onSubmit: (values) => {
     console.log('values', JSON.stringify(values))
+    submitRegistrant(values)
   }
 })
 

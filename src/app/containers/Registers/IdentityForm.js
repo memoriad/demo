@@ -5,11 +5,88 @@ import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import { loadRegister } from '../../actions/registers';
 import { REGISTERS_ENDPOINT } from '../../constants/endpoints';
+import * as alertModel from '../../constants/variables';
 import { IdentityForm } from '../../components';
 
 class IdentityFormContainer extends React.Component {
   static propTypes = {
     onLoadRegister: PropTypes.func.isRequired
+  }
+
+  state = {
+    alertModel: {
+      headerText: '',
+      contentText: ''
+    }
+  }
+
+  handleAlert = (headerText, contentText) => {
+    this.setState({
+      alertModel: {
+        headerText: headerText,
+        contentText: contentText
+      }
+    })
+  }
+
+  findIdentity = () => {
+    this.check3339()
+  }
+
+  check3339 = () => {
+    console.log('check3339');
+    let params = 'ssoNum=' + $('#card_no').val()
+
+    fetch(`${REGISTERS_ENDPOINT}/sso/check3339?${params}`)
+      .then(res => {
+        console.log('response ok: ', res.ok);
+        console.log('response status: ', res.status);
+        console.log('response status text: ', res.statusText);
+
+        return res.json()
+      })
+      .then(json => {
+        console.log('check3339 result: ', json)
+
+        if(json === true) {
+          handlerIdentity()
+        }else if(json === false){
+          this.handleAlert(alertModel.CHECK3339_ALERT.HEADER_TEXT, alertModel.CHECK3339_ALERT.CONTENT_TEXT)
+          $('#alert_modal').modal('open')
+        }
+      })
+      .catch(err => {
+        console.error(err)
+      });
+  }
+
+  verifyPerson = () => {
+    console.log('verifyPerson');
+    let params = 'citizenId=' + $('#card_no').val() + '&firstName=' + $('#name').val() +
+                            '&lastName=' + $('#surname').val() + '&birthDate=' + $('#birthDate').val() +
+                            '&laserCode=' + $('#laser').val()
+
+    fetch(`${REGISTERS_ENDPOINT}/ega/verification/person?${params}`)
+      .then(res => {
+        console.log('response ok: ', res.ok);
+        console.log('response status: ', res.status);
+        console.log('response status text: ', res.statusText);
+
+        return res.json()
+      })
+      .then(json => {
+        console.log('verifyPerson result: ', json)
+
+        if(json) {
+          handlerIdentity()
+        }else {
+          this.handleAlert(alertModel.CHECK3339_ALERT.HEADER_TEXT, alertModel.CHECK3339_ALERT.CONTENT_TEXT)
+          $('#alert_modal').modal('open')
+        }
+      })
+      .catch(err => {
+        console.error(err)
+      });
   }
 
   componentDidMount() {
@@ -18,27 +95,16 @@ class IdentityFormContainer extends React.Component {
 
   render() {
     return (
-      <IdentityForm {...this.props} />
+      <IdentityForm
+        alertModel={this.state.alertModel}
+        findIdentity={this.findIdentity}
+        {...this.props} />
     )
   }
 
 }
 
-const findIdentity = () => {
-  fetch(`${REGISTERS_ENDPOINT}/sso/check3339`)
-    .then(res => {
-  		console.log(res.ok);
-  		console.log(res.status);
-  		console.log(res.statusText);
-  		console.log(res.headers.raw());
-  		console.log(res.headers.get('content-type'));
-      return res.json()
-  	})
-    .then(json => console.log(json))
-    .catch(err => {
-      console.error(err)
-    });
-
+const handlerIdentity = () => {
   $('#card_no').prop('disabled', true);
   $('#laser').prop('disabled', true);
   $('#title').prop('disabled', true);
@@ -93,8 +159,7 @@ const validate = values => {
 }
 
 const mapStateToProps = (state) => ({
-  masters: state.masters,
-  findIdentity
+  masters: state.masters
 })
 
 const mapDispatchToProps = (dispatch) => ({

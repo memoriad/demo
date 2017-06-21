@@ -7,9 +7,10 @@ import {
   SelectField,
   DatePicker
 } from 'redux-form-material-ui';
+import AlertModal from './AlertModal';
 
 const IdentityForm = (props) => {
-  const { masters, findIdentity, onLoadRegister, handleSubmit, pristine, reset, submitting, invalid } = props
+  const { alertModel, masters, findIdentity, handleSubmit, pristine, reset, submitting, invalid } = props
   const titles = masters.title
 
   return (
@@ -56,6 +57,7 @@ const IdentityForm = (props) => {
                   <Field
                     id="title"
                     name="title"
+                    className="title"
                     component={SelectField}
                     floatingLabelText="คำนำหน้า"
                     floatingLabelFixed={true}
@@ -102,6 +104,7 @@ const IdentityForm = (props) => {
 
                 <div className="col s12 m6">
                   <Field
+                    id="email"
                     name="email"
                     component={TextField}
                     floatingLabelText="Email"
@@ -110,17 +113,16 @@ const IdentityForm = (props) => {
               </div>
 
               <div className="row right-align">
-                <a id="find_identity" className="waves-effect waves-light btn indigo darken-4" href="#!" onClick={() => {
-                    findIdentity()
-                    onLoadRegister($('#card_no').val())
-                  }
-                }>Find</a>
+                <a id="find_identity" className="waves-effect waves-light btn indigo darken-4" href="#!" onClick={() => findIdentity()}>Find</a>
                 <a id="" className="waves-effect waves-light btn indigo darken-4" href="#!" disabled={pristine || invalid}>Find</a>
               </div>
             </div>
           </li>
         </ul>
       </div>
+
+      <AlertModal {...alertModel} />
+
     </form>
   )
 }
