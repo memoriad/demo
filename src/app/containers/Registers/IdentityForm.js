@@ -38,7 +38,6 @@ class IdentityFormContainer extends React.Component {
       isVerified: true
     })
     handlerIdentity()
-    // window.location = '/'
   }
 
   check3339 = () => {

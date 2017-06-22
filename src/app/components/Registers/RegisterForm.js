@@ -1,27 +1,36 @@
 import React from 'react';
 import { PropTypes } from 'prop-types';
 import { Field } from 'redux-form';
-import MenuItem from 'material-ui/MenuItem';
+import {
+  MenuItem,
+  Checkbox
+} from 'material-ui';
 import {
   TextField,
   SelectField,
   DatePicker
 } from 'redux-form-material-ui';
 import AgreementModal from './AgreementModal';
-import AlertModal from './AlertModal';
+import ConfirmModal from './ConfirmModal';
+import RegisteredModal from './RegisteredModal';
 
 const RegisterForm = (props) => {
-  const { showAgreement, alertModel, cancelIdentity, masters, initialValues, isAgree, handlerChange, handlerAgree,
-    handleSubmit, pristine, reset, submitting, invalid } = props
+  const { districts, onLoadDistricts, subDistricts, onLoadSubDistricts,
+    isDefective, handlerDefective, showAgreement, cancelIdentity, masters, initialValues, isAgree, handlerChange, handlerAgree,
+    isVerify, handlerVerify, handlerInvalid, handleSubmit, pristine, reset, submitting, invalid } = props
 
   const titles = masters.title
   const provinces = masters.province
-  const districts = masters.district
-  const subDistricts = masters.subDistrict
+  const districtItem = districts
+  const subDistrictItem = subDistricts
   const contributionTypes = masters.contributionType
   const occupations = masters.occupation
   const incomes = masters.income
   const physicalConditions = masters.physicalCondition
+
+  if(initialValues.bodyCondition === 1) {
+    $('#bodyConditionRemark').prop('disabled', true)
+  }
 
   return (
     <form onSubmit={handleSubmit}>
@@ -115,6 +124,7 @@ const RegisterForm = (props) => {
                     floatingLabelText="จังหวัด"
                     floatingLabelFixed={true}
                     hintText="[ -โปรดระบุ- ]"
+                    onChange={(event, index, value) => onLoadDistricts(index)}
                     fullWidth={true}>
                     {
                       provinces === void 0 ? null : provinces.map((province) =>
@@ -132,9 +142,10 @@ const RegisterForm = (props) => {
                     floatingLabelText="อำเภอ/เขต"
                     floatingLabelFixed={true}
                     hintText="[ -โปรดระบุ- ]"
+                    onChange={(event, index, value) => onLoadSubDistricts(index)}
                     fullWidth={true}>
                     {
-                      districts === void 0 ? null : districts.map((district) =>
+                      districtItem === void 0 ? null : districtItem.map((district) =>
                         <MenuItem key={district.id} value={district.id} primaryText={district.value} />
                       )
                     }
@@ -153,7 +164,7 @@ const RegisterForm = (props) => {
                     hintText="[ -โปรดระบุ- ]"
                     fullWidth={true}>
                     {
-                      subDistricts === void 0 ? null : subDistricts.map((subDistrict) =>
+                      subDistrictItem === void 0 ? null : subDistrictItem.map((subDistrict) =>
                         <MenuItem key={subDistrict.id} value={subDistrict.id} primaryText={subDistrict.value} />
                       )
                     }
@@ -273,7 +284,7 @@ const RegisterForm = (props) => {
               </div>
 
               <div className="row">
-                <div className="col s12">
+                <div className="col s12 m6">
                   <Field
                     id="bodyCondition"
                     name="bodyCondition"
@@ -281,6 +292,7 @@ const RegisterForm = (props) => {
                     floatingLabelText="สภาพร่างกาย"
                     floatingLabelFixed={true}
                     hintText="[ -โปรดระบุ- ]"
+                    onChange={handlerDefective}
                     fullWidth={true}>
                     {
                       physicalConditions === void 0 ? null : physicalConditions.map((physicalCondition) =>
@@ -289,17 +301,40 @@ const RegisterForm = (props) => {
                     }
                   </Field>
                 </div>
+
+                <div className="col s12 m6">
+                  <Field
+                    id="bodyConditionRemark"
+                    name="bodyConditionRemark"
+                    component={TextField}
+                    floatingLabelText="พิการเป็น"
+                    maxLength={20}
+                    fullWidth={true}
+                    disabled={!isDefective} />
+                </div>
+              </div>
+
+              <div className="row">
+                <div className="col s12">
+                  <Checkbox id="verify_check" checked={isVerify} onCheck={(event, checked) => {
+                      handlerVerify(checked)
+                      $('#showAgreement_btn').prop("disabled", checked)
+                    }
+                  } label="เป็นสมาชิกกองทุนบำเหน็จบำนาญข้าราชการ กองทุนบำเหน็จบำนาญข้าราชการกรุงเทพมหานคร กองทุนบำเหน็จบำนาญข้าราชการส่วนท้องถิ่น หรือเป็นสมาชิกกองทุนรัฐวิสาหกิจ หรือหน่วยงานอื่นของรัฐหรือไม่" />
+                </div>
               </div>
             </div>
           </li>
         </ul>
 
         <div id="button_section" className="row center-align hide">
-          <a className="waves-effect waves-light btn indigo darken-4" style={{margin: 2}} onClick={() => showAgreement()}>
+          <button type="button" id="showAgreement_btn" className="waves-effect waves-light btn indigo darken-4" style={{margin: 2}} onClick={() => showAgreement()}>
             Submit<i className="material-icons right">send</i>
-          </a>
+          </button>
           <a id="cancel_identity" className="waves-effect waves-light btn blue-grey lighten-2" style={{margin: 2}} onClick={() => {
               reset()
+              handlerVerify(false)
+              $('#showAgreement_btn').prop("disabled", false)
               cancelIdentity()
             }
           }>Cancel</a>
@@ -308,7 +343,11 @@ const RegisterForm = (props) => {
 
       <AgreementModal {...props} />
 
-      <AlertModal {...alertModel} />
+      <ConfirmModal invalid={invalid} />
+
+      <RegisteredModal id={'invalid_modal'} alertCode={'EGA_INVALID_ALERT'} handlerInvalid={handlerInvalid} />
+      <RegisteredModal id={'invalid_age_modal'} alertCode={'EGA_AGE_ALERT'} handlerInvalid={handlerInvalid} />
+      <RegisteredModal id={'registered_modal'} alertCode={'REGISTER_ALERT'} />
 
     </form>
   )

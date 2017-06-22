@@ -5,8 +5,9 @@ import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import { loadMasters } from '../../actions/masters';
 import { getRegistrant } from '../../reducers/register';
+import { loadDistricts } from '../../actions/districts';
+import { loadSubDistricts } from '../../actions/subDistricts';
 import { REGISTERS_ENDPOINT } from '../../constants/endpoints';
-import * as alertModel from '../../constants/variables';
 import { RegisterForm } from '../../components';
 
 class RegisterFormContainer extends React.Component {
@@ -16,21 +17,21 @@ class RegisterFormContainer extends React.Component {
 
   state = {
     isAgree: false,
-    alertModel: {
-      headerText: '',
-      contentText: '',
-      handlerCallback: null
-    }
+    isVerify: false,
+    isDefective: true
   }
 
-  handlerAlert = (headerText, contentText, handlerCallback) => {
-    this.setState({
-      alertModel: {
-        headerText: headerText,
-        contentText: contentText,
-        handlerCallback: handlerCallback
-      }
-    })
+  handlerDefective = (event, index, value) => {
+    if(index === 2) {
+      this.setState({isDefective: true})
+    }else {
+      this.setState({isDefective: false})
+    }
+    $('#bodyConditionRemark').prop('disabled', false)
+  }
+
+  handlerVerify = (isCheck) => {
+    this.setState({isVerify: isCheck})
   }
 
   handlerChange = (isCheck) => {
@@ -38,8 +39,13 @@ class RegisterFormContainer extends React.Component {
   }
 
   handlerAgree = () => {
-    this.handlerAlert(alertModel.CHECK3339_ALERT.HEADER_TEXT, alertModel.CHECK3339_ALERT.CONTENT_TEXT)
-    $('#alert_modal').modal('open')
+    $('#confirm_modal').modal('open')
+  }
+
+  handlerInvalid = () => {
+    this.handlerChange(false)
+    $('#confirm_modal').modal('close')
+    $('#agreement_modal').modal('close')
   }
 
   componentDidMount() {
@@ -56,10 +62,14 @@ class RegisterFormContainer extends React.Component {
   render() {
     return (
       <RegisterForm
+        isVerify={this.state.isVerify}
+        isDefective={this.state.isDefective}
         isAgree={this.state.isAgree}
-        alertModel={this.state.alertModel}
+        handlerVerify={this.handlerVerify}
+        handlerDefective={this.handlerDefective}
         handlerChange={this.handlerChange}
         handlerAgree={this.handlerAgree}
+        handlerInvalid={this.handlerInvalid}
         {...this.props} />
     )
   }
@@ -90,6 +100,24 @@ const cancelIdentity = () => {
 }
 
 const submitRegistrant = (values) => {
+  console.log('birthDate: ', values.birthDate);
+  console.log('year: ', values.birthDate.getFullYear());
+  console.log('month: ', values.birthDate.getMonth());
+  console.log('date: ', values.birthDate.getDate());
+
+  const currentDate = new Date()
+  const birthDate = values.birthDate
+  const compareYear = currentDate.getFullYear() - birthDate.getFullYear()
+  console.log('compareYear: ', compareYear);
+
+  if(currentDate.getFullYear() - birthDate.getFullYear() < 15 ||
+      currentDate.getFullYear() - birthDate.getFullYear() > 60) {
+
+    $('#invalid_age_modal').modal('open')
+
+    return false
+  }
+
   let params = {
     citizenId: $('#card_no').val(),
     laserCode: $('#laser').val(),
@@ -106,6 +134,7 @@ const submitRegistrant = (values) => {
       console.log('response ok: ', res.ok);
       console.log('response status: ', res.status);
       console.log('response status text: ', res.statusText);
+      $('#registered_modal').modal('open')
     })
     .catch(err => {
       console.error(err)
@@ -169,12 +198,20 @@ const validate = values => {
 
 const mapStateToProps = (state) => ({
   masters: state.masters,
+  districts: state.districts,
+  subDistricts: state.subDistricts,
   initialValues: getRegistrant(state),
   showAgreement,
   cancelIdentity
 })
 
 const mapDispatchToProps = (dispatch) => ({
+  onLoadDistricts: (id) => {
+    dispatch(loadDistricts(id))
+  },
+  onLoadSubDistricts: (id) => {
+    dispatch(loadSubDistricts(id))
+  },
   onSubmit: (values) => {
     console.log('values', JSON.stringify(values))
     submitRegistrant(values)

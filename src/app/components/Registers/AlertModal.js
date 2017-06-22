@@ -12,12 +12,10 @@ const AlertModal = (props) => {
         <p>{contentText}</p>
       </div>
       <div className="modal-footer">
-        <a className="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
-        {
-          handlerCallback === void 0 ?
-            null :
-            <a className="modal-action modal-close waves-effect waves-green btn-flat" onClick={() => handlerCallback()}>Confirm</a>
-        }
+        <a className="modal-action modal-close waves-effect waves-green btn-flat" onClick={() => {
+            handlerCallback === void 0 ? null : handlerCallback()
+          }
+        }>Close</a>
       </div>
     </div>
   )

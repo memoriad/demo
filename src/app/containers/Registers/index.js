@@ -20,6 +20,10 @@ class RegisterContainer extends React.Component {
 
   componentDidMount() {
     this.onReloadMasters()
+
+    $('.modal').modal({
+      dismissible: false
+    })
   }
 
   render() {
