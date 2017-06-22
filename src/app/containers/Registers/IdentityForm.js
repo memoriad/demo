@@ -17,15 +17,17 @@ class IdentityFormContainer extends React.Component {
     isVerified: false,
     alertModel: {
       headerText: '',
-      contentText: ''
+      contentText: '',
+      handlerCallback: null
     }
   }
 
-  handleAlert = (headerText, contentText) => {
+  handlerAlert = (headerText, contentText, handlerCallback) => {
     this.setState({
       alertModel: {
         headerText: headerText,
-        contentText: contentText
+        contentText: contentText,
+        handlerCallback: handlerCallback
       }
     })
   }
@@ -57,7 +59,7 @@ class IdentityFormContainer extends React.Component {
         if(json === true) {
           this.verifyPerson()
         }else if(json === false){
-          this.handleAlert(alertModel.CHECK3339_ALERT.HEADER_TEXT, alertModel.CHECK3339_ALERT.CONTENT_TEXT)
+          this.handlerAlert(alertModel.CHECK3339_ALERT.HEADER_TEXT, alertModel.CHECK3339_ALERT.CONTENT_TEXT)
           $('#alert_modal').modal('open')
         }
       })
@@ -86,7 +88,7 @@ class IdentityFormContainer extends React.Component {
         if(json) {
           handlerIdentity()
         }else {
-          this.handleAlert(alertModel.CHECK3339_ALERT.HEADER_TEXT, alertModel.CHECK3339_ALERT.CONTENT_TEXT)
+          this.handlerAlert(alertModel.CHECK3339_ALERT.HEADER_TEXT, alertModel.CHECK3339_ALERT.CONTENT_TEXT)
           $('#alert_modal').modal('open')
         }
       })

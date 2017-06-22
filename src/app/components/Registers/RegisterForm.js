@@ -8,9 +8,10 @@ import {
   DatePicker
 } from 'redux-form-material-ui';
 import AgreementModal from './AgreementModal';
+import AlertModal from './AlertModal';
 
 const RegisterForm = (props) => {
-  const { showAgreement, cancelIdentity, masters, initialValues, isAgree, handleChange,
+  const { showAgreement, alertModel, cancelIdentity, masters, initialValues, isAgree, handlerChange, handlerAgree,
     handleSubmit, pristine, reset, submitting, invalid } = props
 
   const titles = masters.title
@@ -56,6 +57,7 @@ const RegisterForm = (props) => {
                     name="name"
                     component={TextField}
                     floatingLabelText="ชื่อ"
+                    maxLength={20}
                     fullWidth={true} />
                 </div>
 
@@ -65,6 +67,7 @@ const RegisterForm = (props) => {
                     name="surname"
                     component={TextField}
                     floatingLabelText="สกุล"
+                    maxLength={20}
                     fullWidth={true} />
                 </div>
               </div>
@@ -98,6 +101,7 @@ const RegisterForm = (props) => {
                     floatingLabelText="ที่อยู่ปัจจุบัน"
                     multiLine={true}
                     rows={2}
+                    maxLength={50}
                     fullWidth={true} />
                 </div>
               </div>
@@ -162,6 +166,7 @@ const RegisterForm = (props) => {
                     name="addressZipcode"
                     component={TextField}
                     floatingLabelText="รหัสไปรษณีย์"
+                    maxLength={5}
                     fullWidth={true} />
                 </div>
               </div>
@@ -173,6 +178,7 @@ const RegisterForm = (props) => {
                     name="tel"
                     component={TextField}
                     floatingLabelText="โทรศัพท์บ้าน"
+                    maxLength={9}
                     fullWidth={true} />
                 </div>
 
@@ -182,6 +188,7 @@ const RegisterForm = (props) => {
                     name="mobile"
                     component={TextField}
                     floatingLabelText="โทรศัพท์มือถือ"
+                    maxLength={10}
                     fullWidth={true} />
                 </div>
               </div>
@@ -260,6 +267,7 @@ const RegisterForm = (props) => {
                     name="salaryOther"
                     component={TextField}
                     floatingLabelText="จำนวนเงิน (บาท)"
+                    maxLength={20}
                     fullWidth={true} />
                 </div>
               </div>
@@ -299,6 +307,8 @@ const RegisterForm = (props) => {
       </div>
 
       <AgreementModal {...props} />
+
+      <AlertModal {...alertModel} />
 
     </form>
   )

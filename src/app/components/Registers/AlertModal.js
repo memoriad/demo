@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const AlertModal = (props) => {
-  const { headerText, contentText } = props
+  const { headerText, contentText, handlerCallback } = props
 
   return (
     <div id="alert_modal" className="modal">
@@ -12,7 +12,12 @@ const AlertModal = (props) => {
         <p>{contentText}</p>
       </div>
       <div className="modal-footer">
-        <a href="#!" className="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+        <a className="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+        {
+          handlerCallback === void 0 ?
+            null :
+            <a className="modal-action modal-close waves-effect waves-green btn-flat" onClick={() => handlerCallback()}>Confirm</a>
+        }
       </div>
     </div>
   )

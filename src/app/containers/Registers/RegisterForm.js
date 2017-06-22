@@ -6,6 +6,7 @@ import { reduxForm } from 'redux-form';
 import { loadMasters } from '../../actions/masters';
 import { getRegistrant } from '../../reducers/register';
 import { REGISTERS_ENDPOINT } from '../../constants/endpoints';
+import * as alertModel from '../../constants/variables';
 import { RegisterForm } from '../../components';
 
 class RegisterFormContainer extends React.Component {
@@ -14,11 +15,31 @@ class RegisterFormContainer extends React.Component {
   }
 
   state = {
-    isAgree: false
+    isAgree: false,
+    alertModel: {
+      headerText: '',
+      contentText: '',
+      handlerCallback: null
+    }
   }
 
-  handleChange = (isCheck) => {
+  handlerAlert = (headerText, contentText, handlerCallback) => {
+    this.setState({
+      alertModel: {
+        headerText: headerText,
+        contentText: contentText,
+        handlerCallback: handlerCallback
+      }
+    })
+  }
+
+  handlerChange = (isCheck) => {
     this.setState({isAgree: isCheck})
+  }
+
+  handlerAgree = () => {
+    this.handlerAlert(alertModel.CHECK3339_ALERT.HEADER_TEXT, alertModel.CHECK3339_ALERT.CONTENT_TEXT)
+    $('#alert_modal').modal('open')
   }
 
   componentDidMount() {
@@ -34,7 +55,12 @@ class RegisterFormContainer extends React.Component {
 
   render() {
     return (
-      <RegisterForm isAgree={this.state.isAgree} handleChange={this.handleChange} {...this.props} />
+      <RegisterForm
+        isAgree={this.state.isAgree}
+        alertModel={this.state.alertModel}
+        handlerChange={this.handlerChange}
+        handlerAgree={this.handlerAgree}
+        {...this.props} />
     )
   }
 

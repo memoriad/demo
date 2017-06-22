@@ -36,6 +36,7 @@ const IdentityForm = (props) => {
                     component={TextField}
                     floatingLabelText="เลขประจำตัวประชาชน"
                     fullWidth={true}
+                    maxLength={13}
                     disabled={isVerified} />
                 </div>
 
@@ -47,6 +48,7 @@ const IdentityForm = (props) => {
                     floatingLabelText="เลขหลังบัตรประชาชน"
                     hintText="JT0-0000000-00"
                     fullWidth={true}
+                    maxLength={14}
                     disabled={isVerified} />
                 </div>
               </div>
@@ -59,13 +61,13 @@ const IdentityForm = (props) => {
                     component={TextField}
                     floatingLabelText="Email"
                     fullWidth={true}
+                    maxLength={30}
                     disabled={isVerified} />
                 </div>
               </div>
 
               <div className="row right-align">
-                <a id="find_identity" className="waves-effect waves-light btn indigo darken-4" href="#!" onClick={() => findIdentity()}>Find</a>
-                <a id="" className="waves-effect waves-light btn indigo darken-4" href="#!" disabled={pristine || invalid}>Find</a>
+                <a id="find_identity" className="waves-effect waves-light btn indigo darken-4" href="#!" onClick={() => findIdentity()} disabled={pristine || invalid}>Find</a>
               </div>
             </div>
           </li>

@@ -1,4 +1,29 @@
 export const CHECK3339_ALERT = {
-  HEADER_TEXT: 'HEADER',
-  CONTENT_TEXT: 'CONTENT'
+  HEADER_TEXT: 'ไม่สามารถลงทะเบียน',
+  CONTENT_TEXT: 'ท่านไม่มีสิทธ์สมัครเป็นผู้ประกันตนมาตรา 40 เนื่องจากท่านเป็นผู้ประกันตนมาตรา 33 หรือมาตรา 39'
+}
+
+export const CHECK40_ALERT = {
+  HEADER_TEXT: 'ไม่สามารถลงทะเบียน',
+  CONTENT_TEXT: 'มีข้อมูลอยู่ในระบบมาตรา 40 แล้ว'
+}
+
+export const EGA_INVALID_ALERT = {
+  HEADER_TEXT: 'ไม่สามารถลงทะเบียน',
+  CONTENT_TEXT: 'ข้อมูลไม่ถูกต้อง'
+}
+
+export const EGA_AGE_ALERT = {
+  HEADER_TEXT: 'ไม่สามารถลงทะเบียน',
+  CONTENT_TEXT: 'ไม่สามารถสมัครเป็นผู้ประกันตนมาตรา 40 ได้ เนื่องจากผู้สมัครมีอายุไม่อยู่ในช่วง 15-60 ปี ณ.วันที่สมัครและรับชำระเงินสมทบงวดแรก'
+}
+
+export const REGISTERED_ALERT = {
+  HEADER_TEXT: 'ลงทะเบียนเรียบร้อย',
+  CONTENT_TEXT: 'สำนักงานประกันสังคมได้รับข้อมูลการสมัครเป็นผู้ประกันตนมาตรา 40 ของท่านเรียบร้อยแล้ว และจำดำเนินการแจ้งผลกลับไปใน e-mail ของท่านภายใน 5 วันทำการ'
+}
+
+export const ERROR_ALERT = {
+  HEADER_TEXT: 'เกิดข้อผิดพลาด',
+  CONTENT_TEXT: 'ไม่สามารถลงทะเบียนได้ในขณะนี้ กรุณาลงทะเบียนใหม่ในภายหลัง'
 }
