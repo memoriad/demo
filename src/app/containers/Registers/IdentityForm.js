@@ -36,16 +36,7 @@ class IdentityFormContainer extends React.Component {
   }
 
   findIdentity = () => {
-    if(this.check3339()) {
-      this.props.onLoadRegister($('#card_no').val())
-      this.setState({
-        isVerified: true
-      })
-      handlerIdentity()
-    }else {
-      this.handlerAlert(alertModel.EGA_AGE_ALERT.HEADER_TEXT, alertModel.EGA_AGE_ALERT.CONTENT_TEXT)
-      $('#alert_modal').modal('open')
-    }
+    this.check3339()
   }
 
   check3339 = () => {
@@ -123,8 +114,11 @@ class IdentityFormContainer extends React.Component {
       .then(json => {
         console.log('verifyPerson result: ', json)
 
-        if(json) {
+        if(json === true) {
           this.verifyAge()
+        }else {
+          this.handlerAlert(alertModel.ERROR_ALERT.HEADER_TEXT, alertModel.ERROR_ALERT.CONTENT_TEXT)
+          $('#alert_modal').modal('open')
         }
       })
       .catch(err => {
@@ -143,10 +137,17 @@ class IdentityFormContainer extends React.Component {
     if(currentDate.getFullYear() - birthDate.getFullYear() < 15 ||
         currentDate.getFullYear() - birthDate.getFullYear() > 60) {
 
+      this.handlerAlert(alertModel.EGA_AGE_ALERT.HEADER_TEXT, alertModel.EGA_AGE_ALERT.CONTENT_TEXT)
+      $('#alert_modal').modal('open')
+
       return false
     }
 
-    return true
+    this.props.onLoadRegister($('#card_no').val())
+    this.setState({
+      isVerified: true
+    })
+    handlerIdentity()
   }
 
   componentDidMount() {

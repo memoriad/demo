@@ -1,5 +1,5 @@
 const API_ROOT = '/api/v1'
-const SSO_DOMAIN = 'http://localhost:8080'
+const SSO_DOMAIN = 'http://172.17.95.117:8080/m40_register_online'
 // const SSO_DOMAIN = 'http://172.17.90.76:80/section40_online'
 
 export const MASTERS_ENDPOINT = `${SSO_DOMAIN}/api/common`
