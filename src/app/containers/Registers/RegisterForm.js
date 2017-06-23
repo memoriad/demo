@@ -169,7 +169,7 @@ const validate = values => {
   }
   if (!values.salaryOther) {
     errors.salaryOther = 'กรุณากรอกข้อมูล'
-  }else if (values.salaryOther && !/^[0-9]$/.test(values.salaryOther)) {
+  }else if (values.salaryOther && !/^[0-9]+$/.test(values.salaryOther)) {
     errors.salaryOther = 'กรุณากรอกจำนวนเงินเป็นตัวเลข'
   }
   if (!values.bodyCondition) {
