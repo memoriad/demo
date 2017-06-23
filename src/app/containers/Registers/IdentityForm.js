@@ -120,7 +120,7 @@ class IdentityFormContainer extends React.Component {
         if(json === true) {
           this.verifyAge()
         }else {
-          this.handlerAlert(alertModel.ERROR_ALERT.HEADER_TEXT, alertModel.ERROR_ALERT.CONTENT_TEXT)
+          this.handlerAlert(alertModel.EGA_INVALID_ALERT.HEADER_TEXT, alertModel.EGA_INVALID_ALERT.CONTENT_TEXT)
           $('#alert_modal').modal('open')
         }
       })
