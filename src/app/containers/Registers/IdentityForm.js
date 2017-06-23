@@ -49,6 +49,12 @@ class IdentityFormContainer extends React.Component {
         console.log('response status: ', res.status);
         console.log('response status text: ', res.statusText);
 
+        if(res.status === '404') {
+          this.handlerAlert(alertModel.ERROR_ALERT.HEADER_TEXT, alertModel.ERROR_ALERT.CONTENT_TEXT)
+          $('#alert_modal').modal('open')
+          return false
+        }
+
         return res.json()
       })
       .then(json => {
@@ -111,6 +117,12 @@ class IdentityFormContainer extends React.Component {
         console.log('response ok: ', res.ok);
         console.log('response status: ', res.status);
         console.log('response status text: ', res.statusText);
+
+        if(res.status === '404') {
+          this.handlerAlert(alertModel.ERROR_ALERT.HEADER_TEXT, alertModel.ERROR_ALERT.CONTENT_TEXT)
+          $('#alert_modal').modal('open')
+          return false
+        }
 
         return res.json()
       })

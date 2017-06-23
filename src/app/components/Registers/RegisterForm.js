@@ -20,8 +20,8 @@ const RegisterForm = (props) => {
     submitRegistrant, isMember, handlerMember, handlerInvalid, handleSubmit, pristine, reset, submitting, invalid } = props
 
   const provinces = masters.province
-  const districtItem = districts.item
-  const subDistrictItem = subDistricts.item
+  const districtItem = districts
+  const subDistrictItem = subDistricts
   const contributionTypes = masters.contributionType
   const occupations = masters.occupation
   const incomes = masters.income
