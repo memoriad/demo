@@ -147,11 +147,15 @@ class IdentityFormContainer extends React.Component {
     const currentDate = new Date()
     const birthDate = this.props.identityValues.birthDate
     const compareYear = currentDate.getFullYear() - birthDate.getFullYear()
+    const compareMonth = currentDate.getMonth() - birthDate.getMonth()
+    const compareDate = currentDate.getDate() - birthDate.getDate()
     console.log('compareYear: ', compareYear);
 
-    if(currentDate.getFullYear() - birthDate.getFullYear() < 15 ||
-        currentDate.getFullYear() - birthDate.getFullYear() > 60) {
+    if((compareYear < 15 || compareYear > 60) ||
+      (compareYear === 15 && (compareMonth > 0 || (compareMonth === 0 && compareDate > 0))) ||
+      (compareYear === 60 && (compareMonth < 0 || (compareMonth === 0 && compareDate < 0)))) {
 
+      if(birthDate.g)
       this.handlerAlert(alertModel.EGA_AGE_ALERT.HEADER_TEXT, alertModel.EGA_AGE_ALERT.CONTENT_TEXT)
       $('#alert_modal').modal('open')
 

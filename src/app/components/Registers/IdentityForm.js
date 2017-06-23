@@ -1,6 +1,7 @@
 import React from 'react';
 import { PropTypes } from 'prop-types';
 import { Field } from 'redux-form';
+import areIntlLocalesSupported from 'intl-locales-supported';
 import MenuItem from 'material-ui/MenuItem';
 import {
   TextField,
@@ -8,6 +9,16 @@ import {
   DatePicker
 } from 'redux-form-material-ui';
 import AlertModal from './AlertModal';
+
+let DateTimeFormat;
+
+if (areIntlLocalesSupported(['th-TH'])) {
+  DateTimeFormat = global.Intl.DateTimeFormat;
+} else {
+  const IntlPolyfill = require('intl');
+  DateTimeFormat = IntlPolyfill.DateTimeFormat;
+  require('intl/locale-data/jsonp/th-TH');
+}
 
 const IdentityForm = (props) => {
   const { isVerified, alertModel, masters, findIdentity, handleSubmit, pristine, reset, submitting, invalid } = props
@@ -106,6 +117,8 @@ const IdentityForm = (props) => {
                     name="birthDate"
                     component={DatePicker}
                     format={null}
+                    DateTimeFormat={DateTimeFormat}
+                    locale="th-TH"
                     autoOk={true}
                     floatingLabelText="เกิดเมื่อ"
                     fullWidth={true}
