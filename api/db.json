@@ -18,18 +18,14 @@
       {
         "id": 1,
         "value": "นนทบุรี"
-      }
-    ],
-    "district": [
+      },
       {
-        "id": 1,
-        "value": "เมืองนนทบุรี"
-      }
-    ],
-    "subDistrict": [
+        "id": 2,
+        "value": "กรุงเทพ"
+      },
       {
-        "id": 1,
-        "value": "ตลาดขวัญ"
+        "id": 3,
+        "value": "อ่างทอง"
       }
     ],
     "contributionType": [
@@ -86,13 +82,115 @@
       {
         "id": 2,
         "value": "พิการ"
-      },
-      {
-        "id": 3,
-        "value": "ซุปเปอร์แมน"
       }
     ]
   },
+  "districts": [
+    {
+      "id": 1,
+      "item": [
+        {
+          "id": 1,
+          "value": "เมือง 1"
+        },
+        {
+          "id": 2,
+          "value": "เมือง 2"
+        },
+        {
+          "id": 3,
+          "value": "เมือง 3"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "item": [
+        {
+          "id": 1,
+          "value": "เมือง 4"
+        },
+        {
+          "id": 2,
+          "value": "เมือง 5"
+        },
+        {
+          "id": 3,
+          "value": "เมือง 6"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "item": [
+        {
+          "id": 1,
+          "value": "เมือง 7"
+        },
+        {
+          "id": 2,
+          "value": "เมือง 8"
+        },
+        {
+          "id": 3,
+          "value": "เมือง 9"
+        }
+      ]
+    }
+  ],
+  "subDistricts": [
+    {
+      "id": 1,
+      "item": [
+        {
+          "id": 1,
+          "value": "ตำบล 1"
+        },
+        {
+          "id": 2,
+          "value": "ตำบล 2"
+        },
+        {
+          "id": 3,
+          "value": "ตำบล 3"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "item": [
+        {
+          "id": 1,
+          "value": "ตำบล 4"
+        },
+        {
+          "id": 2,
+          "value": "ตำบล 5"
+        },
+        {
+          "id": 3,
+          "value": "ตำบล 6"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "item": [
+        {
+          "id": 1,
+          "value": "ตำบล 7"
+        },
+        {
+          "id": 2,
+          "value": "ตำบล 8"
+        },
+        {
+          "id": 3,
+          "value": "ตำบล 9"
+        }
+      ]
+    }
+  ],
   "registers": [
     {
       "id": 1,
@@ -102,8 +200,8 @@
       "birthDate": "2017-06-12",
     	"addressNo": "111/5 moo2",
     	"addressProvince": 1,
-    	"addressDistrict": 1,
-    	"addressSubdistrict": 1,
+    	"addressDistrict": 2,
+    	"addressSubdistrict": 3,
     	"addressZipcode": "10110",
     	"tel": "029994567",
     	"mobile": "0966889789",
@@ -112,7 +210,8 @@
     	"occupation": 1,
     	"salary": 1,
     	"salaryOther": 5000,
-    	"bodyCondition": 3,
+    	"bodyCondition": 1,
+      "bodyConditionRemark": "",
     	"registerStatus": "TBD"
     },
     {
@@ -122,8 +221,8 @@
     	"surname": "Skywalker",
       "birthDate": "2017-06-12",
     	"addressNo": "111/5 moo2",
-    	"addressProvince": 1,
-    	"addressDistrict": 1,
+    	"addressProvince": 3,
+    	"addressDistrict": 2,
     	"addressSubdistrict": 1,
     	"addressZipcode": "10110",
     	"tel": "029994567",
@@ -134,6 +233,7 @@
     	"salary": 2,
     	"salaryOther": 15000,
     	"bodyCondition": 2,
+      "bodyConditionRemark": "แขนขาด",
     	"registerStatus": "TBD"
     }
   ]

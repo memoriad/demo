@@ -2,7 +2,10 @@ import React from 'react';
 import { PropTypes } from 'prop-types';
 import fetch from 'node-fetch';
 import { connect } from 'react-redux';
-import { reduxForm } from 'redux-form';
+import {
+  reduxForm,
+  getFormValues
+} from 'redux-form';
 import { loadRegister } from '../../actions/register';
 import { REGISTERS_ENDPOINT } from '../../constants/endpoints';
 import * as alertModel from '../../constants/variables';
@@ -33,11 +36,16 @@ class IdentityFormContainer extends React.Component {
   }
 
   findIdentity = () => {
-    this.props.onLoadRegister($('#card_no').val())
-    this.setState({
-      isVerified: true
-    })
-    handlerIdentity()
+    if(this.check3339()) {
+      this.props.onLoadRegister($('#card_no').val())
+      this.setState({
+        isVerified: true
+      })
+      handlerIdentity()
+    }else {
+      this.handlerAlert(alertModel.EGA_AGE_ALERT.HEADER_TEXT, alertModel.EGA_AGE_ALERT.CONTENT_TEXT)
+      $('#alert_modal').modal('open')
+    }
   }
 
   check3339 = () => {
@@ -56,14 +64,45 @@ class IdentityFormContainer extends React.Component {
         console.log('check3339 result: ', json)
 
         if(json === true) {
-          this.verifyPerson()
-        }else if(json === false){
           this.handlerAlert(alertModel.CHECK3339_ALERT.HEADER_TEXT, alertModel.CHECK3339_ALERT.CONTENT_TEXT)
           $('#alert_modal').modal('open')
+        }else if(json === false){
+          this.check40()
         }
       })
       .catch(err => {
         console.error(err)
+        this.handlerAlert(alertModel.ERROR_ALERT.HEADER_TEXT, alertModel.ERROR_ALERT.CONTENT_TEXT)
+        $('#alert_modal').modal('open')
+      });
+  }
+
+  check40 = () => {
+    console.log('check40');
+    let params = 'ssoNum=' + $('#card_no').val()
+
+    fetch(`${REGISTERS_ENDPOINT}/sso/check40?${params}`)
+      .then(res => {
+        console.log('response ok: ', res.ok);
+        console.log('response status: ', res.status);
+        console.log('response status text: ', res.statusText);
+
+        return res.json()
+      })
+      .then(json => {
+        console.log('check40 result: ', json)
+
+        if(json === true) {
+          this.handlerAlert(alertModel.CHECK40_ALERT.HEADER_TEXT, alertModel.CHECK40_ALERT.CONTENT_TEXT)
+          $('#alert_modal').modal('open')
+        }else if(json === false){
+          this.verifyPerson()
+        }
+      })
+      .catch(err => {
+        console.error(err)
+        this.handlerAlert(alertModel.ERROR_ALERT.HEADER_TEXT, alertModel.ERROR_ALERT.CONTENT_TEXT)
+        $('#alert_modal').modal('open')
       });
   }
 
@@ -85,15 +124,29 @@ class IdentityFormContainer extends React.Component {
         console.log('verifyPerson result: ', json)
 
         if(json) {
-          handlerIdentity()
-        }else {
-          this.handlerAlert(alertModel.CHECK3339_ALERT.HEADER_TEXT, alertModel.CHECK3339_ALERT.CONTENT_TEXT)
-          $('#alert_modal').modal('open')
+          this.verifyAge()
         }
       })
       .catch(err => {
         console.error(err)
+        this.handlerAlert(alertModel.ERROR_ALERT.HEADER_TEXT, alertModel.ERROR_ALERT.CONTENT_TEXT)
+        $('#alert_modal').modal('open')
       });
+  }
+
+  verifyAge = () => {
+    const currentDate = new Date()
+    const birthDate = this.props.identityValues.birthDate
+    const compareYear = currentDate.getFullYear() - birthDate.getFullYear()
+    console.log('compareYear: ', compareYear);
+
+    if(currentDate.getFullYear() - birthDate.getFullYear() < 15 ||
+        currentDate.getFullYear() - birthDate.getFullYear() > 60) {
+
+      return false
+    }
+
+    return true
   }
 
   componentDidMount() {
@@ -108,9 +161,8 @@ class IdentityFormContainer extends React.Component {
   render() {
     return (
       <IdentityForm
-        isVerified={this.state.isVerified}
-        alertModel={this.state.alertModel}
         findIdentity={this.findIdentity}
+        {...this.state}
         {...this.props} />
     )
   }
@@ -128,7 +180,6 @@ const handlerIdentity = () => {
   $(".collapsible").collapsible({accordion: true});
   $(".collapsible").collapsible({accordion: false});
 
-  $("#general_section .collapsible-header").addClass("active");
   $("#contact_section .collapsible-header").addClass("active");
   $("#payment_section .collapsible-header").addClass("active");
   $("#other_section .collapsible-header").addClass("active");
@@ -139,22 +190,39 @@ const validate = values => {
   const errors = {}
 
   if (!values.card_no) {
-    errors.card_no = 'required'
+    errors.card_no = 'กรุณากรอกข้อมูล'
+  }else if (values.card_no && !/^[0-9]{13}$/.test(values.card_no)) {
+    errors.card_no = 'เลขประชาชนไม่ถูกต้อง'
   }
   if (!values.laser) {
-    errors.laser = 'required'
+    errors.laser = 'กรุณากรอกข้อมูล'
+  }else if (values.laser && !/^JT[0-9]{1}-[0-9]{7}-[0-9]{2}$/i.test(values.laser)) {
+    errors.laser = 'เลขหลังบัตรประชาชนไม่ถูกต้อง'
+  }
+  if (!values.title) {
+    errors.title = 'กรุณากรอกข้อมูล'
+  }
+  if (!values.name) {
+    errors.name = 'กรุณากรอกข้อมูล'
+  }
+  if (!values.surname) {
+    errors.surname = 'กรุณากรอกข้อมูล'
+  }
+  if (!values.birthDate) {
+    errors.birthDate = 'กรุณากรอกข้อมูล'
   }
   if (!values.email) {
-    errors.email = 'required'
+    errors.email = 'กรุณากรอกข้อมูล'
   }else if (values.email && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-    errors.email = 'Invalid email'
+    errors.email = 'อีเมลไม่ถูกต้อง'
   }
 
   return errors
 }
 
 const mapStateToProps = (state) => ({
-  masters: state.masters
+  masters: state.masters,
+  identityValues: getFormValues('identity')(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({

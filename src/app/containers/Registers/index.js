@@ -20,7 +20,8 @@ class RegisterContainer extends React.Component {
 
   componentDidMount() {
     this.onReloadMasters()
-
+    
+    $('.button-collapse').sideNav();
     $('.modal').modal({
       dismissible: false
     })

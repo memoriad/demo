@@ -3,12 +3,16 @@ import { PropTypes } from 'prop-types';
 import { Field } from 'redux-form';
 import MenuItem from 'material-ui/MenuItem';
 import {
-  TextField
+  TextField,
+  SelectField,
+  DatePicker
 } from 'redux-form-material-ui';
 import AlertModal from './AlertModal';
 
 const IdentityForm = (props) => {
   const { isVerified, alertModel, masters, findIdentity, handleSubmit, pristine, reset, submitting, invalid } = props
+
+  const titles = masters.title
 
   return (
     <form action="#">
@@ -54,7 +58,61 @@ const IdentityForm = (props) => {
               </div>
 
               <div className="row">
-                <div className="col s12">
+                <div className="col s12 m2">
+                  <Field
+                    id="title"
+                    name="title"
+                    component={SelectField}
+                    floatingLabelText="คำนำหน้า"
+                    floatingLabelFixed={true}
+                    hintText="[ -โปรดระบุ- ]"
+                    fullWidth={true}
+                    disabled={isVerified}>
+                    {
+                      titles === void 0 ? null : titles.map((title) =>
+                        <MenuItem key={title.id} value={title.id} primaryText={title.value} />
+                      )
+                    }
+                  </Field>
+                </div>
+
+                <div className="col s12 m5">
+                  <Field
+                    id="name"
+                    name="name"
+                    component={TextField}
+                    floatingLabelText="ชื่อ"
+                    maxLength={20}
+                    fullWidth={true}
+                    disabled={isVerified} />
+                </div>
+
+                <div className="col s12 m5">
+                  <Field
+                    id="surname"
+                    name="surname"
+                    component={TextField}
+                    floatingLabelText="สกุล"
+                    maxLength={20}
+                    fullWidth={true}
+                    disabled={isVerified} />
+                </div>
+              </div>
+
+              <div className="row">
+                <div className="col s12 m6">
+                  <Field
+                    id="birthDate"
+                    name="birthDate"
+                    component={DatePicker}
+                    format={null}
+                    autoOk={true}
+                    floatingLabelText="เกิดเมื่อ"
+                    fullWidth={true}
+                    disabled={isVerified} />
+                </div>
+
+                <div className="col s12 m6">
                   <Field
                     id="email"
                     name="email"
@@ -62,6 +120,7 @@ const IdentityForm = (props) => {
                     floatingLabelText="Email"
                     fullWidth={true}
                     maxLength={30}
+                    disabled={isVerified}
                     disabled={isVerified} />
                 </div>
               </div>

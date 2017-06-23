@@ -15,87 +15,33 @@ import ConfirmModal from './ConfirmModal';
 import RegisteredModal from './RegisteredModal';
 
 const RegisterForm = (props) => {
-  const { districts, onLoadDistricts, subDistricts, onLoadSubDistricts,
-    isDefective, handlerDefective, showAgreement, cancelIdentity, masters, initialValues, isAgree, handlerChange, handlerAgree,
-    isVerify, handlerVerify, handlerInvalid, handleSubmit, pristine, reset, submitting, invalid } = props
+  const { districts, onLoadDistricts, subDistricts, onLoadSubDistricts, initialValues, initialize, registerValues,
+    isDefective, handlerDefective, showAgreement, cancelIdentity, masters, isAgree, handlerChange, handlerAgree,
+    submitRegistrant, isMember, handlerMember, handlerInvalid, handleSubmit, pristine, reset, submitting, invalid } = props
 
-  const titles = masters.title
   const provinces = masters.province
-  const districtItem = districts
-  const subDistrictItem = subDistricts
+  const districtItem = districts.item
+  const subDistrictItem = subDistricts.item
   const contributionTypes = masters.contributionType
   const occupations = masters.occupation
   const incomes = masters.income
   const physicalConditions = masters.physicalCondition
 
-  if(initialValues.bodyCondition === 1) {
-    $('#bodyConditionRemark').prop('disabled', true)
+  const disableDistrict = registerValues === void 0 ? true : (registerValues.addressProvince === void 0)
+  if(!disableDistrict) {
+    onLoadDistricts(registerValues.addressProvince)
   }
+  const disableSubDistrict = registerValues === void 0 ? true : (registerValues.addressDistrict === void 0)
+  if(!disableSubDistrict) {
+    onLoadSubDistricts(registerValues.addressDistrict)
+  }
+  const disableDefective = isDefective === void 0 ? (initialValues.bodyCondition !== 2) : !isDefective
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit(submitRegistrant)}>
       <div className="container">
 
         <ul id="register_form" className="collapsible popout hide" data-collapsible="expandable">
-          <li id="general_section">
-            <div className="collapsible-header tooltipped hoverable" data-position="top" data-delay="300" data-tooltip="Expand/Collapse">
-              <i className="material-icons">info</i>ข้อมูลทั่วไป
-            </div>
-            <div className="collapsible-body hoverable">
-              <div className="row">
-                <div className="col s12 m2">
-                  <Field
-                    id="title"
-                    name="title"
-                    component={SelectField}
-                    floatingLabelText="คำนำหน้า"
-                    floatingLabelFixed={true}
-                    hintText="[ -โปรดระบุ- ]"
-                    fullWidth={true}>
-                    {
-                      titles === void 0 ? null : titles.map((title) =>
-                        <MenuItem key={title.id} value={title.id} primaryText={title.value} />
-                      )
-                    }
-                  </Field>
-                </div>
-
-                <div className="col s12 m5">
-                  <Field
-                    id="name"
-                    name="name"
-                    component={TextField}
-                    floatingLabelText="ชื่อ"
-                    maxLength={20}
-                    fullWidth={true} />
-                </div>
-
-                <div className="col s12 m5">
-                  <Field
-                    id="surname"
-                    name="surname"
-                    component={TextField}
-                    floatingLabelText="สกุล"
-                    maxLength={20}
-                    fullWidth={true} />
-                </div>
-              </div>
-
-              <div className="row">
-                <div className="col s12">
-                  <Field
-                    id="birthDate"
-                    name="birthDate"
-                    component={DatePicker}
-                    format={null}
-                    autoOk={true}
-                    floatingLabelText="เกิดเมื่อ"
-                    fullWidth={true} />
-                </div>
-              </div>
-            </div>
-          </li>
-
           <li id="contact_section">
             <div className="collapsible-header tooltipped hoverable" data-position="top" data-delay="300" data-tooltip="Expand/Collapse">
               <i className="material-icons">contacts</i>ข้อมูลการติดต่อ
@@ -124,7 +70,11 @@ const RegisterForm = (props) => {
                     floatingLabelText="จังหวัด"
                     floatingLabelFixed={true}
                     hintText="[ -โปรดระบุ- ]"
-                    onChange={(event, index, value) => onLoadDistricts(index)}
+                    onChange={(event, value) => {
+                        registerValues.addressDistrict = void 0
+                        registerValues.addressSubdistrict = void 0
+                      }
+                    }
                     fullWidth={true}>
                     {
                       provinces === void 0 ? null : provinces.map((province) =>
@@ -142,8 +92,9 @@ const RegisterForm = (props) => {
                     floatingLabelText="อำเภอ/เขต"
                     floatingLabelFixed={true}
                     hintText="[ -โปรดระบุ- ]"
-                    onChange={(event, index, value) => onLoadSubDistricts(index)}
-                    fullWidth={true}>
+                    onChange={(event, value) => registerValues.addressSubdistrict = void 0}
+                    fullWidth={true}
+                    disabled={disableDistrict}>
                     {
                       districtItem === void 0 ? null : districtItem.map((district) =>
                         <MenuItem key={district.id} value={district.id} primaryText={district.value} />
@@ -162,7 +113,8 @@ const RegisterForm = (props) => {
                     floatingLabelText="ตำบล/แขวง"
                     floatingLabelFixed={true}
                     hintText="[ -โปรดระบุ- ]"
-                    fullWidth={true}>
+                    fullWidth={true}
+                    disabled={disableSubDistrict}>
                     {
                       subDistrictItem === void 0 ? null : subDistrictItem.map((subDistrict) =>
                         <MenuItem key={subDistrict.id} value={subDistrict.id} primaryText={subDistrict.value} />
@@ -307,17 +259,17 @@ const RegisterForm = (props) => {
                     id="bodyConditionRemark"
                     name="bodyConditionRemark"
                     component={TextField}
-                    floatingLabelText="พิการเป็น"
+                    floatingLabelText="ระบุความพิการ"
                     maxLength={20}
                     fullWidth={true}
-                    disabled={!isDefective} />
+                    disabled={disableDefective} />
                 </div>
               </div>
 
               <div className="row">
                 <div className="col s12">
-                  <Checkbox id="verify_check" checked={isVerify} onCheck={(event, checked) => {
-                      handlerVerify(checked)
+                  <Checkbox id="member_check" checked={isMember} onCheck={(event, checked) => {
+                      handlerMember(checked)
                       $('#showAgreement_btn').prop("disabled", checked)
                     }
                   } label="เป็นสมาชิกกองทุนบำเหน็จบำนาญข้าราชการ กองทุนบำเหน็จบำนาญข้าราชการกรุงเทพมหานคร กองทุนบำเหน็จบำนาญข้าราชการส่วนท้องถิ่น หรือเป็นสมาชิกกองทุนรัฐวิสาหกิจ หรือหน่วยงานอื่นของรัฐหรือไม่" />
@@ -332,8 +284,8 @@ const RegisterForm = (props) => {
             Submit<i className="material-icons right">send</i>
           </button>
           <a id="cancel_identity" className="waves-effect waves-light btn blue-grey lighten-2" style={{margin: 2}} onClick={() => {
-              reset()
-              handlerVerify(false)
+              initialize({})
+              handlerMember(false)
               $('#showAgreement_btn').prop("disabled", false)
               cancelIdentity()
             }
@@ -345,9 +297,10 @@ const RegisterForm = (props) => {
 
       <ConfirmModal invalid={invalid} />
 
-      <RegisteredModal id={'invalid_modal'} alertCode={'EGA_INVALID_ALERT'} handlerInvalid={handlerInvalid} />
-      <RegisteredModal id={'invalid_age_modal'} alertCode={'EGA_AGE_ALERT'} handlerInvalid={handlerInvalid} />
+      <RegisteredModal id={'invalid_modal'} alertCode={'EGA_INVALID_ALERT'} callback={handlerInvalid} />
+      <RegisteredModal id={'member_modal'} alertCode={'MEMBER_ALERT'} />
       <RegisteredModal id={'registered_modal'} alertCode={'REGISTER_ALERT'} />
+      <RegisteredModal id={'error_modal'} alertCode={'REGISTER_ALERT'} />
 
     </form>
   )

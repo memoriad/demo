@@ -17,9 +17,9 @@ export default () => {
   return (
     <Router>
       <div>
-        <Route path='/' component={Header} />
+        <Route exact path='/' component={Header} />
         <Route exact path='/' component={RegisterPage} />
-        <Route path='/' component={Footer} />
+        <Route exact path='/' component={Footer} />
       </div>
     </Router>
   )

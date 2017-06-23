@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import * as alertModel from '../../constants/variables';
 
 const AlertModal = (props) => {
-  const { id, alertCode, handlerInvalid } = props
+  const { id, alertCode, callback } = props
   let headerText = ''
   let contentText = ''
   let handlerCallback = () => {}
@@ -12,16 +12,20 @@ const AlertModal = (props) => {
     case 'EGA_INVALID_ALERT':
       headerText = alertModel.EGA_INVALID_ALERT.HEADER_TEXT
       contentText = alertModel.EGA_INVALID_ALERT.CONTENT_TEXT
-      handlerCallback = () => handlerInvalid()
+      handlerCallback = () => callback()
       break
-    case 'EGA_AGE_ALERT':
-      headerText = alertModel.EGA_AGE_ALERT.HEADER_TEXT
-      contentText = alertModel.EGA_AGE_ALERT.CONTENT_TEXT
-      handlerCallback = () => handlerInvalid()
+    case 'MEMBER_ALERT':
+      headerText = alertModel.MEMBER_ALERT.HEADER_TEXT
+      contentText = alertModel.MEMBER_ALERT.CONTENT_TEXT
       break
     case 'REGISTER_ALERT':
       headerText = alertModel.REGISTERED_ALERT.HEADER_TEXT
       contentText = alertModel.REGISTERED_ALERT.CONTENT_TEXT
+      handlerCallback = () => window.location = '/'
+      break
+    case 'ERROR_ALERT':
+      headerText = alertModel.ERROR_ALERT.HEADER_TEXT
+      contentText = alertModel.ERROR_ALERT.CONTENT_TEXT
       handlerCallback = () => window.location = '/'
       break
   }

@@ -5,7 +5,7 @@ const initialState = []
 export default (state = initialState, action) => {
   switch (action.type) {
     case actionType.LOAD_DISTRICTS_SUCCESS:
-      return [action.payload]
+      return action.payload
       break;
     default:
       return state

@@ -2,7 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import fetch from 'node-fetch';
 import { connect } from 'react-redux';
-import { reduxForm } from 'redux-form';
+import {
+  reduxForm,
+  getFormValues
+} from 'redux-form';
 import { loadMasters } from '../../actions/masters';
 import { getRegistrant } from '../../reducers/register';
 import { loadDistricts } from '../../actions/districts';
@@ -17,21 +20,29 @@ class RegisterFormContainer extends React.Component {
 
   state = {
     isAgree: false,
-    isVerify: false,
-    isDefective: true
+    isMember: false
   }
 
-  handlerDefective = (event, index, value) => {
-    if(index === 2) {
+  handlerDefective = (event, value) => {
+    if(value === 2) {
       this.setState({isDefective: true})
     }else {
+      this.props.registerValues.bodyConditionRemark = ''
+      this.props.initialize(
+        {
+          'bodyCondition': value,
+          ...this.props.registerValues
+        }
+      )
       this.setState({isDefective: false})
     }
-    $('#bodyConditionRemark').prop('disabled', false)
   }
 
-  handlerVerify = (isCheck) => {
-    this.setState({isVerify: isCheck})
+  handlerMember = (isCheck) => {
+    this.setState({isMember: isCheck})
+    if(isCheck) {
+      $('#member_modal').modal('open')
+    }
   }
 
   handlerChange = (isCheck) => {
@@ -48,28 +59,47 @@ class RegisterFormContainer extends React.Component {
     $('#agreement_modal').modal('close')
   }
 
+  submitRegistrant = () => {
+    const params = {
+      ...this.props.identityValues,
+      ...this.props.registerValues
+    }
+    console.log('params', JSON.stringify(params))
+
+    fetch(`${REGISTERS_ENDPOINT}/new/registrant`, {
+        method: 'POST',
+        body: JSON.stringify(params),
+        headers: { 'Content-Type': 'application/json' }
+      })
+      .then(res => {
+        console.log('response ok: ', res.ok);
+        console.log('response status: ', res.status);
+        console.log('response status text: ', res.statusText);
+        $('#registered_modal').modal('open')
+      })
+      .catch(err => {
+        console.error(err)
+        $('#error_modal').modal('open')
+      });
+  }
+
   componentDidMount() {
     setTimeout(function() {
       $("#identity_section .collapsible-header").addClass("active");
       $(".collapsible").collapsible({accordion: false});
     }, 500);
-
-    $('.button-collapse').sideNav();
-
-    $('.modal').modal();
   }
 
   render() {
     return (
       <RegisterForm
-        isVerify={this.state.isVerify}
-        isDefective={this.state.isDefective}
-        isAgree={this.state.isAgree}
-        handlerVerify={this.handlerVerify}
+        handlerMember={this.handlerMember}
         handlerDefective={this.handlerDefective}
         handlerChange={this.handlerChange}
         handlerAgree={this.handlerAgree}
         handlerInvalid={this.handlerInvalid}
+        submitRegistrant={this.submitRegistrant}
+        {...this.state}
         {...this.props} />
     )
   }
@@ -87,7 +117,6 @@ const cancelIdentity = () => {
   $("#identity_section .collapsible-header").addClass("active");
   $(".collapsible").collapsible({accordion: false});
 
-  $("#general_section .collapsible-header").removeClass("active");
   $("#contact_section .collapsible-header").removeClass("active");
   $("#payment_section .collapsible-header").removeClass("active");
   $("#other_section .collapsible-header").removeClass("active");
@@ -99,98 +128,52 @@ const cancelIdentity = () => {
   $('#button_section').addClass('hide');
 }
 
-const submitRegistrant = (values) => {
-  console.log('birthDate: ', values.birthDate);
-  console.log('year: ', values.birthDate.getFullYear());
-  console.log('month: ', values.birthDate.getMonth());
-  console.log('date: ', values.birthDate.getDate());
-
-  const currentDate = new Date()
-  const birthDate = values.birthDate
-  const compareYear = currentDate.getFullYear() - birthDate.getFullYear()
-  console.log('compareYear: ', compareYear);
-
-  if(currentDate.getFullYear() - birthDate.getFullYear() < 15 ||
-      currentDate.getFullYear() - birthDate.getFullYear() > 60) {
-
-    $('#invalid_age_modal').modal('open')
-
-    return false
-  }
-
-  let params = {
-    citizenId: $('#card_no').val(),
-    laserCode: $('#laser').val(),
-    email: $('#email').val(),
-    ...values
-  }
-
-  fetch(`${REGISTERS_ENDPOINT}/new/registrant`, {
-      method: 'POST',
-      body: JSON.stringify(params),
-      headers: { 'Content-Type': 'application/json' }
-    })
-    .then(res => {
-      console.log('response ok: ', res.ok);
-      console.log('response status: ', res.status);
-      console.log('response status text: ', res.statusText);
-      $('#registered_modal').modal('open')
-    })
-    .catch(err => {
-      console.error(err)
-    });
-}
-
 const validate = values => {
   const errors = {}
 
-  if (!values.title) {
-    errors.title = 'required'
-  }
-  if (!values.name) {
-    errors.name = 'required'
-  }
-  if (!values.surname) {
-    errors.surname = 'required'
-  }
-  if (!values.birthDate) {
-    errors.birthDate = 'required'
-  }
   if (!values.addressNo) {
-    errors.addressNo = 'required'
+    errors.addressNo = 'กรุณากรอกข้อมูล'
   }
   if (!values.addressProvince) {
-    errors.addressProvince = 'required'
+    errors.addressProvince = 'กรุณากรอกข้อมูล'
   }
   if (!values.addressDistrict) {
-    errors.addressDistrict = 'required'
+    errors.addressDistrict = 'กรุณากรอกข้อมูล'
   }
   if (!values.addressSubdistrict) {
-    errors.addressSubdistrict = 'required'
+    errors.addressSubdistrict = 'กรุณากรอกข้อมูล'
   }
   if (!values.addressZipcode) {
-    errors.addressZipcode = 'required'
+    errors.addressZipcode = 'กรุณากรอกข้อมูล'
+  }else if (values.addressZipcode && !/^[0-9]{5}$/.test(values.addressZipcode)) {
+    errors.addressZipcode = 'รหัสไปรษณีย์ไม่ถูกต้อง'
   }
   if (!values.tel) {
-    errors.tel = 'required'
+    errors.tel = 'กรุณากรอกข้อมูล'
+  }else if (values.tel && !/^[0-9]{9}$/.test(values.tel)) {
+    errors.tel = 'เบอร์โทรศัพท์บ้านไม่ถูกต้อง'
   }
   if (!values.mobile) {
-    errors.mobile = 'required'
+    errors.mobile = 'กรุณากรอกข้อมูล'
+  }else if (values.mobile && !/^[0-9]{10}$/.test(values.mobile)) {
+    errors.mobile = 'เบอร์โทรศัพท์มือถือไม่ถูกต้อง'
   }
   if (!values.contributionType) {
-    errors.contributionType = 'required'
+    errors.contributionType = 'กรุณากรอกข้อมูล'
   }
   if (!values.occupation) {
-    errors.occupation = 'required'
+    errors.occupation = 'กรุณากรอกข้อมูล'
   }
   if (!values.salary) {
-    errors.salary = 'required'
+    errors.salary = 'กรุณากรอกข้อมูล'
   }
   if (!values.salaryOther) {
-    errors.salaryOther = 'required'
+    errors.salaryOther = 'กรุณากรอกข้อมูล'
+  }else if (values.salaryOther && !/^[0-9]$/.test(values.salaryOther)) {
+    errors.salaryOther = 'กรุณากรอกจำนวนเงินเป็นตัวเลข'
   }
   if (!values.bodyCondition) {
-    errors.bodyCondition = 'required'
+    errors.bodyCondition = 'กรุณากรอกข้อมูล'
   }
 
   return errors
@@ -201,6 +184,8 @@ const mapStateToProps = (state) => ({
   districts: state.districts,
   subDistricts: state.subDistricts,
   initialValues: getRegistrant(state),
+  identityValues: getFormValues('identity')(state),
+  registerValues: getFormValues('register')(state),
   showAgreement,
   cancelIdentity
 })
@@ -211,10 +196,6 @@ const mapDispatchToProps = (dispatch) => ({
   },
   onLoadSubDistricts: (id) => {
     dispatch(loadSubDistricts(id))
-  },
-  onSubmit: (values) => {
-    console.log('values', JSON.stringify(values))
-    submitRegistrant(values)
   }
 })
 
