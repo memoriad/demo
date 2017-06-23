@@ -59,6 +59,9 @@ class IdentityFormContainer extends React.Component {
           $('#alert_modal').modal('open')
         }else if(json === false){
           this.check40()
+        }else {
+          this.handlerAlert(alertModel.EGA_INVALID_ALERT.HEADER_TEXT, alertModel.EGA_INVALID_ALERT.CONTENT_TEXT)
+          $('#alert_modal').modal('open')
         }
       })
       .catch(err => {
