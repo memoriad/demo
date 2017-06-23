@@ -300,7 +300,7 @@ const RegisterForm = (props) => {
       <RegisteredModal id={'invalid_modal'} alertCode={'EGA_INVALID_ALERT'} callback={handlerInvalid} />
       <RegisteredModal id={'member_modal'} alertCode={'MEMBER_ALERT'} />
       <RegisteredModal id={'registered_modal'} alertCode={'REGISTER_ALERT'} />
-      <RegisteredModal id={'error_modal'} alertCode={'REGISTER_ALERT'} />
+      <RegisteredModal id={'error_modal'} alertCode={'ERROR_ALERT'} />
 
     </form>
   )

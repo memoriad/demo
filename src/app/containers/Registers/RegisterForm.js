@@ -75,7 +75,12 @@ class RegisterFormContainer extends React.Component {
         console.log('response ok: ', res.ok);
         console.log('response status: ', res.status);
         console.log('response status text: ', res.statusText);
-        $('#registered_modal').modal('open')
+
+        if(res.ok) {
+          $('#registered_modal').modal('open')
+        }else {
+          $('#error_modal').modal('open')
+        }
       })
       .catch(err => {
         console.error(err)
@@ -167,9 +172,9 @@ const validate = values => {
   if (!values.salary) {
     errors.salary = 'กรุณากรอกข้อมูล'
   }
-  if (!values.salaryOther) {
+  if (!values.salaryOther && values.salary === 4) {
     errors.salaryOther = 'กรุณากรอกข้อมูล'
-  }else if (values.salaryOther && !/^[0-9]+$/.test(values.salaryOther)) {
+  }else if (values.salaryOther && !/^[1-9]+[0-9]*$/.test(values.salaryOther) && values.salary === 4) {
     errors.salaryOther = 'กรุณากรอกจำนวนเงินเป็นตัวเลข'
   }
   if (!values.bodyCondition) {
