@@ -3,9 +3,11 @@ import PropTypes from 'prop-types'
 import {
   IdentityForm,
   RegisterForm
-} from '../../containers';
+} from '../../containers'
+import AlertModal from './AlertModal';
 
 const Register = (props) => {
+  const { alertModel, handlerAlert } = props
 
   return (
     <div className="content">
@@ -17,9 +19,11 @@ const Register = (props) => {
         </div>
       </nav>
 
-      <IdentityForm />
+      <IdentityForm handlerAlert={handlerAlert} />
 
-      <RegisterForm />
+      <RegisterForm handlerAlert={handlerAlert} />
+
+      <AlertModal {...alertModel} />
 
     </div>
   )

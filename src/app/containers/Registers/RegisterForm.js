@@ -10,7 +10,9 @@ import { loadMasters } from '../../actions/masters';
 import { getRegistrant } from '../../reducers/register';
 import { loadDistricts } from '../../actions/districts';
 import { loadSubDistricts } from '../../actions/subDistricts';
+import { loadZipCode } from '../../actions/zipCode';
 import { REGISTERS_ENDPOINT } from '../../constants/endpoints';
+import * as alertModel from '../../constants/variables';
 import { RegisterForm } from '../../components';
 
 class RegisterFormContainer extends React.Component {
@@ -21,6 +23,21 @@ class RegisterFormContainer extends React.Component {
   state = {
     isAgree: false,
     isMember: false
+  }
+
+  handlerSalary = (event, value) => {
+    if(value === 4) {
+      this.setState({isSalary: true})
+    }else {
+      this.props.registerValues.salaryOther = ''
+      this.props.initialize(
+        {
+          'salary': value,
+          ...this.props.registerValues
+        }
+      )
+      this.setState({isSalary: false})
+    }
   }
 
   handlerDefective = (event, value) => {
@@ -41,7 +58,8 @@ class RegisterFormContainer extends React.Component {
   handlerMember = (isCheck) => {
     this.setState({isMember: isCheck})
     if(isCheck) {
-      $('#member_modal').modal('open')
+      this.props.handlerAlert(alertModel.MEMBER_ALERT.HEADER_TEXT, alertModel.MEMBER_ALERT.CONTENT_TEXT)
+      $('#alert_modal').modal('open')
     }
   }
 
@@ -77,14 +95,17 @@ class RegisterFormContainer extends React.Component {
         console.log('response status text: ', res.statusText);
 
         if(res.ok) {
-          $('#registered_modal').modal('open')
+          this.props.handlerAlert(alertModel.REGISTERED_ALERT.HEADER_TEXT, alertModel.REGISTERED_ALERT.CONTENT_TEXT, () => window.location = '/')
+          $('#alert_modal').modal('open')
         }else {
-          $('#error_modal').modal('open')
+          this.props.handlerAlert(alertModel.ERROR_ALERT.HEADER_TEXT, alertModel.ERROR_ALERT.CONTENT_TEXT, () => window.location = '/')
+          $('#alert_modal').modal('open')
         }
       })
       .catch(err => {
         console.error(err)
-        $('#error_modal').modal('open')
+        this.props.handlerAlert(alertModel.ERROR_ALERT.HEADER_TEXT, alertModel.ERROR_ALERT.CONTENT_TEXT, () => window.location = '/')
+        $('#alert_modal').modal('open')
       });
   }
 
@@ -99,6 +120,7 @@ class RegisterFormContainer extends React.Component {
     return (
       <RegisterForm
         handlerMember={this.handlerMember}
+        handlerSalary={this.handlerSalary}
         handlerDefective={this.handlerDefective}
         handlerChange={this.handlerChange}
         handlerAgree={this.handlerAgree}
@@ -180,6 +202,9 @@ const validate = values => {
   if (!values.bodyCondition) {
     errors.bodyCondition = 'กรุณากรอกข้อมูล'
   }
+  if (!values.bodyConditionRemark && values.bodyCondition === 2) {
+    errors.bodyConditionRemark = 'กรุณากรอกข้อมูล'
+  }
 
   return errors
 }
@@ -188,6 +213,7 @@ const mapStateToProps = (state) => ({
   masters: state.masters,
   districts: state.districts,
   subDistricts: state.subDistricts,
+  zipCode: state.zipCode,
   initialValues: getRegistrant(state),
   identityValues: getFormValues('identity')(state),
   registerValues: getFormValues('register')(state),
@@ -201,6 +227,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
   onLoadSubDistricts: (id) => {
     dispatch(loadSubDistricts(id))
+  },
+  onLoadZipCode: (id) => {
+    dispatch(loadZipCode(id))
   }
 })
 

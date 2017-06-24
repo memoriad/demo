@@ -17,26 +17,13 @@ class IdentityFormContainer extends React.Component {
   }
 
   state = {
-    isVerified: false,
-    alertModel: {
-      headerText: '',
-      contentText: '',
-      handlerCallback: null
-    }
-  }
-
-  handlerAlert = (headerText, contentText, handlerCallback) => {
-    this.setState({
-      alertModel: {
-        headerText: headerText,
-        contentText: contentText,
-        handlerCallback: handlerCallback
-      }
-    })
+    isVerified: false
   }
 
   findIdentity = () => {
-    this.check3339()
+    if(this.check3339() && this.check40() && this.verifyPerson() && this.verifyAge()) {
+      handlerIdentity()
+    }
   }
 
   check3339 = () => {
@@ -48,33 +35,32 @@ class IdentityFormContainer extends React.Component {
         console.log('response ok: ', res.ok);
         console.log('response status: ', res.status);
         console.log('response status text: ', res.statusText);
+        console.log('check3339 result: ', res.json().result)
 
-        if(res.status === '404') {
-          this.handlerAlert(alertModel.ERROR_ALERT.HEADER_TEXT, alertModel.ERROR_ALERT.CONTENT_TEXT)
-          $('#alert_modal').modal('open')
-          return false
-        }
+        if(res.ok) {
+          const result = res.json().result
 
-        return res.json()
-      })
-      .then(json => {
-        console.log('check3339 result: ', json)
-
-        if(json === true) {
-          this.handlerAlert(alertModel.CHECK3339_ALERT.HEADER_TEXT, alertModel.CHECK3339_ALERT.CONTENT_TEXT)
-          $('#alert_modal').modal('open')
-        }else if(json === false){
-          this.check40()
+          if(result === true) {
+            this.props.handlerAlert(alertModel.CHECK3339_ALERT.HEADER_TEXT, alertModel.CHECK3339_ALERT.CONTENT_TEXT)
+            $('#alert_modal').modal('open')
+          }else if(result === false){
+            return true
+          }else if(result === 'invalid') {
+            this.props.handlerAlert(alertModel.EGA_INVALID_ALERT.HEADER_TEXT, alertModel.EGA_INVALID_ALERT.CONTENT_TEXT)
+            $('#alert_modal').modal('open')
+          }
         }else {
-          this.handlerAlert(alertModel.EGA_INVALID_ALERT.HEADER_TEXT, alertModel.EGA_INVALID_ALERT.CONTENT_TEXT)
+          this.props.handlerAlert(alertModel.ERROR_ALERT.HEADER_TEXT, alertModel.ERROR_ALERT.CONTENT_TEXT)
           $('#alert_modal').modal('open')
         }
       })
       .catch(err => {
         console.error(err)
-        this.handlerAlert(alertModel.ERROR_ALERT.HEADER_TEXT, alertModel.ERROR_ALERT.CONTENT_TEXT)
+        this.props.handlerAlert(alertModel.ERROR_ALERT.HEADER_TEXT, alertModel.ERROR_ALERT.CONTENT_TEXT)
         $('#alert_modal').modal('open')
       });
+
+      return false
   }
 
   check40 = () => {
@@ -86,24 +72,29 @@ class IdentityFormContainer extends React.Component {
         console.log('response ok: ', res.ok);
         console.log('response status: ', res.status);
         console.log('response status text: ', res.statusText);
+        console.log('check40 result: ', res.json().result)
 
-        return res.json()
-      })
-      .then(json => {
-        console.log('check40 result: ', json)
+        if(res.ok) {
+          const result = res.json().result
 
-        if(json === true) {
-          this.handlerAlert(alertModel.CHECK40_ALERT.HEADER_TEXT, alertModel.CHECK40_ALERT.CONTENT_TEXT)
+          if(result) {
+            this.props.handlerAlert(alertModel.CHECK40_ALERT.HEADER_TEXT, alertModel.CHECK40_ALERT.CONTENT_TEXT)
+            $('#alert_modal').modal('open')
+          }else {
+            return true
+          }
+        }else {
+          this.props.handlerAlert(alertModel.ERROR_ALERT.HEADER_TEXT, alertModel.ERROR_ALERT.CONTENT_TEXT)
           $('#alert_modal').modal('open')
-        }else if(json === false){
-          this.verifyPerson()
         }
       })
       .catch(err => {
         console.error(err)
-        this.handlerAlert(alertModel.ERROR_ALERT.HEADER_TEXT, alertModel.ERROR_ALERT.CONTENT_TEXT)
+        this.props.handlerAlert(alertModel.ERROR_ALERT.HEADER_TEXT, alertModel.ERROR_ALERT.CONTENT_TEXT)
         $('#alert_modal').modal('open')
       });
+
+      return false
   }
 
   verifyPerson = () => {
@@ -117,30 +108,29 @@ class IdentityFormContainer extends React.Component {
         console.log('response ok: ', res.ok);
         console.log('response status: ', res.status);
         console.log('response status text: ', res.statusText);
+        console.log('verifyPerson result: ', res.json().result)
 
-        if(res.status === '404') {
-          this.handlerAlert(alertModel.ERROR_ALERT.HEADER_TEXT, alertModel.ERROR_ALERT.CONTENT_TEXT)
-          $('#alert_modal').modal('open')
-          return false
-        }
+        if(res.ok) {
+          const result = res.json().result
 
-        return res.json()
-      })
-      .then(json => {
-        console.log('verifyPerson result: ', json)
-
-        if(json === true) {
-          this.verifyAge()
+          if(result) {
+            return true
+          }else {
+            this.props.handlerAlert(alertModel.EGA_INVALID_ALERT.HEADER_TEXT, alertModel.EGA_INVALID_ALERT.CONTENT_TEXT)
+            $('#alert_modal').modal('open')
+          }
         }else {
-          this.handlerAlert(alertModel.EGA_INVALID_ALERT.HEADER_TEXT, alertModel.EGA_INVALID_ALERT.CONTENT_TEXT)
+          this.props.handlerAlert(alertModel.ERROR_ALERT.HEADER_TEXT, alertModel.ERROR_ALERT.CONTENT_TEXT)
           $('#alert_modal').modal('open')
         }
       })
       .catch(err => {
         console.error(err)
-        this.handlerAlert(alertModel.ERROR_ALERT.HEADER_TEXT, alertModel.ERROR_ALERT.CONTENT_TEXT)
+        this.props.handlerAlert(alertModel.ERROR_ALERT.HEADER_TEXT, alertModel.ERROR_ALERT.CONTENT_TEXT)
         $('#alert_modal').modal('open')
       });
+
+      return false
   }
 
   verifyAge = () => {
@@ -155,8 +145,7 @@ class IdentityFormContainer extends React.Component {
       (compareYear === 15 && (compareMonth > 0 || (compareMonth === 0 && compareDate > 0))) ||
       (compareYear === 60 && (compareMonth < 0 || (compareMonth === 0 && compareDate < 0)))) {
 
-      if(birthDate.g)
-      this.handlerAlert(alertModel.EGA_AGE_ALERT.HEADER_TEXT, alertModel.EGA_AGE_ALERT.CONTENT_TEXT)
+      this.props.handlerAlert(alertModel.EGA_AGE_ALERT.HEADER_TEXT, alertModel.EGA_AGE_ALERT.CONTENT_TEXT)
       $('#alert_modal').modal('open')
 
       return false
@@ -166,7 +155,8 @@ class IdentityFormContainer extends React.Component {
     this.setState({
       isVerified: true
     })
-    handlerIdentity()
+
+    return true
   }
 
   componentDidMount() {

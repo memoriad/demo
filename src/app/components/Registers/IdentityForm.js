@@ -8,7 +8,6 @@ import {
   SelectField,
   DatePicker
 } from 'redux-form-material-ui';
-import AlertModal from './AlertModal';
 
 let DateTimeFormat;
 
@@ -139,14 +138,13 @@ const IdentityForm = (props) => {
               </div>
 
               <div className="row right-align">
-                <a id="find_identity" className="waves-effect waves-light btn indigo darken-4" href="#!" onClick={() => findIdentity()} disabled={pristine || invalid}>Find</a>
+                <a id="find_identity" className="waves-effect waves-light btn indigo darken-4" href="#!" onClick={() => findIdentity()}>Find</a>
+                <a id="" className="waves-effect waves-light btn indigo darken-4" href="#!" onClick={() => findIdentity()} disabled={pristine || invalid}>Find</a>
               </div>
             </div>
           </li>
         </ul>
       </div>
-
-      <AlertModal {...alertModel} />
 
     </form>
   )

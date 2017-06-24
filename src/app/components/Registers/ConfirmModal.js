@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const ConfirmModal = (props) => {
-  const { invalid } = props
+  const { handlerAlert, handlerInvalid, invalid } = props
 
   return (
     <div id="confirm_modal" className="modal">
@@ -15,7 +15,8 @@ const ConfirmModal = (props) => {
         <a className="modal-action modal-close waves-effect waves-green btn-flat">ยกเลิก</a>
         <button type="submit" className="modal-action waves-effect waves-green btn-flat" onClick={() => {
             if(invalid) {
-              $('#invalid_modal').modal('open')
+              handlerAlert(alertModel.EGA_INVALID_ALERT.HEADER_TEXT, alertModel.EGA_INVALID_ALERT.CONTENT_TEXT, () => handlerInvalid())
+              $('#alert_modal').modal('open')
             }
           }
         }>ยืนยัน</button>

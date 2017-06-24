@@ -10,6 +10,24 @@ class RegisterContainer extends React.Component {
     onLoadMasters: PropTypes.func.isRequired
   }
 
+  state = {
+    alertModel: {
+      headerText: '',
+      contentText: ''
+    }
+  }
+
+  handlerAlert = (headerText, contentText, handlerCallback) => {
+    this.setState({
+      alertModel: {
+        headerText: headerText,
+        contentText: contentText,
+        handlerCallback: handlerCallback
+      }
+    })
+    this.forceUpdate()
+  }
+
   shouldComponentUpdate(nextProps) {
     return this.props.masters !== nextProps.masters;
   }
@@ -20,7 +38,7 @@ class RegisterContainer extends React.Component {
 
   componentDidMount() {
     this.onReloadMasters()
-    
+
     $('.button-collapse').sideNav();
     $('.modal').modal({
       dismissible: false
@@ -30,8 +48,10 @@ class RegisterContainer extends React.Component {
   render() {
 
     return (
-      <RegisterPage />
-    );
+      <RegisterPage
+        alertModel={this.state.alertModel}
+        handlerAlert={this.handlerAlert} />
+    )
   }
 
 }

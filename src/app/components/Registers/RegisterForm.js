@@ -12,16 +12,17 @@ import {
 } from 'redux-form-material-ui';
 import AgreementModal from './AgreementModal';
 import ConfirmModal from './ConfirmModal';
-import RegisteredModal from './RegisteredModal';
 
 const RegisterForm = (props) => {
-  const { districts, onLoadDistricts, subDistricts, onLoadSubDistricts, initialValues, initialize, registerValues,
+  const { districts, onLoadDistricts, subDistricts, onLoadSubDistricts, zipCode, onLoadZipCode, initialValues, initialize, registerValues,
     isDefective, handlerDefective, showAgreement, cancelIdentity, masters, isAgree, handlerChange, handlerAgree,
-    submitRegistrant, isMember, handlerMember, handlerInvalid, handleSubmit, pristine, reset, submitting, invalid } = props
+    handlerAlert, isSalary, handlerSalary, submitRegistrant, isMember, handlerMember, handlerInvalid,
+    handleSubmit, pristine, reset, submitting, invalid } = props
 
   const provinces = masters.province
   const districtItem = districts
   const subDistrictItem = subDistricts
+  const zipCodeValue = zipCode
   const contributionTypes = masters.contributionType
   const occupations = masters.occupation
   const incomes = masters.income
@@ -35,6 +36,13 @@ const RegisterForm = (props) => {
   if(!disableSubDistrict) {
     onLoadSubDistricts(registerValues.addressDistrict)
   }
+  if(registerValues !== void 0 && registerValues.addressSubdistrict !== void 0) {
+    onLoadZipCode(registerValues.addressSubdistrict)
+    registerValues.addressZipcode = zipCodeValue
+  }
+
+  const disableSalary = isSalary === void 0 ? (initialValues.salary !== 4) : !isSalary
+
   const disableDefective = isDefective === void 0 ? (initialValues.bodyCondition !== 2) : !isDefective
 
   return (
@@ -73,6 +81,7 @@ const RegisterForm = (props) => {
                     onChange={(event, value) => {
                         registerValues.addressDistrict = void 0
                         registerValues.addressSubdistrict = void 0
+                        registerValues.addressZipcode = void 0
                       }
                     }
                     fullWidth={true}>
@@ -92,7 +101,11 @@ const RegisterForm = (props) => {
                     floatingLabelText="อำเภอ/เขต"
                     floatingLabelFixed={true}
                     hintText="[ -โปรดระบุ- ]"
-                    onChange={(event, value) => registerValues.addressSubdistrict = void 0}
+                    onChange={(event, value) => {
+                        registerValues.addressSubdistrict = void 0
+                        registerValues.addressZipcode = void 0
+                      }
+                    }
                     fullWidth={true}
                     disabled={disableDistrict}>
                     {
@@ -130,7 +143,9 @@ const RegisterForm = (props) => {
                     component={TextField}
                     floatingLabelText="รหัสไปรษณีย์"
                     maxLength={5}
-                    fullWidth={true} />
+                    fullWidth={true}
+                    readOnly={true}
+                    disabled={true} />
                 </div>
               </div>
 
@@ -215,6 +230,7 @@ const RegisterForm = (props) => {
                     floatingLabelText="รายได้ต่อเดือน"
                     floatingLabelFixed={true}
                     hintText="[ -โปรดระบุ- ]"
+                    onChange={handlerSalary}
                     fullWidth={true}>
                     {
                       incomes === void 0 ? null : incomes.map((income) =>
@@ -231,7 +247,8 @@ const RegisterForm = (props) => {
                     component={TextField}
                     floatingLabelText="จำนวนเงิน (บาท)"
                     maxLength={20}
-                    fullWidth={true} />
+                    fullWidth={true}
+                    disabled={disableSalary} />
                 </div>
               </div>
 
@@ -295,12 +312,7 @@ const RegisterForm = (props) => {
 
       <AgreementModal {...props} />
 
-      <ConfirmModal invalid={invalid} />
-
-      <RegisteredModal id={'invalid_modal'} alertCode={'EGA_INVALID_ALERT'} callback={handlerInvalid} />
-      <RegisteredModal id={'member_modal'} alertCode={'MEMBER_ALERT'} />
-      <RegisteredModal id={'registered_modal'} alertCode={'REGISTER_ALERT'} />
-      <RegisteredModal id={'error_modal'} alertCode={'ERROR_ALERT'} />
+      <ConfirmModal handlerAlert={handlerAlert} handlerInvalid={handlerInvalid} invalid={invalid} />
 
     </form>
   )
