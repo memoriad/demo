@@ -10,7 +10,7 @@ module.exports = {
     app: ['./src/themes/elements.scss', './src/app/index.js']
   },
   output: {
-    publicPath: '/',
+    publicPath: '/m40_online/',
     path: path.join(__dirname, '../dist'),
     filename: '[name].bundle.js',
     sourceMapFilename: '[name].map'

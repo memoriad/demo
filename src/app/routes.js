@@ -15,7 +15,7 @@ import {
 
 export default () => {
   return (
-    <Router>
+    <Router basename="/m40_online">
       <div>
         <Route exact path='/' component={Header} />
         <Route exact path='/' component={RegisterPage} />
