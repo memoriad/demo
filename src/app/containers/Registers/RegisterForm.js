@@ -196,8 +196,9 @@ const validate = values => {
   }
   if (!values.salaryOther && values.salary === 4) {
     errors.salaryOther = 'กรุณากรอกข้อมูล'
-  }else if (values.salaryOther && !/^[1-9]+[0-9]*$/.test(values.salaryOther) && values.salary === 4) {
-    errors.salaryOther = 'กรุณากรอกจำนวนเงินเป็นตัวเลข'
+  }else if (values.salaryOther && !/^[1-9]+[0-9]*$/.test(values.salaryOther) &&
+    values.salaryOther <= 6000 && values.salary === 4) {
+    errors.salaryOther = 'จำนวนเงินไม่ถูกต้อง'
   }
   if (!values.bodyCondition) {
     errors.bodyCondition = 'กรุณากรอกข้อมูล'

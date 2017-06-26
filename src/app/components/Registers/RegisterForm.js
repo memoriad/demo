@@ -20,9 +20,9 @@ const RegisterForm = (props) => {
     handleSubmit, pristine, reset, submitting, invalid } = props
 
   const provinces = masters.province
-  const districtItem = districts
-  const subDistrictItem = subDistricts
-  const zipCodeValue = zipCode
+  const districtItem = districts.result
+  const subDistrictItem = subDistricts.result
+  const zipCodeValue = zipCode.result
   const contributionTypes = masters.contributionType
   const occupations = masters.occupation
   const incomes = masters.income
@@ -143,9 +143,7 @@ const RegisterForm = (props) => {
                     component={TextField}
                     floatingLabelText="รหัสไปรษณีย์"
                     maxLength={5}
-                    fullWidth={true}
-                    readOnly={true}
-                    disabled={true} />
+                    fullWidth={true} />
                 </div>
               </div>
 
