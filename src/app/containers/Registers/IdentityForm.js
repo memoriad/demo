@@ -126,13 +126,8 @@ class IdentityFormContainer extends React.Component {
             }
           })
         }else {
-          if(res.status == '401' || res.status == '403' || res.status == '404' || res.status == '503') {
-            this.props.handlerAlert(alertModel.ERROR_ALERT.HEADER_TEXT, alertModel.ERROR_ALERT.CONTENT_TEXT)
-            $('#alert_modal').modal('open')
-          }else {
-            this.props.handlerAlert(alertModel.EGA_INVALID_ALERT.HEADER_TEXT, alertModel.EGA_INVALID_ALERT.CONTENT_TEXT)
-            $('#alert_modal').modal('open')
-          }
+          this.props.handlerAlert(alertModel.ERROR_ALERT.HEADER_TEXT, alertModel.ERROR_ALERT.CONTENT_TEXT)
+          $('#alert_modal').modal('open')
         }
       })
       .catch(err => {
