@@ -47,11 +47,11 @@ const AgreementModal = (props) => {
         } label="ข้าพเจ้าได้อ่านข้อความข้างต้น และยอมรับเงื่อนไขและข้อตกลง" />
       </div>
       <div className="modal-footer">
-        <a className="modal-action modal-close waves-effect waves-green btn-flat" onClick={() => handlerChange(false)}>Disagree</a>
+        <a className="modal-action modal-close waves-effect waves-green btn-flat" onClick={() => handlerChange(false)}>ไม่ยอมรับ</a>
         <button type="button" id="agreement_btn" className="modal-action waves-effect waves-green btn-flat" onClick={() => {
             handlerAgree()
           }
-        } disabled={submitting}>Agree</button>
+        } disabled={submitting}>ยอมรับ</button>
       </div>
     </div>
   )

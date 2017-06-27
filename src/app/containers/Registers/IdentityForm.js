@@ -21,7 +21,8 @@ class IdentityFormContainer extends React.Component {
   }
 
   findIdentity = () => {
-    this.check40()
+    // handlerIdentity()
+    this.check3339()
   }
 
   check3339 = () => {
@@ -80,7 +81,7 @@ class IdentityFormContainer extends React.Component {
               this.props.handlerAlert(alertModel.CHECK40_ALERT.HEADER_TEXT, alertModel.CHECK40_ALERT.CONTENT_TEXT)
               $('#alert_modal').modal('open')
             }else {
-              this.verifyPerson()
+              this.verifyAge()
             }
           })
         }else {
@@ -146,8 +147,8 @@ class IdentityFormContainer extends React.Component {
     console.log('compareYear: ', compareYear);
 
     if((compareYear < 15 || compareYear > 60) ||
-      (compareYear === 15 && (compareMonth > 0 || (compareMonth === 0 && compareDate > 0))) ||
-      (compareYear === 60 && (compareMonth < 0 || (compareMonth === 0 && compareDate < 0)))) {
+      (compareYear === 15 && (compareMonth < 0 || (compareMonth === 0 && compareDate <= 0))) ||
+      (compareYear === 60 && (compareMonth > 0 || (compareMonth === 0 && compareDate >= 0)))) {
 
       this.props.handlerAlert(alertModel.EGA_AGE_ALERT.HEADER_TEXT, alertModel.EGA_AGE_ALERT.CONTENT_TEXT)
       $('#alert_modal').modal('open')

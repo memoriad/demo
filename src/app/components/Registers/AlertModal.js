@@ -15,7 +15,7 @@ const AlertModal = (props) => {
         <a className="modal-action modal-close waves-effect waves-green btn-flat" onClick={() => {
             handlerCallback === void 0 ? null : handlerCallback()
           }
-        }>Close</a>
+        }>ปิด</a>
       </div>
     </div>
   )

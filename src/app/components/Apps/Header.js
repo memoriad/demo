@@ -17,7 +17,7 @@ class Header extends React.Component {
           <ul id="nav-mobile" className="side-nav">
             <li><a href="#"></a></li>
           </ul>
-          <a href="#" data-activates="nav-mobile" className="button-collapse"><i className="material-icons">menu</i></a>
+          <a href="#" data-activates="nav-mobile" className="button-collapse hide"><i className="material-icons">menu</i></a>
         </div>
       </nav>
     );

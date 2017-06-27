@@ -10,7 +10,7 @@ module.exports = {
     app: ['./src/themes/elements.scss', './src/app/index.js']
   },
   output: {
-    publicPath: '/m40_online/',
+    publicPath: '/section40_web/',
     path: path.join(__dirname, '../dist'),
     filename: '[name].bundle.js',
     sourceMapFilename: '[name].map'
@@ -119,7 +119,8 @@ module.exports = {
       comments: false
     }),
     new HtmlWebpackPlugin({
-      title: 'demo',
+      title: 'สำนักงานประกันสังคม',
+      favicon: './src/images/favicon.png',
       template: './src/templates/index.html',
       chunksSortMode: 'dependency',
       minify: {

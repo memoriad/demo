@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import * as alertModel from '../../constants/variables';
 
 const ConfirmModal = (props) => {
   const { handlerAlert, handlerInvalid, invalid } = props

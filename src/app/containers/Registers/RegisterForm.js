@@ -95,16 +95,16 @@ class RegisterFormContainer extends React.Component {
         console.log('response status text: ', res.statusText);
 
         if(res.ok) {
-          this.props.handlerAlert(alertModel.REGISTERED_ALERT.HEADER_TEXT, alertModel.REGISTERED_ALERT.CONTENT_TEXT, () => window.location = '/')
+          this.props.handlerAlert(alertModel.REGISTERED_ALERT.HEADER_TEXT, alertModel.REGISTERED_ALERT.CONTENT_TEXT, () => window.location = '/section40_web/')
           $('#alert_modal').modal('open')
         }else {
-          this.props.handlerAlert(alertModel.ERROR_ALERT.HEADER_TEXT, alertModel.ERROR_ALERT.CONTENT_TEXT, () => window.location = '/')
+          this.props.handlerAlert(alertModel.ERROR_ALERT.HEADER_TEXT, alertModel.ERROR_ALERT.CONTENT_TEXT, () => window.location = '/section40_web/')
           $('#alert_modal').modal('open')
         }
       })
       .catch(err => {
         console.error(err)
-        this.props.handlerAlert(alertModel.ERROR_ALERT.HEADER_TEXT, alertModel.ERROR_ALERT.CONTENT_TEXT, () => window.location = '/')
+        this.props.handlerAlert(alertModel.ERROR_ALERT.HEADER_TEXT, alertModel.ERROR_ALERT.CONTENT_TEXT, () => window.location = '/section40_web/')
         $('#alert_modal').modal('open')
       });
   }
@@ -170,19 +170,15 @@ const validate = values => {
   if (!values.addressSubdistrict) {
     errors.addressSubdistrict = 'กรุณากรอกข้อมูล'
   }
-  if (!values.addressZipcode) {
-    errors.addressZipcode = 'กรุณากรอกข้อมูล'
-  }else if (values.addressZipcode && !/^[0-9]{5}$/.test(values.addressZipcode)) {
-    errors.addressZipcode = 'รหัสไปรษณีย์ไม่ถูกต้อง'
-  }
-  if (!values.tel) {
-    errors.tel = 'กรุณากรอกข้อมูล'
-  }else if (values.tel && !/^[0-9]{9}$/.test(values.tel)) {
+  // if (!values.addressZipcode) {
+  //   errors.addressZipcode = 'กรุณากรอกข้อมูล'
+  // }else if (values.addressZipcode && !/^[0-9]{5}$/.test(values.addressZipcode)) {
+  //   errors.addressZipcode = 'รหัสไปรษณีย์ไม่ถูกต้อง'
+  // }
+  if (values.tel && !/^[0-9]{9}$/.test(values.tel)) {
     errors.tel = 'เบอร์โทรศัพท์บ้านไม่ถูกต้อง'
   }
-  if (!values.mobile) {
-    errors.mobile = 'กรุณากรอกข้อมูล'
-  }else if (values.mobile && !/^[0-9]{10}$/.test(values.mobile)) {
+  if (values.mobile && !/^[0-9]{10}$/.test(values.mobile)) {
     errors.mobile = 'เบอร์โทรศัพท์มือถือไม่ถูกต้อง'
   }
   if (!values.contributionType) {
@@ -196,8 +192,9 @@ const validate = values => {
   }
   if (!values.salaryOther && values.salary === 4) {
     errors.salaryOther = 'กรุณากรอกข้อมูล'
-  }else if (values.salaryOther && !/^[1-9]+[0-9]*$/.test(values.salaryOther) &&
-    values.salaryOther <= 6000 && values.salary === 4) {
+  }else if (values.salaryOther && !/^[1-9]+[0-9]*$/.test(values.salaryOther)) {
+    errors.salaryOther = 'กรุณากรอกจำนวนเงินเป็นตัวเลข'
+  }else if (values.salaryOther <= 6000) {
     errors.salaryOther = 'จำนวนเงินไม่ถูกต้อง'
   }
   if (!values.bodyCondition) {

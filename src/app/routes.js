@@ -15,7 +15,7 @@ import {
 
 export default () => {
   return (
-    <Router basename="/m40_online">
+    <Router basename="/section40_web">
       <div>
         <Route exact path='/' component={Header} />
         <Route exact path='/' component={RegisterPage} />

@@ -40,7 +40,7 @@ const IdentityForm = (props) => {
 
         <ul id="identity_section" className="collapsible" data-collapsible="expandable">
           <li>
-            <div className="collapsible-header tooltipped hoverable" data-position="top" data-delay="300" data-tooltip="Expand/Collapse"><i className="material-icons">account_circle</i>ข้อมูลระบุตัวตน</div>
+            <div className="collapsible-header tooltipped hoverable" data-position="top" data-delay="300" data-tooltip="แสดง/ซ่อน"><i className="material-icons">account_circle</i>ข้อมูลระบุตัวตน</div>
             <div className="collapsible-body hoverable">
               <div className="row">
                 <div className="col s12 m6">
@@ -138,7 +138,7 @@ const IdentityForm = (props) => {
               </div>
 
               <div className="row right-align">
-                <a id="find_identity" className="waves-effect waves-light btn indigo darken-4" href="#!" onClick={() => findIdentity()} disabled={pristine || invalid}>Find</a>
+                <a id="find_identity" className="waves-effect waves-light btn indigo darken-4" href="#!" onClick={() => findIdentity()} disabled={pristine || invalid}>ตรวจสอบ</a>
               </div>
             </div>
           </li>

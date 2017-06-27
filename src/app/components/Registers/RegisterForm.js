@@ -51,7 +51,7 @@ const RegisterForm = (props) => {
 
         <ul id="register_form" className="collapsible popout hide" data-collapsible="expandable">
           <li id="contact_section">
-            <div className="collapsible-header tooltipped hoverable" data-position="top" data-delay="300" data-tooltip="Expand/Collapse">
+            <div className="collapsible-header tooltipped hoverable" data-position="top" data-delay="300" data-tooltip="แสดง/ซ่อน">
               <i className="material-icons">contacts</i>ข้อมูลการติดต่อ
             </div>
             <div className="collapsible-body hoverable">
@@ -172,7 +172,7 @@ const RegisterForm = (props) => {
           </li>
 
           <li id="payment_section">
-            <div className="collapsible-header tooltipped hoverable" data-position="top" data-delay="300" data-tooltip="Expand/Collapse">
+            <div className="collapsible-header tooltipped hoverable" data-position="top" data-delay="300" data-tooltip="แสดง/ซ่อน">
               <i className="material-icons">payment</i>รูปแบบการจ่ายเงินสมทบ
             </div>
             <div className="collapsible-body hoverable">
@@ -198,7 +198,7 @@ const RegisterForm = (props) => {
           </li>
 
           <li id="other_section">
-            <div className="collapsible-header tooltipped hoverable" data-position="top" data-delay="300" data-tooltip="Expand/Collapse">
+            <div className="collapsible-header tooltipped hoverable" data-position="top" data-delay="300" data-tooltip="แสดง/ซ่อน">
               <i className="material-icons">label</i>ข้อมูลอื่นๆ
             </div>
             <div className="collapsible-body hoverable">
@@ -296,7 +296,7 @@ const RegisterForm = (props) => {
 
         <div id="button_section" className="row center-align hide">
           <button type="button" id="showAgreement_btn" className="waves-effect waves-light btn indigo darken-4" style={{margin: 2}} onClick={() => showAgreement()}>
-            Submit<i className="material-icons right">send</i>
+            ลงทะเบียน<i className="material-icons right">send</i>
           </button>
           <a id="cancel_identity" className="waves-effect waves-light btn blue-grey lighten-2" style={{margin: 2}} onClick={() => {
               initialize({})
@@ -304,7 +304,7 @@ const RegisterForm = (props) => {
               $('#showAgreement_btn').prop("disabled", false)
               cancelIdentity()
             }
-          }>Cancel</a>
+          }>ยกเลิก</a>
         </div>
       </div>
 

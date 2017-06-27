@@ -75,7 +75,8 @@ module.exports = {
       createWeekdayLabel: "jquery"
     }),
     new HtmlWebpackPlugin({
-      title: 'demo',
+      title: 'สำนักงานประกันสังคม',
+      favicon: './src/images/favicon.png',
       template: './src/templates/index.html',
       chunksSortMode: 'dependency'
     }),
