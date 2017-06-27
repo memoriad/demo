@@ -21,6 +21,7 @@ class IdentityFormContainer extends React.Component {
   }
 
   findIdentity = () => {
+    onProgress()
     // handlerIdentity()
     this.check3339()
   }
@@ -41,22 +42,26 @@ class IdentityFormContainer extends React.Component {
             const result = json.result
 
             if(result === true) {
+              endProgress()
               this.props.handlerAlert(alertModel.CHECK3339_ALERT.HEADER_TEXT, alertModel.CHECK3339_ALERT.CONTENT_TEXT)
               $('#alert_modal').modal('open')
             }else if(result === false){
               this.check40()
             }else if(result === 'invalid') {
+              endProgress()
               this.props.handlerAlert(alertModel.EGA_INVALID_ALERT.HEADER_TEXT, alertModel.EGA_INVALID_ALERT.CONTENT_TEXT)
               $('#alert_modal').modal('open')
             }
           })
         }else {
+          endProgress()
           this.props.handlerAlert(alertModel.ERROR_ALERT.HEADER_TEXT, alertModel.ERROR_ALERT.CONTENT_TEXT)
           $('#alert_modal').modal('open')
         }
       })
       .catch(err => {
         console.error(err)
+        endProgress()
         this.props.handlerAlert(alertModel.ERROR_ALERT.HEADER_TEXT, alertModel.ERROR_ALERT.CONTENT_TEXT)
         $('#alert_modal').modal('open')
       });
@@ -78,6 +83,7 @@ class IdentityFormContainer extends React.Component {
             const result = json.result
 
             if(result) {
+              endProgress()
               this.props.handlerAlert(alertModel.CHECK40_ALERT.HEADER_TEXT, alertModel.CHECK40_ALERT.CONTENT_TEXT)
               $('#alert_modal').modal('open')
             }else {
@@ -85,12 +91,14 @@ class IdentityFormContainer extends React.Component {
             }
           })
         }else {
+          endProgress()
           this.props.handlerAlert(alertModel.ERROR_ALERT.HEADER_TEXT, alertModel.ERROR_ALERT.CONTENT_TEXT)
           $('#alert_modal').modal('open')
         }
       })
       .catch(err => {
         console.error(err)
+        endProgress()
         this.props.handlerAlert(alertModel.ERROR_ALERT.HEADER_TEXT, alertModel.ERROR_ALERT.CONTENT_TEXT)
         $('#alert_modal').modal('open')
       });
@@ -122,17 +130,20 @@ class IdentityFormContainer extends React.Component {
             if(result) {
               this.verifyAge()
             }else {
+              endProgress()
               this.props.handlerAlert(alertModel.EGA_INVALID_ALERT.HEADER_TEXT, alertModel.EGA_INVALID_ALERT.CONTENT_TEXT)
               $('#alert_modal').modal('open')
             }
           })
         }else {
+          endProgress()
           this.props.handlerAlert(alertModel.ERROR_ALERT.HEADER_TEXT, alertModel.ERROR_ALERT.CONTENT_TEXT)
           $('#alert_modal').modal('open')
         }
       })
       .catch(err => {
         console.error(err)
+        endProgress()
         this.props.handlerAlert(alertModel.ERROR_ALERT.HEADER_TEXT, alertModel.ERROR_ALERT.CONTENT_TEXT)
         $('#alert_modal').modal('open')
       });
@@ -150,6 +161,7 @@ class IdentityFormContainer extends React.Component {
       (compareYear === 15 && (compareMonth < 0 || (compareMonth === 0 && compareDate <= 0))) ||
       (compareYear === 60 && (compareMonth > 0 || (compareMonth === 0 && compareDate >= 0)))) {
 
+      endProgress()
       this.props.handlerAlert(alertModel.EGA_AGE_ALERT.HEADER_TEXT, alertModel.EGA_AGE_ALERT.CONTENT_TEXT)
       $('#alert_modal').modal('open')
     }else {
@@ -181,8 +193,18 @@ class IdentityFormContainer extends React.Component {
 
 }
 
+const onProgress = () => {
+  $('#find_identity').addClass('disabled')
+  $('#progress').removeClass('hide')
+}
+
+const endProgress = () => {
+  $('#find_identity').removeClass('disabled')
+  $('#progress').addClass('hide')
+}
+
 const handlerIdentity = () => {
-  $('#find_identity').addClass('disabled');
+  $('#progress').addClass('hide')
 
   $('#nav_section').removeClass('hide');
   $('#register_form').removeClass('hide');

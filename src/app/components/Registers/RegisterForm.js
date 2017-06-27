@@ -42,8 +42,14 @@ const RegisterForm = (props) => {
   }
 
   const disableSalary = isSalary === void 0 ? (initialValues.salary !== 4) : !isSalary
+  if(registerValues !== void 0 && registerValues.salary !== 4) {
+    registerValues.salaryOther = ''
+  }
 
   const disableDefective = isDefective === void 0 ? (initialValues.bodyCondition !== 2) : !isDefective
+  if(registerValues !== void 0 && registerValues.bodyCondition !== 2) {
+    registerValues.bodyConditionRemark = ''
+  }
 
   return (
     <form onSubmit={handleSubmit(submitRegistrant)}>

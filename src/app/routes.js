@@ -6,8 +6,7 @@ import {
 } from 'react-router-dom'
 import {
   Header,
-  Footer,
-  Home
+  Footer
 } from './components'
 import {
   RegisterPage

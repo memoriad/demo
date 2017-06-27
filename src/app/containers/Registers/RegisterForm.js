@@ -29,13 +29,6 @@ class RegisterFormContainer extends React.Component {
     if(value === 4) {
       this.setState({isSalary: true})
     }else {
-      this.props.registerValues.salaryOther = ''
-      this.props.initialize(
-        {
-          'salary': value,
-          ...this.props.registerValues
-        }
-      )
       this.setState({isSalary: false})
     }
   }
@@ -44,13 +37,6 @@ class RegisterFormContainer extends React.Component {
     if(value === 2) {
       this.setState({isDefective: true})
     }else {
-      this.props.registerValues.bodyConditionRemark = ''
-      this.props.initialize(
-        {
-          'bodyCondition': value,
-          ...this.props.registerValues
-        }
-      )
       this.setState({isDefective: false})
     }
   }
@@ -170,11 +156,9 @@ const validate = values => {
   if (!values.addressSubdistrict) {
     errors.addressSubdistrict = 'กรุณากรอกข้อมูล'
   }
-  // if (!values.addressZipcode) {
-  //   errors.addressZipcode = 'กรุณากรอกข้อมูล'
-  // }else if (values.addressZipcode && !/^[0-9]{5}$/.test(values.addressZipcode)) {
-  //   errors.addressZipcode = 'รหัสไปรษณีย์ไม่ถูกต้อง'
-  // }
+  if (values.addressZipcode && !/^[0-9]{5}$/.test(values.addressZipcode)) {
+    errors.addressZipcode = 'รหัสไปรษณีย์ไม่ถูกต้อง'
+  }
   if (values.tel && !/^[0-9]{9}$/.test(values.tel)) {
     errors.tel = 'เบอร์โทรศัพท์บ้านไม่ถูกต้อง'
   }

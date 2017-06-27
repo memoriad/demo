@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import Progress from '../Apps/Progress'
 import {
   IdentityForm,
   RegisterForm
@@ -20,6 +21,8 @@ const Register = (props) => {
       </nav>
 
       <IdentityForm handlerAlert={handlerAlert} />
+
+      <Progress />
 
       <RegisterForm handlerAlert={handlerAlert} />
 
