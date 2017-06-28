@@ -116,11 +116,8 @@ const IdentityForm = (props) => {
                     name="birthDate"
                     component={DatePicker}
                     format={null}
-                    formatDate={new DateTimeFormat('th-TH', {
-                      day: 'numeric',
-                      month: 'long',
-                      year: 'numeric',
-                    }).format}
+                    DateTimeFormat={DateTimeFormat}
+                    locale="th-TH"
                     autoOk={true}
                     floatingLabelText="เกิดเมื่อ"
                     fullWidth={true}

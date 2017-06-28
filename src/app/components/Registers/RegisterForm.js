@@ -70,7 +70,7 @@ const RegisterForm = (props) => {
                     floatingLabelText="ที่อยู่ปัจจุบัน"
                     multiLine={true}
                     rows={2}
-                    maxLength={50}
+                    maxLength={200}
                     fullWidth={true} />
                 </div>
               </div>

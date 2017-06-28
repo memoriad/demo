@@ -64,6 +64,12 @@ class RegisterFormContainer extends React.Component {
   }
 
   submitRegistrant = () => {
+    let birthDate = this.props.identityValues.birthDate
+    let year = birthDate.getFullYear()
+    let month = (birthDate.getMonth() + 1) < 10 ? '0' + (birthDate.getMonth() + 1) : (birthDate.getMonth() + 1)
+    let date = birthDate.getDate() < 10 ? '0' + birthDate.getDate() : birthDate.getDate()
+    this.props.identityValues.beBirthDate = date + '/' + month + '/' + year
+
     const params = {
       ...this.props.identityValues,
       ...this.props.registerValues
@@ -176,9 +182,9 @@ const validate = values => {
   }
   if (!values.salaryOther && values.salary === 4) {
     errors.salaryOther = 'กรุณากรอกข้อมูล'
-  }else if (values.salaryOther && !/^[1-9]+[0-9]*$/.test(values.salaryOther)) {
+  }else if (values.salaryOther && !/^[1-9]+[0-9]*$/.test(values.salaryOther) && values.salary === 4) {
     errors.salaryOther = 'กรุณากรอกจำนวนเงินเป็นตัวเลข'
-  }else if (values.salaryOther <= 6000) {
+  }else if (values.salaryOther <= 6000 && values.salary === 4) {
     errors.salaryOther = 'จำนวนเงินไม่ถูกต้อง'
   }
   if (!values.bodyCondition) {
