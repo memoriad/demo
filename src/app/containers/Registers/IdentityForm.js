@@ -23,7 +23,52 @@ class IdentityFormContainer extends React.Component {
   findIdentity = () => {
     onProgress()
     // handlerIdentity()
-    this.check3339()
+    this.verifyPerson()
+  }
+
+  verifyPerson = () => {
+    console.log('verifyPerson');
+    let birthDate = this.props.identityValues.birthDate
+    let year = birthDate.getFullYear() + 543
+    let month = (birthDate.getMonth() + 1) < 10 ? '0' + (birthDate.getMonth() + 1) : (birthDate.getMonth() + 1)
+    let date = birthDate.getDate() < 10 ? '0' + birthDate.getDate() : birthDate.getDate()
+    let beBirthDate = year + '' + month + '' + date
+
+    let params = 'CitizenID=' + $('#card_no').val() + '&FirstName=' + $('#name').val() +
+                            '&LastName=' + $('#surname').val() + '&BEBirthDate=' + beBirthDate +
+                            '&LaserCode=' + $('#laser').val()
+
+    fetch(`${REGISTERS_ENDPOINT}/ega/verification/person?${params}`)
+      .then(res => {
+        console.log('response ok: ', res.ok);
+        console.log('response status: ', res.status);
+        console.log('response status text: ', res.statusText);
+
+        if(res.ok) {
+          res.json().then((json) => {
+            console.log('verifyPerson result: ', json.result)
+            const result = json.result
+
+            if(result) {
+              this.check3339()
+            }else {
+              endProgress()
+              this.props.handlerAlert(alertModel.EGA_INVALID_ALERT.HEADER_TEXT, alertModel.EGA_INVALID_ALERT.CONTENT_TEXT)
+              $('#alert_modal').modal('open')
+            }
+          })
+        }else {
+          endProgress()
+          this.props.handlerAlert(alertModel.ERROR_ALERT.HEADER_TEXT, alertModel.ERROR_ALERT.CONTENT_TEXT)
+          $('#alert_modal').modal('open')
+        }
+      })
+      .catch(err => {
+        console.error(err)
+        endProgress()
+        this.props.handlerAlert(alertModel.ERROR_ALERT.HEADER_TEXT, alertModel.ERROR_ALERT.CONTENT_TEXT)
+        $('#alert_modal').modal('open')
+      });
   }
 
   check3339 = () => {
@@ -88,51 +133,6 @@ class IdentityFormContainer extends React.Component {
               $('#alert_modal').modal('open')
             }else {
               this.verifyAge()
-            }
-          })
-        }else {
-          endProgress()
-          this.props.handlerAlert(alertModel.ERROR_ALERT.HEADER_TEXT, alertModel.ERROR_ALERT.CONTENT_TEXT)
-          $('#alert_modal').modal('open')
-        }
-      })
-      .catch(err => {
-        console.error(err)
-        endProgress()
-        this.props.handlerAlert(alertModel.ERROR_ALERT.HEADER_TEXT, alertModel.ERROR_ALERT.CONTENT_TEXT)
-        $('#alert_modal').modal('open')
-      });
-  }
-
-  verifyPerson = () => {
-    console.log('verifyPerson');
-    let birthDate = this.props.identityValues.birthDate
-    let year = birthDate.getFullYear() + 543
-    let month = (birthDate.getMonth() + 1) < 10 ? '0' + (birthDate.getMonth() + 1) : (birthDate.getMonth() + 1)
-    let date = birthDate.getDate() < 10 ? '0' + birthDate.getDate() : birthDate.getDate()
-    let beBirthDate = year + '' + month + '' + date
-
-    let params = 'CitizenID=' + $('#card_no').val() + '&FirstName=' + $('#name').val() +
-                            '&LastName=' + $('#surname').val() + '&BEBirthDate=' + beBirthDate +
-                            '&LaserCode=' + $('#laser').val()
-
-    fetch(`${REGISTERS_ENDPOINT}/ega/verification/person?${params}`)
-      .then(res => {
-        console.log('response ok: ', res.ok);
-        console.log('response status: ', res.status);
-        console.log('response status text: ', res.statusText);
-
-        if(res.ok) {
-          res.json().then((json) => {
-            console.log('verifyPerson result: ', json.result)
-            const result = json.result
-
-            if(result) {
-              this.verifyAge()
-            }else {
-              endProgress()
-              this.props.handlerAlert(alertModel.EGA_INVALID_ALERT.HEADER_TEXT, alertModel.EGA_INVALID_ALERT.CONTENT_TEXT)
-              $('#alert_modal').modal('open')
             }
           })
         }else {
