@@ -7,6 +7,7 @@ import {
   getFormValues
 } from 'redux-form';
 import { loadRegister } from '../../actions/register';
+import { getParamConfig } from '../../reducers/paramConfigs';
 import { REGISTERS_ENDPOINT } from '../../constants/endpoints';
 import * as alertModel from '../../constants/variables';
 import { IdentityForm } from '../../components';
@@ -20,10 +21,14 @@ class IdentityFormContainer extends React.Component {
     isVerified: false
   }
 
-  findIdentity = () => {
-    onProgress()
-    // handlerIdentity()
-    this.verifyPerson()
+  verifyIdentity = () => {
+    this.onProgress()
+    // this.handlerIdentity()
+    if(this.props.egaFlag.paramValue1 === 'Y') {
+      this.verifyPerson()
+    }else {
+      this.check3339()
+    }
   }
 
   verifyPerson = () => {
@@ -38,7 +43,7 @@ class IdentityFormContainer extends React.Component {
                             '&LastName=' + $('#surname').val() + '&BEBirthDate=' + beBirthDate +
                             '&LaserCode=' + $('#laser').val()
 
-    fetch(`${REGISTERS_ENDPOINT}/ega/verification/person?${params}`)
+    fetch(`${REGISTERS_ENDPOINT}/ega/Sn010VerificationPerson?${params}`)
       .then(res => {
         console.log('response ok: ', res.ok);
         console.log('response status: ', res.status);
@@ -49,23 +54,23 @@ class IdentityFormContainer extends React.Component {
             console.log('verifyPerson result: ', json.result)
             const result = json.result
 
-            if(result) {
+            if(result === true) {
               this.check3339()
             }else {
-              endProgress()
+              this.endProgress()
               this.props.handlerAlert(alertModel.EGA_INVALID_ALERT.HEADER_TEXT, alertModel.EGA_INVALID_ALERT.CONTENT_TEXT)
               $('#alert_modal').modal('open')
             }
           })
         }else {
-          endProgress()
+          this.endProgress()
           this.props.handlerAlert(alertModel.ERROR_ALERT.HEADER_TEXT, alertModel.ERROR_ALERT.CONTENT_TEXT)
           $('#alert_modal').modal('open')
         }
       })
       .catch(err => {
         console.error(err)
-        endProgress()
+        this.endProgress()
         this.props.handlerAlert(alertModel.ERROR_ALERT.HEADER_TEXT, alertModel.ERROR_ALERT.CONTENT_TEXT)
         $('#alert_modal').modal('open')
       });
@@ -75,7 +80,7 @@ class IdentityFormContainer extends React.Component {
     console.log('check3339');
     let params = 'ssoNum=' + $('#card_no').val()
 
-    fetch(`${REGISTERS_ENDPOINT}/sso/check3339?${params}`)
+    fetch(`${REGISTERS_ENDPOINT}/sso/Sn008Check3339?${params}`)
       .then(res => {
         console.log('response ok: ', res.ok);
         console.log('response status: ', res.status);
@@ -87,26 +92,26 @@ class IdentityFormContainer extends React.Component {
             const result = json.result
 
             if(result === true) {
-              endProgress()
+              this.endProgress()
               this.props.handlerAlert(alertModel.CHECK3339_ALERT.HEADER_TEXT, alertModel.CHECK3339_ALERT.CONTENT_TEXT)
               $('#alert_modal').modal('open')
             }else if(result === false){
               this.check40()
-            }else if(result === 'invalid') {
-              endProgress()
+            }else {
+              this.endProgress()
               this.props.handlerAlert(alertModel.EGA_INVALID_ALERT.HEADER_TEXT, alertModel.EGA_INVALID_ALERT.CONTENT_TEXT)
               $('#alert_modal').modal('open')
             }
           })
         }else {
-          endProgress()
+          this.endProgress()
           this.props.handlerAlert(alertModel.ERROR_ALERT.HEADER_TEXT, alertModel.ERROR_ALERT.CONTENT_TEXT)
           $('#alert_modal').modal('open')
         }
       })
       .catch(err => {
         console.error(err)
-        endProgress()
+        this.endProgress()
         this.props.handlerAlert(alertModel.ERROR_ALERT.HEADER_TEXT, alertModel.ERROR_ALERT.CONTENT_TEXT)
         $('#alert_modal').modal('open')
       });
@@ -116,7 +121,7 @@ class IdentityFormContainer extends React.Component {
     console.log('check40');
     let params = 'ssoNum=' + $('#card_no').val()
 
-    fetch(`${REGISTERS_ENDPOINT}/sso/check40?${params}`)
+    fetch(`${REGISTERS_ENDPOINT}/sso/Sn009Check40?${params}`)
       .then(res => {
         console.log('response ok: ', res.ok);
         console.log('response status: ', res.status);
@@ -128,7 +133,7 @@ class IdentityFormContainer extends React.Component {
             const result = json.result
 
             if(result) {
-              endProgress()
+              this.endProgress()
               this.props.handlerAlert(alertModel.CHECK40_ALERT.HEADER_TEXT, alertModel.CHECK40_ALERT.CONTENT_TEXT)
               $('#alert_modal').modal('open')
             }else {
@@ -136,14 +141,14 @@ class IdentityFormContainer extends React.Component {
             }
           })
         }else {
-          endProgress()
+          this.endProgress()
           this.props.handlerAlert(alertModel.ERROR_ALERT.HEADER_TEXT, alertModel.ERROR_ALERT.CONTENT_TEXT)
           $('#alert_modal').modal('open')
         }
       })
       .catch(err => {
         console.error(err)
-        endProgress()
+        this.endProgress()
         this.props.handlerAlert(alertModel.ERROR_ALERT.HEADER_TEXT, alertModel.ERROR_ALERT.CONTENT_TEXT)
         $('#alert_modal').modal('open')
       });
@@ -157,20 +162,53 @@ class IdentityFormContainer extends React.Component {
     const compareDate = currentDate.getDate() - birthDate.getDate()
     console.log('compareYear: ', compareYear);
 
-    if((compareYear < 15 || compareYear > 60) ||
-      (compareYear === 15 && (compareMonth < 0 || (compareMonth === 0 && compareDate <= 0))) ||
-      (compareYear === 60 && (compareMonth > 0 || (compareMonth === 0 && compareDate >= 0)))) {
-
-      endProgress()
-      this.props.handlerAlert(alertModel.EGA_AGE_ALERT.HEADER_TEXT, alertModel.EGA_AGE_ALERT.CONTENT_TEXT)
+    if(compareYear < 15 || (compareYear === 15 && (compareMonth < 0 || (compareMonth === 0 && compareDate < 0)))) {
+      this.endProgress()
+      this.props.handlerAlert(alertModel.EGA_AGE_LESS15_ALERT.HEADER_TEXT, alertModel.EGA_AGE_LESS15_ALERT.CONTENT_TEXT)
+      $('#alert_modal').modal('open')
+    }else if(compareYear > 60 || (compareYear === 60 && (compareMonth > 0 || (compareMonth === 0 && compareDate >= 0)))) {
+      this.endProgress()
+      this.props.handlerAlert(alertModel.EGA_AGE_MORE60_ALERT.HEADER_TEXT, alertModel.EGA_AGE_MORE60_ALERT.CONTENT_TEXT)
       $('#alert_modal').modal('open')
     }else {
       this.props.onLoadRegister($('#card_no').val())
-      this.setState({
-        isVerified: true
-      })
-      handlerIdentity()
+      this.handlerIdentity()
     }
+  }
+
+  onProgress = () => {
+    $('#verify_identity').addClass('disabled')
+    $('#progress').removeClass('hide')
+
+    this.setState({
+      isVerified: true
+    })
+  }
+
+  endProgress = () => {
+    $('#verify_identity').removeClass('disabled')
+    $('#progress').addClass('hide')
+
+    this.setState({
+      isVerified: false
+    })
+  }
+
+  handlerIdentity = () => {
+    $('#progress').addClass('hide')
+
+    $('#nav_section').removeClass('hide');
+    $('#register_form').removeClass('hide');
+    $('#button_section').removeClass('hide');
+
+    $("#identity_section .collapsible-header").removeClass("active");
+    $(".collapsible").collapsible({accordion: true});
+    $(".collapsible").collapsible({accordion: false});
+
+    $("#contact_section .collapsible-header").addClass("active");
+    $("#payment_section .collapsible-header").addClass("active");
+    $("#other_section .collapsible-header").addClass("active");
+    $(".collapsible").collapsible({accordion: false});
   }
 
   componentDidMount() {
@@ -185,39 +223,12 @@ class IdentityFormContainer extends React.Component {
   render() {
     return (
       <IdentityForm
-        findIdentity={this.findIdentity}
+        verifyIdentity={this.verifyIdentity}
         {...this.state}
         {...this.props} />
     )
   }
 
-}
-
-const onProgress = () => {
-  $('#find_identity').addClass('disabled')
-  $('#progress').removeClass('hide')
-}
-
-const endProgress = () => {
-  $('#find_identity').removeClass('disabled')
-  $('#progress').addClass('hide')
-}
-
-const handlerIdentity = () => {
-  $('#progress').addClass('hide')
-
-  $('#nav_section').removeClass('hide');
-  $('#register_form').removeClass('hide');
-  $('#button_section').removeClass('hide');
-
-  $("#identity_section .collapsible-header").removeClass("active");
-  $(".collapsible").collapsible({accordion: true});
-  $(".collapsible").collapsible({accordion: false});
-
-  $("#contact_section .collapsible-header").addClass("active");
-  $("#payment_section .collapsible-header").addClass("active");
-  $("#other_section .collapsible-header").addClass("active");
-  $(".collapsible").collapsible({accordion: false});
 }
 
 const validate = values => {
@@ -230,7 +241,7 @@ const validate = values => {
   }
   if (!values.laser) {
     errors.laser = 'กรุณากรอกข้อมูล'
-  }else if (values.laser && !/^JT[0-9]{1}-[0-9]{7}-[0-9]{2}$/i.test(values.laser)) {
+  }else if (values.laser && !/^[A-Z]{2}[0-9]{1}-[0-9]{7}-[0-9]{2}$/i.test(values.laser)) {
     errors.laser = 'เลขหลังบัตรประชาชนไม่ถูกต้อง'
   }
   if (!values.title) {
@@ -256,7 +267,8 @@ const validate = values => {
 
 const mapStateToProps = (state) => ({
   masters: state.masters,
-  identityValues: getFormValues('identity')(state)
+  identityValues: getFormValues('identity')(state),
+  egaFlag: getParamConfig(state, 'REGIS_ONLINE_WS_EGA_FLAG')
 })
 
 const mapDispatchToProps = (dispatch) => ({

@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { loadMasters } from '../../actions/masters';
+import { loadParamConfigs } from '../../actions/paramConfigs';
 import { RegisterPage } from '../../components';
 
 class RegisterContainer extends React.Component {
@@ -36,8 +37,13 @@ class RegisterContainer extends React.Component {
     this.props.onLoadMasters()
   }
 
+  onReloadParamConfigs = () => {
+    this.props.onLoadParamConfigs()
+  }
+
   componentDidMount() {
     this.onReloadMasters()
+    this.onReloadParamConfigs()
 
     $('.button-collapse').sideNav();
     $('.modal').modal({
@@ -63,6 +69,9 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   onLoadMasters() {
     dispatch(loadMasters())
+  },
+  onLoadParamConfigs() {
+    dispatch(loadParamConfigs())
   }
 })
 

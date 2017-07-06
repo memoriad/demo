@@ -5,6 +5,7 @@ import register from './register';
 import districts from './districts';
 import subDistricts from './subDistricts';
 import zipCode from './zipCode';
+import paramConfigs from './paramConfigs';
 
 export default combineReducers({
   masters,
@@ -12,5 +13,6 @@ export default combineReducers({
   districts,
   subDistricts,
   zipCode,
+  paramConfigs,
   form: formReducer
 })

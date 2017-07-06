@@ -4,7 +4,7 @@ import * as actionType from '../constants/actionTypes';
 
 export const loadZipCode = (id) => ({
   [CALL_API]: {
-    endpoint: `${MASTERS_ENDPOINT}/master/zipCode/${id}`,
+    endpoint: `${MASTERS_ENDPOINT}/master/Sn016GetZipCode/${id}`,
     method: 'GET',
     types: [actionType.LOAD_ZIPCODE_REQUEST, actionType.LOAD_ZIPCODE_SUCCESS, actionType.LOAD_ZIPCODE_FAILURE]
   }

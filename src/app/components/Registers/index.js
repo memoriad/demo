@@ -15,7 +15,7 @@ const Register = (props) => {
       <nav className="top-nav valign-wrapper indigo darken-3">
         <div className="container">
           <div className="nav-wrapper">
-            <span className="flow-text truncate">ระบบลงทะเบียนผู้ประกันตนมาตรา 40</span>
+            <span className="flow-text truncate">ระบบลงทะเบียนผู้ประกันตนตามมาตรา 40</span>
           </div>
         </div>
       </nav>

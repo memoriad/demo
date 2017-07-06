@@ -4,7 +4,8 @@ import fetch from 'node-fetch';
 import { connect } from 'react-redux';
 import {
   reduxForm,
-  getFormValues
+  getFormValues,
+  getFormSyncErrors
 } from 'redux-form';
 import { loadMasters } from '../../actions/masters';
 import { getRegistrant } from '../../reducers/register';
@@ -41,9 +42,9 @@ class RegisterFormContainer extends React.Component {
     }
   }
 
-  handlerMember = (isCheck) => {
-    this.setState({isMember: isCheck})
-    if(isCheck) {
+  handlerMember = (value) => {
+    this.setState({isMember: value})
+    if(value) {
       this.props.handlerAlert(alertModel.MEMBER_ALERT.HEADER_TEXT, alertModel.MEMBER_ALERT.CONTENT_TEXT)
       $('#alert_modal').modal('open')
     }
@@ -63,6 +64,23 @@ class RegisterFormContainer extends React.Component {
     $('#agreement_modal').modal('close')
   }
 
+  handlerLoaded = (isLoaded) => {
+    if(isLoaded) {
+      $('#member_group').addClass('hide')
+      $('#showAgreement_btn').addClass('hide')
+    }else {
+      $('#member_group').removeClass('hide')
+      $('#showAgreement_btn').removeClass('hide')
+    }
+  }
+
+  handlerRegistered = () => {
+    $('#member_group').addClass('hide')
+    $('#showAgreement_btn').addClass('hide')
+    this.props.registerValues.isLoaded = true
+    this.handlerInvalid()
+  }
+
   submitRegistrant = () => {
     let birthDate = this.props.identityValues.birthDate
     let year = birthDate.getFullYear()
@@ -76,7 +94,7 @@ class RegisterFormContainer extends React.Component {
     }
     console.log('params', JSON.stringify(params))
 
-    fetch(`${REGISTERS_ENDPOINT}/new/registrant`, {
+    fetch(`${REGISTERS_ENDPOINT}/Sn011OnlineRegister`, {
         method: 'POST',
         body: JSON.stringify(params),
         headers: { 'Content-Type': 'application/json' }
@@ -87,7 +105,7 @@ class RegisterFormContainer extends React.Component {
         console.log('response status text: ', res.statusText);
 
         if(res.ok) {
-          this.props.handlerAlert(alertModel.REGISTERED_ALERT.HEADER_TEXT, alertModel.REGISTERED_ALERT.CONTENT_TEXT, () => window.location = '/section40_web/')
+          this.props.handlerAlert(alertModel.REGISTERED_ALERT.HEADER_TEXT, alertModel.REGISTERED_ALERT.CONTENT_TEXT, () => this.handlerRegistered())
           $('#alert_modal').modal('open')
         }else {
           this.props.handlerAlert(alertModel.ERROR_ALERT.HEADER_TEXT, alertModel.ERROR_ALERT.CONTENT_TEXT, () => window.location = '/section40_web/')
@@ -99,6 +117,25 @@ class RegisterFormContainer extends React.Component {
         this.props.handlerAlert(alertModel.ERROR_ALERT.HEADER_TEXT, alertModel.ERROR_ALERT.CONTENT_TEXT, () => window.location = '/section40_web/')
         $('#alert_modal').modal('open')
       });
+  }
+
+  cancelIdentity = () => {
+    this.setState({isMember: false})
+
+    $('#verify_identity').removeClass('disabled');
+
+    $("#identity_section .collapsible-header").addClass("active");
+    $(".collapsible").collapsible({accordion: false});
+
+    $("#contact_section .collapsible-header").removeClass("active");
+    $("#payment_section .collapsible-header").removeClass("active");
+    $("#other_section .collapsible-header").removeClass("active");
+    $(".collapsible").collapsible({accordion: true});
+    $(".collapsible").collapsible({accordion: false});
+
+    $('#nav_section').addClass('hide');
+    $('#register_form').addClass('hide');
+    $('#button_section').addClass('hide');
   }
 
   componentDidMount() {
@@ -117,6 +154,8 @@ class RegisterFormContainer extends React.Component {
         handlerChange={this.handlerChange}
         handlerAgree={this.handlerAgree}
         handlerInvalid={this.handlerInvalid}
+        handlerLoaded={this.handlerLoaded}
+        cancelIdentity={this.cancelIdentity}
         submitRegistrant={this.submitRegistrant}
         {...this.state}
         {...this.props} />
@@ -128,23 +167,6 @@ class RegisterFormContainer extends React.Component {
 const showAgreement = () => {
   $('#agreement_btn').prop('disabled', true)
   $('#agreement_modal').modal('open')
-}
-
-const cancelIdentity = () => {
-  $('#find_identity').removeClass('disabled');
-
-  $("#identity_section .collapsible-header").addClass("active");
-  $(".collapsible").collapsible({accordion: false});
-
-  $("#contact_section .collapsible-header").removeClass("active");
-  $("#payment_section .collapsible-header").removeClass("active");
-  $("#other_section .collapsible-header").removeClass("active");
-  $(".collapsible").collapsible({accordion: true});
-  $(".collapsible").collapsible({accordion: false});
-
-  $('#nav_section').addClass('hide');
-  $('#register_form').addClass('hide');
-  $('#button_section').addClass('hide');
 }
 
 const validate = values => {
@@ -162,13 +184,20 @@ const validate = values => {
   if (!values.addressSubdistrict) {
     errors.addressSubdistrict = 'กรุณากรอกข้อมูล'
   }
-  if (values.addressZipcode && !/^[0-9]{5}$/.test(values.addressZipcode)) {
-    errors.addressZipcode = 'รหัสไปรษณีย์ไม่ถูกต้อง'
+  if (!values.addressZipcode) {
+    errors.addressZipcode = 'กรุณากรอกข้อมูล'
   }
-  if (values.tel && !/^[0-9]{9}$/.test(values.tel)) {
+  // else if (values.addressZipcode && !/^[0-9]{5}$/.test(values.addressZipcode)) {
+  //   errors.addressZipcode = 'รหัสไปรษณีย์ไม่ถูกต้อง'
+  // }
+  if (!values.tel && !values.mobile) {
+    errors.tel = 'กรุณากรอกข้อมูล'
+  }else if (values.tel && !/^[0-9]{9}$/.test(values.tel)) {
     errors.tel = 'เบอร์โทรศัพท์บ้านไม่ถูกต้อง'
   }
-  if (values.mobile && !/^[0-9]{10}$/.test(values.mobile)) {
+  if (!values.mobile && !values.tel) {
+    errors.mobile = 'กรุณากรอกข้อมูล'
+  }else if (values.mobile && !/^[0-9]{10}$/.test(values.mobile)) {
     errors.mobile = 'เบอร์โทรศัพท์มือถือไม่ถูกต้อง'
   }
   if (!values.contributionType) {
@@ -205,8 +234,8 @@ const mapStateToProps = (state) => ({
   initialValues: getRegistrant(state),
   identityValues: getFormValues('identity')(state),
   registerValues: getFormValues('register')(state),
-  showAgreement,
-  cancelIdentity
+  registerErrors: getFormSyncErrors('register')(state),
+  showAgreement
 })
 
 const mapDispatchToProps = (dispatch) => ({

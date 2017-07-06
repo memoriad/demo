@@ -20,7 +20,8 @@ if (areIntlLocalesSupported(['th-TH'])) {
 }
 
 const IdentityForm = (props) => {
-  const { isVerified, alertModel, masters, findIdentity, handleSubmit, pristine, reset, submitting, invalid } = props
+  const { isVerified, alertModel, masters, register, verifyIdentity,
+    handleSubmit, pristine, reset, submitting, invalid } = props
 
   const titles = masters.title
 
@@ -60,7 +61,7 @@ const IdentityForm = (props) => {
                     name="laser"
                     component={TextField}
                     floatingLabelText="เลขหลังบัตรประชาชน"
-                    hintText="JT0-0000000-00"
+                    hintText="XX0-0000000-00"
                     fullWidth={true}
                     maxLength={14}
                     disabled={isVerified} />
@@ -138,7 +139,7 @@ const IdentityForm = (props) => {
               </div>
 
               <div className="row right-align">
-                <a id="find_identity" className="waves-effect waves-light btn indigo darken-4" href="#!" onClick={() => findIdentity()} disabled={pristine || invalid}>ตรวจสอบ</a>
+                <a id="verify_identity" className="waves-effect waves-light btn indigo darken-4" href="#!" style={{margin: 2}} onClick={() => verifyIdentity()} disabled={pristine || invalid}>ตรวจสอบ</a>
               </div>
             </div>
           </li>

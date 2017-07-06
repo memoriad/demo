@@ -8,9 +8,9 @@ const ConfirmModal = (props) => {
   return (
     <div id="confirm_modal" className="modal">
       <div className="modal-content">
-        <h4>ยืนยันการลงทะเบียน</h4>
+        <h4>{alertModel.REGISTER_CONFIRM_ALERT.HEADER_TEXT}</h4>
         <div className="divider"></div>
-        <p>คุณต้องการลงทะเบียนผู้ประกันตนมาตรา 40 ใช่หรือไม่</p>
+        <p>{alertModel.REGISTER_CONFIRM_ALERT.CONTENT_TEXT}</p>
       </div>
       <div className="modal-footer">
         <a className="modal-action modal-close waves-effect waves-green btn-flat">ยกเลิก</a>
