@@ -4,7 +4,7 @@ import * as actionType from '../constants/actionTypes';
 
 export const loadSubDistricts = (id) => ({
   [CALL_API]: {
-    endpoint: `${MASTERS_ENDPOINT}/master/Sn015GetSubDistricts/${id}`,
+    endpoint: `${MASTERS_ENDPOINT}/SSO40/Sn016GetSubDistricts/${id}`,
     method: 'GET',
     types: [actionType.LOAD_SUBDISTRICTS_REQUEST, actionType.LOAD_SUBDISTRICTS_SUCCESS, actionType.LOAD_SUBDISTRICTS_FAILURE]
   }

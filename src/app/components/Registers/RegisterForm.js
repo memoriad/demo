@@ -337,11 +337,10 @@ const RegisterForm = (props) => {
           <button type="button" id="showAgreement_btn" className="waves-effect waves-light btn indigo darken-4" style={{margin: 2}} onClick={() => {
               showAgreement()
             }
-          } disabled={invalid || isMember}>
+          } disabled={isMember}>
             ลงทะเบียน<i className="material-icons right">send</i>
           </button>
           <a id="cancel_identity" className="waves-effect waves-light btn blue-grey lighten-2" style={{margin: 2}} onClick={() => {
-              initialize({})
               handlerMember(false)
               cancelIdentity()
             }

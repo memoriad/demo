@@ -32,7 +32,7 @@ class IdentityFormContainer extends React.Component {
   }
 
   verifyPerson = () => {
-    console.log('verifyPerson');
+    // console.log('verifyPerson');
     let birthDate = this.props.identityValues.birthDate
     let year = birthDate.getFullYear() + 543
     let month = (birthDate.getMonth() + 1) < 10 ? '0' + (birthDate.getMonth() + 1) : (birthDate.getMonth() + 1)
@@ -43,15 +43,15 @@ class IdentityFormContainer extends React.Component {
                             '&LastName=' + $('#surname').val() + '&BEBirthDate=' + beBirthDate +
                             '&LaserCode=' + $('#laser').val()
 
-    fetch(`${REGISTERS_ENDPOINT}/ega/Sn010VerificationPerson?${params}`)
+    fetch(`${REGISTERS_ENDPOINT}/ega/verificationPerson?${params}`)
       .then(res => {
-        console.log('response ok: ', res.ok);
-        console.log('response status: ', res.status);
-        console.log('response status text: ', res.statusText);
+        // console.log('response ok: ', res.ok);
+        // console.log('response status: ', res.status);
+        // console.log('response status text: ', res.statusText);
 
         if(res.ok) {
           res.json().then((json) => {
-            console.log('verifyPerson result: ', json.result)
+            // console.log('verifyPerson result: ', json.result)
             const result = json.result
 
             if(result === true) {
@@ -69,7 +69,7 @@ class IdentityFormContainer extends React.Component {
         }
       })
       .catch(err => {
-        console.error(err)
+        // console.error(err)
         this.endProgress()
         this.props.handlerAlert(alertModel.ERROR_ALERT.HEADER_TEXT, alertModel.ERROR_ALERT.CONTENT_TEXT)
         $('#alert_modal').modal('open')
@@ -77,18 +77,18 @@ class IdentityFormContainer extends React.Component {
   }
 
   check3339 = () => {
-    console.log('check3339');
+    // console.log('check3339');
     let params = 'ssoNum=' + $('#card_no').val()
 
-    fetch(`${REGISTERS_ENDPOINT}/sso/Sn008Check3339?${params}`)
+    fetch(`${REGISTERS_ENDPOINT}/sso/check3339?${params}`)
       .then(res => {
-        console.log('response ok: ', res.ok);
-        console.log('response status: ', res.status);
-        console.log('response status text: ', res.statusText);
+        // console.log('response ok: ', res.ok);
+        // console.log('response status: ', res.status);
+        // console.log('response status text: ', res.statusText);
 
         if(res.ok) {
           res.json().then((json) => {
-            console.log('check3339 result: ', json.result)
+            // console.log('check3339 result: ', json.result)
             const result = json.result
 
             if(result === true) {
@@ -110,7 +110,7 @@ class IdentityFormContainer extends React.Component {
         }
       })
       .catch(err => {
-        console.error(err)
+        // console.error(err)
         this.endProgress()
         this.props.handlerAlert(alertModel.ERROR_ALERT.HEADER_TEXT, alertModel.ERROR_ALERT.CONTENT_TEXT)
         $('#alert_modal').modal('open')
@@ -118,18 +118,18 @@ class IdentityFormContainer extends React.Component {
   }
 
   check40 = () => {
-    console.log('check40');
+    // console.log('check40');
     let params = 'ssoNum=' + $('#card_no').val()
 
-    fetch(`${REGISTERS_ENDPOINT}/sso/Sn009Check40?${params}`)
+    fetch(`${REGISTERS_ENDPOINT}/sso/check40?${params}`)
       .then(res => {
-        console.log('response ok: ', res.ok);
-        console.log('response status: ', res.status);
-        console.log('response status text: ', res.statusText);
+        // console.log('response ok: ', res.ok);
+        // console.log('response status: ', res.status);
+        // console.log('response status text: ', res.statusText);
 
         if(res.ok) {
           res.json().then((json) => {
-            console.log('check40 result: ', json.result)
+            // console.log('check40 result: ', json.result)
             const result = json.result
 
             if(result) {
@@ -147,7 +147,7 @@ class IdentityFormContainer extends React.Component {
         }
       })
       .catch(err => {
-        console.error(err)
+        // console.error(err)
         this.endProgress()
         this.props.handlerAlert(alertModel.ERROR_ALERT.HEADER_TEXT, alertModel.ERROR_ALERT.CONTENT_TEXT)
         $('#alert_modal').modal('open')
@@ -160,7 +160,7 @@ class IdentityFormContainer extends React.Component {
     const compareYear = currentDate.getFullYear() - birthDate.getFullYear()
     const compareMonth = currentDate.getMonth() - birthDate.getMonth()
     const compareDate = currentDate.getDate() - birthDate.getDate()
-    console.log('compareYear: ', compareYear);
+    // console.log('compareYear: ', compareYear);
 
     if(compareYear < 15 || (compareYear === 15 && (compareMonth < 0 || (compareMonth === 0 && compareDate < 0)))) {
       this.endProgress()

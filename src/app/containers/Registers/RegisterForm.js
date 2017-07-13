@@ -90,19 +90,20 @@ class RegisterFormContainer extends React.Component {
 
     const params = {
       ...this.props.identityValues,
-      ...this.props.registerValues
+      ...this.props.registerValues,
+      channel: 'INTERNET'
     }
-    console.log('params', JSON.stringify(params))
+    // console.log('params', JSON.stringify(params))
 
-    fetch(`${REGISTERS_ENDPOINT}/Sn011OnlineRegister`, {
+    fetch(`${REGISTERS_ENDPOINT}/SSO40/Sn010OnlineRegister`, {
         method: 'POST',
         body: JSON.stringify(params),
         headers: { 'Content-Type': 'application/json' }
       })
       .then(res => {
-        console.log('response ok: ', res.ok);
-        console.log('response status: ', res.status);
-        console.log('response status text: ', res.statusText);
+        // console.log('response ok: ', res.ok);
+        // console.log('response status: ', res.status);
+        // console.log('response status text: ', res.statusText);
 
         if(res.ok) {
           this.props.handlerAlert(alertModel.REGISTERED_ALERT.HEADER_TEXT, alertModel.REGISTERED_ALERT.CONTENT_TEXT, () => this.handlerRegistered())
@@ -113,7 +114,7 @@ class RegisterFormContainer extends React.Component {
         }
       })
       .catch(err => {
-        console.error(err)
+        // console.error(err)
         this.props.handlerAlert(alertModel.ERROR_ALERT.HEADER_TEXT, alertModel.ERROR_ALERT.CONTENT_TEXT, () => window.location = '/section40_web/')
         $('#alert_modal').modal('open')
       });
